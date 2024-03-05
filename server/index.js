@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const UserRouter = require("./routes/user.route.js")
+const UserRouter = require("./routes/user.route.js");
+const AuthRouter = require("./routes/auth.route.js")
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -20,4 +21,7 @@ app.listen(8005,()=>{
 })
 
 
+app.use(express.json())
+
 app.use("/api",UserRouter);
+app.use("/api/auth",AuthRouter);
