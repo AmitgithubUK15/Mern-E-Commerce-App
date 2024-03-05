@@ -15,6 +15,7 @@ export default {
 
       'xl': '1280px',
       'm':'500px',
+      's':"400px",
       // => @media (min-width: 1280px) { ... }
     },
   },

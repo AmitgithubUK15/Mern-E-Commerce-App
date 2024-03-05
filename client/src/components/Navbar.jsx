@@ -12,7 +12,7 @@ export default function Navbar() {
         <Link
           to='/'
         >
-          <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
+          <h1 className='font-bold text-sm sm:text-xl flex flex-wrap m:text-xl '>
             <span className="text-red-300 ">Shophy</span>
             <span className="text-red-400">Book</span>
           </h1>
@@ -44,7 +44,7 @@ export default function Navbar() {
           </Link>
           
         <Link to='/liked'>
-            <li className='  h-px-78px py-4 xl:block md:block lg:block sm:hidden m:hidden text-center text-slate-700 hover:text-red-500 font-semibold'>
+            <li className='  h-px-78px py-4 xl:block md:block lg:block sm:hidden m:hidden s:hidden text-center text-slate-700 hover:text-red-500 font-semibold'>
               <span className='block px-5'>
                 <RiHeartFill />
               </span>
