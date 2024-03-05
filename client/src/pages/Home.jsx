@@ -1,7 +1,10 @@
-import React from 'react'
+
+import UserBar from '../components/UserBar'
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <div>Home
+      {/* <UserBar /> */}
+    </div>
   )
 }
