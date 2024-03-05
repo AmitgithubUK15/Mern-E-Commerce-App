@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const UserRouter = require("./routes/user.route.js")
 const dotenv = require("dotenv");
 dotenv.config();
+
 
 const app = express();
 
@@ -16,3 +18,6 @@ mongoose.connect(process.env.MONGODB)
 app.listen(8005,()=>{
     console.log("server is started at port 8005");
 })
+
+
+app.use("/api",UserRouter);
