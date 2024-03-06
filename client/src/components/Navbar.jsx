@@ -1,9 +1,11 @@
 import { FaSearch, FaUser, FaShoppingBag } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
-
+import {useSelector} from 'react-redux';
 
 export default function Navbar() {
+  
+  const {currentUser} = useSelector((state) => state.user);
   
 
   return (
@@ -32,16 +34,28 @@ export default function Navbar() {
        
         <div className='flex justify-around items-center mx-w-6xl mx-auto '>
         <ul className='flex items-center h-px-78px  xl:gap-6 sm:gap-2 m:gap-1 '>
-          <Link
-            to='/login'
+        {currentUser ? (
+            <Link
+            to='/account'
           >
             <li className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500 font-semibold`}>
-              <span className='block px-3'>
+            <img className='rounded-full h-9 w-9 object-cover' src={currentUser.avatar} alt="" />
+            </li>
+          </Link>
+        ):
+        (
+          <Link
+          to='/login'
+        >
+          <li className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500 font-semibold`}>
+          <span className='block px-3'>
                 <FaUser />
               </span>
               <span >login</span>
-            </li>
-          </Link>
+          </li>
+        </Link>
+        )
+        }
           
         <Link to='/liked'>
             <li className='  h-px-78px py-4 xl:block md:block lg:block sm:hidden m:hidden s:hidden text-center text-slate-700 hover:text-red-500 font-semibold'>

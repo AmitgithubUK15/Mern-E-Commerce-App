@@ -1,5 +1,5 @@
 import {GoogleAuthProvider,getAuth,signInWithPopup} from '@firebase/auth'
-import {app}   from '../firebase';
+import {app }  from '../firebase';
 import axios from 'axios';
 import { SignSuccess } from '../redux/user/userSlice';
 import {useDispatch} from 'react-redux'
