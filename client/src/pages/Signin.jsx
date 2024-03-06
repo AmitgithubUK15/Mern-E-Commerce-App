@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRef, useState } from "react";
 import { SignSuccess,SignFailure} from "../redux/user/userSlice";
 import { useDispatch, useSelector,  } from "react-redux";
+import OAuth from "../components/OAuth";
 
 export default function Signin() {
 
@@ -73,8 +74,9 @@ export default function Signin() {
           ref={password}
           />
           <button type="submit"
-          className="bg-red-400 p-3 rounded-lg text-white hover:opacity-80"
+          className="bg-red-400 font-semibold p-3 rounded-lg text-white hover:opacity-80"
           >Login</button>
+          <OAuth />
         </form>
          <div className="p-3">
           <p>If you have a account  

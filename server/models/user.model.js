@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
+    },
+    avatar:{
+        type:String,
+        default:"https://thumbs.dreamstime.com/b/user-profile-my-account-avatar-login-icon-man-male-face-smile-symbol-flat-vector-human-person-member-sign-user-profile-182815734.jpg",
     }
 },{timestamps:true});
 

@@ -40,9 +40,50 @@ async function LoginUser(req,res,next){
   }
 }
 
+async function google(req,res){
+  try {
+    const user = await User.findOne({email:req.body.email});
+    if(user){
+      const token = jwt.sign({id:user._id},process.env.JWT_PASS_KEY);
+      const {password:pass,...rest} = user._doc;
+      
+      res
+      .cookie(
+        'access_token',
+        token,
+        {httpOnly:true}
+      )
+      .status(200)
+      .json(rest);
+    }
+    else{
+      const generatePassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+      const hashedpassword = await bcrypt.hashSync(generatePassword,8);
+      const phone = Math.round(Math.random()*10000000000-1);
+      const name = req.body.name.split(" ").join("") + Math.round(Math.random() * 10000-1);
+      const newUser = new User({username:name,email:req.body.email,phone:phone,password:hashedpassword,avatar:req.body.photo});
+      
+      await newUser.save();
+      const token = jwt.sign({id:newUser._id},process.env.JWT_PASS_KEY);
+      const {password:pass,...rest} = newUser._doc;
+      res
+      .cookie(
+        'access_token',
+        token,
+        {httpOnly:true}
+      )
+      .status(201)
+      .json(rest)
+    }
+  } catch (error) {
+     next(error);
+  }
+}
+
 
 module.exports = {
     SignupUser,
     LoginUser,
-}
+    google,
+  }
 

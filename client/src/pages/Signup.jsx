@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios';
+import OAuth from "../components/OAuth";
 
 export default function Signin() {
 
@@ -81,6 +82,7 @@ export default function Signin() {
           <button type="submit"
           className="bg-red-400 p-3 rounded-lg text-white font-semibold  hover:opacity-80"
           >Signup</button>
+          <OAuth />
         </form>
          <div className="p-3">
           <p>If you have a account  
