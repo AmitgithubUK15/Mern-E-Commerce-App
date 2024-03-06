@@ -1,14 +1,17 @@
 import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useRef, useState } from "react";
-
+import { SignSuccess,SignFailure} from "../redux/user/userSlice";
+import { useDispatch, useSelector,  } from "react-redux";
 
 export default function Signin() {
 
   const email = useRef(null);
   const password = useRef(null);
   const navigate = useNavigate();
-  const [error,setError] = useState();
+  const {currentUser,error} = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const [err,setError] = useState();
   const [errorvisible ,setErrorVisible] = useState(false);
 
 
@@ -21,9 +24,13 @@ export default function Signin() {
 
     try {
       const res = await axios.post("/api/auth/login",formData);
+      const data = res.data;
+      dispatch(SignSuccess(data))
+      
       navigate("/")
-
+      
     } catch (error) {
+      dispatch(SignFailure(error.response.data.message))
       setError(error.response.data.message);
       setErrorVisible(true)
     }
@@ -66,7 +73,7 @@ export default function Signin() {
           ref={password}
           />
           <button type="submit"
-          className="bg-red-400 p-3 rounded-lg text-white"
+          className="bg-red-400 p-3 rounded-lg text-white hover:opacity-80"
           >Login</button>
         </form>
          <div className="p-3">
@@ -81,7 +88,7 @@ export default function Signin() {
         </div>
         <div>
           {errorvisible && 
-          <p className="text-red-500 font-semibold">{error}</p>
+          <p className="text-red-500 font-semibold">{err}</p>
           }
         </div>
       </div>

@@ -79,7 +79,7 @@ export default function Signin() {
           ref={password}
           />
           <button type="submit"
-          className="bg-red-400 p-3 rounded-lg text-white font-semibold"
+          className="bg-red-400 p-3 rounded-lg text-white font-semibold  hover:opacity-80"
           >Signup</button>
         </form>
          <div className="p-3">
