@@ -2,6 +2,7 @@ const User = require("../models/user.model.js")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
 async function SignupUser(req,res,next){
   const {username,email,phone,password} = req.body;
   const hashedpassword = await bcrypt.hash(password,8);
@@ -19,7 +20,7 @@ async function SignupUser(req,res,next){
   } 
 }
 
-async function LoginUser(req,res){
+async function LoginUser(req,res,next){
   const {email,password} = req.body;
   
   try {
@@ -35,7 +36,7 @@ async function LoginUser(req,res){
     res.cookie('access-token',token,{httpOnly:true}).status(200).json(rest);
        
   } catch (error) {
-     return next(error);
+     next(error);
   }
 }
 

@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors")
 const UserRouter = require("./routes/user.route.js");
 const AuthRouter = require("./routes/auth.route.js")
 const dotenv = require("dotenv");
@@ -21,6 +22,8 @@ app.listen(8005,()=>{
 })
 
 
+
+app.use(cors())
 app.use(express.json())
 
 app.use("/api",UserRouter);
