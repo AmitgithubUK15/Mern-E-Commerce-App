@@ -1,16 +1,16 @@
-import {GoogleAuthProvider,getAuth,signInWithPopup} from '@firebase/auth'
-import {app }  from '../firebase';
+import {GoogleAuthProvider,getAuth,signInWithPopup} from 'firebase/auth'
+import app from '../firebase';
 import axios from 'axios';
 import { SignSuccess } from '../redux/user/userSlice';
 import {useDispatch} from 'react-redux'
-
+import {useNavigate} from 'react-router-dom'
 
 export default function OAuth() {
 const dispatch = useDispatch();
+const navigate = useNavigate();
 
 
-
-  async function handleGoogleRes(){
+  const handleGoogleRes = async () =>{
     
     try {
         const provider = new GoogleAuthProvider();
@@ -18,7 +18,8 @@ const dispatch = useDispatch();
         
         const result = await signInWithPopup(auth,provider)
         
-        // console.log(result);
+
+      
         const userDetail = {
           name:result.user.displayName,
           email:result.user.email,
@@ -27,12 +28,12 @@ const dispatch = useDispatch();
         const res = await axios.post('/api/auth/google',userDetail)
 
         const user = res.data;
-        console.log(user);
+     
         dispatch(SignSuccess(user));
-        
+        navigate("/")
 
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
   }
   return (

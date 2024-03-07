@@ -5,13 +5,15 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.FIREBSAE_API_KEY,
-  authDomain: "mern-shophybook.firebaseapp.com",
-  projectId: "mern-shophybook",
-  storageBucket: "mern-shophybook.appspot.com",
-  messagingSenderId: "338003403414",
-  appId: "1:338003403414:web:faa25cef53a34fc09258b7"
+  apiKey: import.meta.env.VITE_APP_API_KEY,
+  authDomain: "mern-shophybook-32985.firebaseapp.com",
+  projectId: "mern-shophybook-32985",
+  storageBucket: "mern-shophybook-32985.appspot.com",
+  messagingSenderId: "241782349510",
+  appId: "1:241782349510:web:a1acd218e8fb817c9901c7"
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+ const app = initializeApp(firebaseConfig);
+
+ export default app;

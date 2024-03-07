@@ -9,11 +9,11 @@ export default function Signin() {
 
   const email = useRef(null);
   const password = useRef(null);
-  const navigate = useNavigate();
-  const {currentUser,error} = useSelector((state) => state.user)
-  const dispatch = useDispatch();
-  const [err,setError] = useState();
+  const {error} = useSelector((state) => state.user)
+  
   const [errorvisible ,setErrorVisible] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
 
   async function handleSubmit(e){
@@ -32,7 +32,7 @@ export default function Signin() {
       
     } catch (error) {
       dispatch(SignFailure(error.response.data.message))
-      setError(error.response.data.message);
+     
       setErrorVisible(true)
     }
 
@@ -90,7 +90,7 @@ export default function Signin() {
         </div>
         <div>
           {errorvisible && 
-          <p className="text-red-500 font-semibold">{err}</p>
+          <p className="text-red-500 font-semibold">{error}</p>
           }
         </div>
       </div>
