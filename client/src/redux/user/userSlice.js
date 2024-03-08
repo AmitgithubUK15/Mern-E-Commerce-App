@@ -4,6 +4,7 @@ const initialState ={
     currentUser:null,
     error:null,
     loading:false,
+    sidenav:null,
 }
 
 const userSlice = createSlice({
@@ -19,6 +20,7 @@ const userSlice = createSlice({
             state.error = true;
             state.loading=false;
         },
+        
     }
 });
 
