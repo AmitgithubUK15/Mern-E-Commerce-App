@@ -24,7 +24,7 @@ export default function Signin() {
     }    
 
     try {
-      const res = await axios.post("/api/auth/signup",formData);
+      const res = await axios.post("/auth/signup",formData);
       navigate("/login")
       setErrorVisible(false);
     } catch (error) {

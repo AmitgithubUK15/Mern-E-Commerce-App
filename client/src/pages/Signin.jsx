@@ -24,7 +24,7 @@ export default function Signin() {
     }    
 
     try {
-      const res = await axios.post("/api/auth/login",formData);
+      const res = await axios.post("/auth/login",formData);
       const data = res.data;
       dispatch(SignSuccess(data))
       

@@ -9,6 +9,10 @@ export default defineConfig({
        target:'http://localhost:8005',
        secure:false,
      },
+     '/auth':{
+      target:'http://localhost:8005',
+      secure:false,
+     }
     }
    },
   plugins: [react()],
