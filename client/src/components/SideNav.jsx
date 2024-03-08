@@ -39,11 +39,10 @@ const Sidenav = ({ isOpen, onClose }) => {
       <ul className="px-4 py-5 h-full bg-white">
         <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Order</Link></li>
         <li className="mb-2 py-2"><Link to="/account" className="text-slate-400 hover:text-slate-500">Account</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Home</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">About</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Services</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Contact</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Logout</Link></li>
+        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Overview</Link></li>
+        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Profile</Link></li>
+        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Saved cards</Link></li>
+        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-red-500">Logout</Link></li>
       </ul>
     </div>
   );

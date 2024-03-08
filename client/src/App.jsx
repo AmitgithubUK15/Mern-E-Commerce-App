@@ -7,6 +7,7 @@ import Signup from "./pages/Signup"
 import Cart from "./pages/Cart"
 import Liked from "./pages/Liked"
 import {  useSelector } from "react-redux"
+import UpdateProfile from "./pages/UpdateProfile"
 
 
 
@@ -28,6 +29,7 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/liked" element={<Liked />} />
+      <Route path='/updateProfile' element={<UpdateProfile />} />
      </Routes>
   </BrowserRouter>  
   )
