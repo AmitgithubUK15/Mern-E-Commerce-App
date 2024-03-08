@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { setUser } = require("../utils/verifyUser.js");
 
 
 async function SignupUser(req,res,next){
@@ -33,7 +34,7 @@ async function LoginUser(req,res,next){
     
     const {password:pass, ...rest} = validUser._doc;
     
-    res.cookie('access-token',token,{httpOnly:true}).status(200).json(rest);
+    res.cookie('token',token,{httpOnly:true}).status(200).json(rest);
        
   } catch (error) {
      next(error);
@@ -44,14 +45,13 @@ async function google(req,res){
   try {
     const user = await User.findOne({email:req.body.email});
     if(user){
-      const token = jwt.sign({id:user._id},process.env.JWT_PASS_KEY);
+      const token = setUser(user)
       const {password:pass,...rest} = user._doc;
       
       res
       .cookie(
-        'access_token',
-        token,
-        {httpOnly:true}
+        'token',
+        token
       )
       .status(200)
       .json(rest);
@@ -64,13 +64,12 @@ async function google(req,res){
       const newUser = new User({username:name,email:req.body.email,phone:phone,password:hashedpassword,avatar:req.body.photo});
       
       await newUser.save();
-      const token = jwt.sign({id:newUser._id},process.env.JWT_PASS_KEY);
+      const token = setUser(newUser)
       const {password:pass,...rest} = newUser._doc;
-      res
-      .cookie(
-        'access_token',
-        token,
-        {httpOnly:true}
+      
+      res.cookie(
+        'token',
+        token
       )
       .status(201)
       .json(rest)

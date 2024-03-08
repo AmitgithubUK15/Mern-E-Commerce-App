@@ -22,7 +22,16 @@ const userSchema = new mongoose.Schema({
     avatar:{
         type:String,
         default:"https://thumbs.dreamstime.com/b/user-profile-my-account-avatar-login-icon-man-male-face-smile-symbol-flat-vector-human-person-member-sign-user-profile-182815734.jpg",
-    }
+    },
+    address:{
+        type:String,
+    },
+   dob:{
+    type:Date,
+   },
+   gender:{
+    type:String,
+   }
 },{timestamps:true});
 
 
