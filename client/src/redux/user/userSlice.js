@@ -4,7 +4,8 @@ const initialState ={
     currentUser:null,
     error:null,
     loading:false,
-    sidenav:null,
+    ProfileDetailsVisible:true,
+    AppylyVendorvisible:false,
 }
 
 const userSlice = createSlice({
@@ -40,11 +41,28 @@ const userSlice = createSlice({
         signoutUserFailure:(state,action)=>{
             state.error = action.payload;
             state.loading = false;
+        },
+        setProfiledetail:(state)=>{
+            state.ProfileDetailsVisible=true;
+            state.AppylyVendorvisible= false;
+        },
+        setVendor:(state)=>{
+            state.AppylyVendorvisible = true,
+            state.ProfileDetailsVisible=false;
         }
         
     }
 });
 
-export const {SignSuccess,SignFailure,userUpdateStart,userUpdateSuccess,userUpdateFailure,signoutUserSuccess,
-    signoutUserFailure} = userSlice.actions;
+export const {
+    SignSuccess,
+    SignFailure,
+    userUpdateStart,
+    userUpdateSuccess,
+    userUpdateFailure,
+    signoutUserSuccess,
+    signoutUserFailure,
+    setProfiledetail,
+    setVendor
+} = userSlice.actions;
 export default userSlice.reducer;

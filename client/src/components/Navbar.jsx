@@ -1,9 +1,10 @@
 import { FaSearch, FaUser, FaShoppingBag, FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import Sidenav from './SideNav';
+import { setProfiledetail } from '../redux/user/userSlice';
 
 
 
@@ -11,8 +12,9 @@ import Sidenav from './SideNav';
 
 export default function Navbar() {
   
-  const {currentUser} = useSelector((state)=>state.user)
+  const {currentUser,ProfileDetailsVisible} = useSelector((state)=>state.user)
   const [isOpen, setIsOpen] = useState(false)
+  const dispatch = useDispatch();
 
   const toggleSidenav = () => {
     setIsOpen(!isOpen);
@@ -39,11 +41,11 @@ export default function Navbar() {
       </div >
 
       <div className='flex justify-around items-center mx-w-6xl  p-4 xl:block lg:block md:block sm:hidden m:hidden s:hidden '>
-        <form action="" className='lg:w-96 sm:w-80  flex items-center rounded-lg p-3 bg-white '>
+        <form action="" className='lg:w-96 sm:w-80  flex items-center rounded-lg p-3 bg-gray-50 border border-gray-200'>
           <input
             type="text"
             placeholder="search..."
-            className='bg-transparent focus:outline-none  lg:w-full sm:w-64'
+            className='bg-transparent focus:outline-none  lg:w-full sm:w-64 '
           />
           <FaSearch />
         </form>
@@ -60,7 +62,7 @@ export default function Navbar() {
             <Link
               to='/account'
             >
-              <li className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500 font-semibold xl:block lg:block md:block sm:hidden m:hidden s:hidden`}>
+              <li onClick={()=>dispatch( setProfiledetail())} className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500 font-semibold xl:block lg:block md:block sm:hidden m:hidden s:hidden`}>
                 <img className='rounded-full h-9 w-9 object-cover' src={currentUser.avatar} alt="" />
               </li>
             </Link>
