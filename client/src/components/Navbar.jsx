@@ -8,6 +8,7 @@ import Sidenav from './SideNav';
 
 
 
+
 export default function Navbar() {
   
   const {currentUser} = useSelector((state)=>state.user)
@@ -24,14 +25,16 @@ export default function Navbar() {
         <FaBars   onClick={toggleSidenav}   className='w-5 h-7 cursor-pointer' />
       </div>
 
-      <div className='flex justify-around items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4  sm:p-4 m:p-4 s:p-4'>
+      <div className='flex  items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4  sm:p-4 m:p-4 s:p-4 sm:w-48   m:w-48 s:w-32  '>
         <Link
           to='/'
         >
-          <h1 className='font-bold xl:text-xl lg:text-xl sm:text-1xl flex flex-wrap m:text-1xl '>
+           <h1 className='font-bold  xl:text-xl lg:text-xl sm:text-1xl flex flex-wrap m:text-1xl '>
             <span className="text-red-300 ">Shophy</span>
             <span className="text-red-400">Book</span>
           </h1>
+          
+         
         </Link>
       </div >
 
