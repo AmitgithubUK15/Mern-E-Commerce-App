@@ -1,7 +1,7 @@
 import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useRef, useState } from "react";
-import { SignSuccess,SignFailure} from "../redux/user/userSlice";
+import { SignSuccess,SignFailure, signoutUserFailure, signoutUserSuccess} from "../redux/user/userSlice";
 import { useDispatch, useSelector,  } from "react-redux";
 import OAuth from "../components/OAuth";
 
@@ -10,7 +10,7 @@ export default function Signin() {
   const email = useRef(null);
   const password = useRef(null);
   const {error} = useSelector((state) => state.user)
-  
+  const {loading} = useSelector((state)=>state.user)
   const [errorvisible ,setErrorVisible] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,6 +38,8 @@ export default function Signin() {
 
   
   }
+
+
 
   return (
     <div className="flex bg-red-40 items-center md:justify-center  sm:justify-center m:justify-center s:justify-center">
@@ -76,15 +78,24 @@ export default function Signin() {
           <button type="submit"
           className="bg-red-400 font-semibold p-3 rounded-lg text-white hover:opacity-80"
           >Login</button>
+     
           <OAuth />
         </form>
          <div className="p-3">
-          <p>If you have a account  
+          <p >If you have a account  
             <Link to='/signup'>
-            <span className="text-blue-500 mx-2"> 
+            <span className="text-blue-500 mx-2 "> 
              Signup
             </span>
             </Link>
+          </p>
+          <p className="py-2 text-left">   
+            <Link to='/signupVendor'>
+            <span className="text-blue-500 pr-1 "> 
+             Create 
+            </span>
+            </Link>
+              Vendor account
           </p>
          </div>
         </div>

@@ -22,7 +22,9 @@ async function CreateSellerAccount(req,res,next){
                 address:req.body.address,
                 password:hashedpassword,
             })
-        return res.json({msg:"Vendor account created successfully"})    
+        
+          const {password:pass,...rest} = SellerUser._doc;  
+        return res.json(rest)    
     } catch (error) {
         res.json(error)
     }

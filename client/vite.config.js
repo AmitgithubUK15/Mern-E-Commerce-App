@@ -12,6 +12,10 @@ export default defineConfig({
      '/auth':{
       target:'http://localhost:8005',
       secure:false,
+     },
+     '/vendor':{
+      target:'http://localhost:8005',
+      secure:false
      }
     }
    },

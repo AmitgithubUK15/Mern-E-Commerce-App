@@ -8,6 +8,8 @@ import Cart from "./pages/Cart"
 import Liked from "./pages/Liked"
 import {  useSelector } from "react-redux"
 import UpdateProfile from "./pages/UpdateProfile"
+import SignupVendor from "./pages/SignupVendor"
+import Vendorlogin from "./pages/Vendorlogin"
 
 
 
@@ -30,6 +32,8 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/liked" element={<Liked />} />
       <Route path='/updateProfile' element={<UpdateProfile />} />
+      <Route path="/signupVendor" element={<SignupVendor />} />
+      <Route path="/loginvendor" element={<Vendorlogin />} />
      </Routes>
   </BrowserRouter>  
   )

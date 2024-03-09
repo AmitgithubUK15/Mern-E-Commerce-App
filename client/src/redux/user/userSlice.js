@@ -12,6 +12,9 @@ const userSlice = createSlice({
     name:'user',
     initialState,
     reducers:{
+        Signstart:(state)=>{
+            state.loading = true;
+        },
         SignSuccess: (state,action)=>{
             state.currentUser = action.payload;
             state.loading = false;
@@ -60,6 +63,7 @@ const userSlice = createSlice({
 });
 
 export const {
+    Signstart,
     SignSuccess,
     SignFailure,
     userUpdateStart,
