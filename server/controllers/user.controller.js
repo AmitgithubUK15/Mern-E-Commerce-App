@@ -1,6 +1,7 @@
 const User = require("../models/user.model.js");
 const { errorHandler } = require("../utils/error")
 const bcrypt = require("bcrypt")
+const shortid = require('shortid');
 
 async function testapi(req,res){
     const users = await User.find({});
@@ -35,7 +36,22 @@ async function updateuser(req,res,next){
   }
 }
 
+async function createVendor(req,res,next){
+  try {
+    let user = await User.findById(req.params.id);
+    let PasswordCheck = await bcrypt.compare(req.body.password , user.password);
+    if(!PasswordCheck) return next(errorHandler(401,"Invalid Password"));
+    let key = shortid.generate();
+    let update=  await User.findOneAndUpdate(user._id,{$set:{vendor:key}})
+    res.json(key);
+
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
     testapi,
     updateuser,
+    createVendor,
 }

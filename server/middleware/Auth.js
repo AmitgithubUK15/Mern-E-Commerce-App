@@ -8,7 +8,7 @@ async function restrictToLoggedinUserOnly(req,res,next){
     if(!token) return next(errorHandler(401, "Please Login again"))
     const user = getUser(token);
 
-    if(!user) return next(errorHandler(401,"lease Login again"))
+    if(!user) return next(errorHandler(401,"Auth Failed"))
 
     req.user = user;
 

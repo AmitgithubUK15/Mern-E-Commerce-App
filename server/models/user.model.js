@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema({
    },
    gender:{
     type:String,
+   },
+   vendor:{
+    type:String,
    }
 },{timestamps:true});
 

@@ -8,11 +8,11 @@ function setUser(user){
 }
 
 function getUser(token,next){
-  if(!token) return next(errorHandler(401,"Please Login first"))
+  if(!token) return null
   try {
     return jwt.verify(token,process.env.JWT_PASS_KEY)
   } catch (error) {
-    return next(error)
+    return null
   }
 }
 
