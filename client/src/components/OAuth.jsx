@@ -17,7 +17,7 @@ const navigate = useNavigate();
         const auth = getAuth(app)
         
         const result = await signInWithPopup(auth,provider)
-        
+                        
 
       
         const userDetail = {
