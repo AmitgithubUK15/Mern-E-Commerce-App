@@ -1,17 +1,36 @@
 
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {Link, useNavigate} from "react-router-dom"
-
+import { signoutUserSuccess,signoutUserFailure } from '../redux/user/userSlice';
+import axios from 'axios';
 
 export default function Account() {
  
-  const {currentUser} = useSelector((state)=> state.user);
+  const {currentUser,error} = useSelector((state)=> state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate() 
 
-  if(currentUser === null){
-    return  navigate("/login")
+ async function signoutuser(){
+  try {
+    const res = await axios.get("/auth/signout")
+    const data= res.data;
+  
+    if(data.success === false){
+      dispatch(signoutUserFailure(error.message));
+      return;
+    }
+
+    dispatch(signoutUserSuccess(data));
+    localStorage.clear();
+ 
+    navigate("/");
+   
     
+  } catch (error) {
+    dispatch(signoutUserFailure(error.message));
+    console.error( error); 
   }
+ }
 
   return (
     <div className='w-full h-full flex justify-center items-center '>
@@ -39,6 +58,9 @@ export default function Account() {
               <div className='py-7 border-b text-gray-500 cursor-pointer'>
                 Saved Cards
               </div>
+              <div onClick={signoutuser} className='py-7 border-b text-gray-500 cursor-pointer'>
+                Logout
+              </div>
             </div>
           </div>
 
@@ -61,15 +83,15 @@ export default function Account() {
                </div>
                <div className='flex py-5'>
                 <p className=' w-1/2 text-left py-1 text-slate-800'>Gender</p>
-                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.gender ? "Gender": "-Not Added-"}</p>
+                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.gender ? currentUser.gender: "-Not Added-"}</p>
                </div>
                <div className='flex py-5'>
                 <p className=' w-1/2 text-left py-1 text-slate-800'>Location</p>
-                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.Loaction ? "Gender": "-Not Added-"}</p>
+                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.address ? currentUser.address : "-Not Added-"}</p>
                </div>
                <div className='flex py-5'>
                 <p className=' w-1/2 text-left py-1 text-slate-800'>Date Of Birth</p>
-                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.DOB ? "DOB":"-Not Added-"}</p>
+                <p className=' w-1/2 text-left py-1 text-slate-800'>{currentUser.dob ? currentUser.dob:"-Not Added-"}</p>
                </div>
 
               <Link to="/updateProfile">

@@ -34,8 +34,8 @@ export default function UpdateProfile() {
       <div className="w-1/2 flex flex-col justify-center" >
         <h1 className='text-2xl  self-center font-bold w-32 pt-7 pb-1 border-b border-red-500'>My Profile</h1>
          
-         <div className='w-48 self-center py-3'>
-          <img src={currentUser.avatar} alt="" />
+         <div className='w-48 items-center  self-center py-3'>
+          <img src={currentUser.avatar} alt="" className=' rounded-full w-24 h-24 shadow-lg my-2 mx-auto'/>
          </div>
 
         <div className="py-5 w-80 sm:w-95 m:w-95 s:w-95 self-start sm:self-center m:self-center s:self-center">

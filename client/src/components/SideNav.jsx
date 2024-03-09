@@ -1,10 +1,38 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
+import {Link, useNavigate} from "react-router-dom"
+import { signoutUserSuccess,signoutUserFailure } from '../redux/user/userSlice';
+import axios from 'axios';
+
 
 const Sidenav = ({ isOpen, onClose }) => {
  
-  const {currentUser} = useSelector((state)=> state.user);
+  const {currentUser,error} = useSelector((state)=> state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate() 
+
+
+
+  async function logoutuser(){
+    try {
+      const res = await axios.get("/auth/signout")
+      const data= res.data;
+    
+      if(data.success === false){
+        dispatch(signoutUserFailure(error.message));
+        return;
+      }
+  
+      dispatch(signoutUserSuccess(data));
+      localStorage.clear();
+   
+      navigate("/");
+     
+      
+    } catch (error) {
+      dispatch(signoutUserFailure(error.message));
+      console.error( error); 
+    }
+  }
    
   return (
     <div className={`fixed top-0 left-0 w-64 h-full bg-slate-800 text-slate-700 shadow-xl z-50 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
@@ -42,7 +70,7 @@ const Sidenav = ({ isOpen, onClose }) => {
         <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Overview</Link></li>
         <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Profile</Link></li>
         <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Saved cards</Link></li>
-        <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-red-500">Logout</Link></li>
+        <li  className="mb-2 py-2"><span onClick={logoutuser} className="text-slate-400 hover:text-red-500 cursor-pointer">Logout</span></li>
       </ul>
     </div>
   );

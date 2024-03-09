@@ -79,10 +79,20 @@ async function google(req,res){
   }
 }
 
+async function signout(req,res,next){
+  try{
+    res.clearCookie('token');
+    res.json({msg:"signout user"})
+  }
+  catch(error){
+    next(error);
+  }
+}
 
 module.exports = {
     SignupUser,
     LoginUser,
     google,
+    signout,
   }
 
