@@ -11,7 +11,7 @@ export default function Signin() {
   const password = useRef(null);
   const {error} = useSelector((state) => state.user)
   
-  const [errorvisible ,setErrorVisible] = useState(false);
+  const [errorvisible ,setErrorVisible] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

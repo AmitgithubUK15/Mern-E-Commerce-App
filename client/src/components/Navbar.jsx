@@ -67,13 +67,13 @@ export default function Navbar() {
           ) :
             (
               <Link
-                to='/login'
+                to='/signup'
               >
                 <li className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500  font-semibold xl:block lg:block md:block sm:hidden m:hidden s:hidden`}>
                   <span className='block px-3'>
                     <FaUser />
                   </span>
-                  <span >login</span>
+                  <span >Signup</span>
                 </li>
               </Link>
             )
