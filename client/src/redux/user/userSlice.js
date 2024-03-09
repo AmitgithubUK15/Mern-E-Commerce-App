@@ -49,8 +49,13 @@ const userSlice = createSlice({
         setVendor:(state)=>{
             state.AppylyVendorvisible = true,
             state.ProfileDetailsVisible=false;
+        },
+        keysuccess:(state)=>{
+            state.loading=false;
+        },
+        keyfaile:(state)=>{
+            state.loading = false;
         }
-        
     }
 });
 
@@ -63,6 +68,8 @@ export const {
     signoutUserSuccess,
     signoutUserFailure,
     setProfiledetail,
-    setVendor
+    setVendor,
+    keysuccess,
+    keyfaile
 } = userSlice.actions;
 export default userSlice.reducer;
