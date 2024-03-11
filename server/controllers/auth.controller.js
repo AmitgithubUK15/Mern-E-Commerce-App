@@ -14,7 +14,6 @@ async function SignupUser(req,res,next){
 
   try {
     await user.save();
-    console.log(user);
     return res.status(200).json({msg:"Created successfully"})
   } catch (error) {
      next(error);

@@ -1,3 +1,4 @@
+const Seller = require("../models/seller.model.js");
 const User = require("../models/user.model.js");
 const { errorHandler } = require("../utils/error")
 const bcrypt = require("bcrypt")
@@ -36,7 +37,11 @@ async function updateuser(req,res,next){
   }
 }
 
-async function createVendor(req,res,next){
+async function createVendorKey(req,res,next){
+  let existuser = await User.findById(req.params.id);
+  let existSeller = await Seller.findOne({email:existuser.email});
+  if(existSeller) return next(errorHandler(500,"Already have a Vendor account Not generate Vendor key"))
+
   try {
     let user = await User.findById(req.params.id);
     let PasswordCheck = await bcrypt.compare(req.body.password , user.password);
@@ -53,5 +58,5 @@ async function createVendor(req,res,next){
 module.exports = {
     testapi,
     updateuser,
-    createVendor,
+    createVendorKey,
 }

@@ -2,6 +2,8 @@ const User = require("../models/user.model.js");
 const Seller = require("../models/seller.model.js");
 const { errorHandler } = require("../utils/error.js");
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken");
+const { setUser } = require("../utils/verifyUser.js");
 
 async function CreateSellerAccount(req,res,next){
     try {
@@ -30,6 +32,29 @@ async function CreateSellerAccount(req,res,next){
     }
 }
 
+async function loginVendor(req,res,next){
+    const {email,password} = req.body;
+    try {
+        const vailidEmail = await Seller.findOne({email});
+        if(!vailidEmail) return next(errorHandler(400,"Invalid Email"));
+
+        const vailidPassword =bcrypt.compareSync(password,vailidEmail.password);
+        if(!vailidPassword) return next(errorHandler(400,"Invalid password"))
+        
+        const {password:pass,...rest} = vailidEmail._doc;
+        const token = setUser(rest)
+        
+        res
+        .cookie('token',token,{httpOnly:true})
+        .json(rest);
+
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
     CreateSellerAccount,
+    loginVendor,
 }

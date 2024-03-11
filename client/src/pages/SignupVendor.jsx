@@ -5,7 +5,7 @@ import { Signstart,SignSuccess,SignFailure } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Signin() {
-
+  const {loading,error} =useSelector((state)=>state.user);
   const username= useRef(null);
   const email = useRef(null);
   const password  = useRef(null);
@@ -13,8 +13,8 @@ export default function Signin() {
   const company = useRef(null);
   const vendor = useRef(null);
   const navigate = useNavigate();
-  const [errorr,setError] = useState();
-  const {loading,error} =useSelector((state)=>state.user);
+  const [errorr,setError] = useState(false);
+  
   const dispatch = useDispatch();
 
 
@@ -23,7 +23,7 @@ export default function Signin() {
     dispatch(Signstart())
     const formData = {
       sellername:username.current.value,
-      comapny:company.current.value,
+      company:company.current.value,
       email:email.current.value,
       vendor:vendor.current.value,
       address:address.current.value,
@@ -37,8 +37,9 @@ export default function Signin() {
       dispatch(SignSuccess(data));
       navigate("/loginVendor")
     } catch (error) {
-      dispatch(SignFailure())
-      setError(error.response.data.message);
+      dispatch(SignFailure(error.response.data.message))
+      setError(true);
+     
       
     }
 
@@ -46,7 +47,7 @@ export default function Signin() {
   }
 
   return (
-    <div className="flex bg-red-40 items-center md:justify-center  sm:justify-center m:justify-center s:justify-center">
+    <div className="flex bg-red-40 items-center md:justify-center  sm:justify-center m:justify-center s:justify-center p-3">
       <div className="w-5/6 flex flex-col gap-5 xl:block lg:block md:block sm:hidden m:hidden s:hidden" >
         <div className="text-center">
           <h1 className="font-bold text-3xl font-sans py-7">
@@ -108,7 +109,11 @@ export default function Signin() {
           <button type="submit"
           className="bg-red-400 p-3 rounded-lg text-white font-semibold  hover:opacity-80"
           >{loading ? "loading...": "Signup Vendor"}</button>
-
+            <div >
+          {errorr && 
+          <p className="text-red-500 font-semibold">{error}</p>
+          }
+        </div>
         </form>
         
          <div className="p-3">
@@ -128,11 +133,7 @@ export default function Signin() {
           </p>
          </div>
         </div>
-        <div className="w-96">
-          {error && 
-          <p className="text-red-500 font-semibold">{errorr}</p>
-          }
-        </div>
+      
       </div>
     </div>
   )
