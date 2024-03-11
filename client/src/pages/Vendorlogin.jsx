@@ -17,6 +17,7 @@ export default function Vendor() {
 
 
   async function handleSubmit(e){
+    setErrorVisible(false)
     e.preventDefault();
     const formData = {
       email:email.current.value,
@@ -24,7 +25,7 @@ export default function Vendor() {
     }    
 
     try {
-      const res = await axios.post("/vendor/login",formData);
+      const res = await axios.post("/vendor/loginvendor",formData);
       const data = res.data;
       dispatch(SignSuccess(data))
       
@@ -69,11 +70,13 @@ export default function Vendor() {
           placeholder="Email"
           className=" border px-5 py-4 rounded-lg focus:outline-none "
           ref={email}
+          required
           />
           <input type="text" 
           placeholder="Password"
           className="border px-5 py-4 rounded-lg focus:outline-none"
           ref={password}
+          required
           />
           <button type="submit"
           className="bg-red-400 font-semibold p-3 rounded-lg text-white hover:opacity-80"
