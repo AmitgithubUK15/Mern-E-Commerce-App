@@ -55,8 +55,35 @@ async function createVendorKey(req,res,next){
   }
 }
 
-module.exports = {
+async function updateVendor(req,res,next){
+ 
+
+  try {
+    if(req.body.password) {
+        req.body.password = bcrypt.hash(req.body.password,8);
+    }
+
+    const findUser = await Seller.findByIdAndUpdate(req.params.id,{
+        $set:{
+            sellername:req.body.username,
+            phone:req.body.phone,
+            password:req.body.password,
+            address:req.body.address,
+            gender:req.body.gender,
+        }
+    },{new:true})
+
+    const {password:pass,...rest} = findUser._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    next(errorHandler(401,'invalid token'))
+  }
+}
+
+module.exports = {  
     testapi,
     updateuser,
     createVendorKey,
+    updateVendor,
 }

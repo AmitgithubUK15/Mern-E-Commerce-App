@@ -27,6 +27,20 @@ const SellerSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
+    },
+    type:{
+       type:String,
+       default:"Seller"
+    },
+    avatar:{
+        type:String,
+        default:"https://cdn1.iconfinder.com/data/icons/professional-avatar-14/130/professional-30-512.png"
+    },
+    phone:{
+        type:String,
+    },
+    gender:{
+        type:String,
     }
 })
 
