@@ -68,7 +68,7 @@ function AppylyVendorAccount(){
               {
                 currentUser.type === "Seller" ? 
                 (<div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
-                Add Product
+                Sell Product
               </div>)
               :
               (<div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>

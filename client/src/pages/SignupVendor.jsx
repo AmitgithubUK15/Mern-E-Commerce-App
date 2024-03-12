@@ -124,7 +124,7 @@ export default function Signin() {
             </span>
             </Link>
           </p>
-          <p>If you have a account  
+          <p>User account  
             <Link to='/login'>
             <span className="text-blue-500 mx-2"> 
              Login

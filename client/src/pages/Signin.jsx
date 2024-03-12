@@ -82,7 +82,7 @@ export default function Signin() {
           <OAuth />
         </form>
          <div className="p-3">
-          <p >If you have a account  
+          <p >If you dont have a account  
             <Link to='/signup'>
             <span className="text-blue-500 mx-2 "> 
              Signup
