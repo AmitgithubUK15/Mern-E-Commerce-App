@@ -18,7 +18,7 @@ const ProductSchema = new mongoose.Schema({
         required:true,
     },
     posterImage:{
-       type:Buffer,
+       type:String,
         required:true,
     },
     coverImage:{

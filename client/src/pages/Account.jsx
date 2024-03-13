@@ -1,22 +1,27 @@
 
 import {useDispatch, useSelector} from 'react-redux'
-import {Link, useNavigate} from "react-router-dom"
-import { signoutUserSuccess,signoutUserFailure, setVendor } from '../redux/user/userSlice';
+import {Link, Navigate, useNavigate} from "react-router-dom"
+import { signoutUserSuccess,signoutUserFailure, setVendor,Addproduct } from '../redux/user/userSlice';
 import axios from 'axios';
 import ProfileDetails from '../components/ProfileDetails';
 
 import ApplyVendor from '../components/ApplyVendor';
+import ProductListing from './ProductListing';
+
 
 export default function Account() {
  
   const {currentUser,
     error,
     ProfileDetailsVisible,
-    AppylyVendorvisible} = useSelector((state)=> state.user);
+    AppylyVendorvisible,
+    addproduct} = useSelector((state)=> state.user);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
+
   
+
 
  async function signoutuser(){
   try {
@@ -24,6 +29,7 @@ export default function Account() {
     const data= res.data;
   
     if(data.success === false){
+      
       dispatch(signoutUserFailure(error.message));
       return;
     }
@@ -44,9 +50,13 @@ function AppylyVendorAccount(){
   dispatch(setVendor())
 }
 
+function setAddProduct(){
+  dispatch(Addproduct());
+}
+
   return (
-    <div className='w-full h-full flex justify-center items-center '>
-      <div className='flex flex-col w-full sm:w-3/5 m '>
+    <div className=' h-full flex justify-center items-center '>
+      <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
 
         <div className='w-full text-start gap-4 border-b'>
           <h1 className='p-7 sm:py-5'>
@@ -67,7 +77,7 @@ function AppylyVendorAccount(){
 
               {
                 currentUser.type === "Seller" ? 
-                (<div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
+                (<div onClick={setAddProduct} className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
                 Sell Product
               </div>)
               :
@@ -112,6 +122,7 @@ function AppylyVendorAccount(){
           <div className='w-full border flex  justify-center m-3 p-5'>
            {ProfileDetailsVisible && <ProfileDetails />}
            {AppylyVendorvisible && <ApplyVendor />}
+           {addproduct && <ProductListing />}
           </div>
         </div>
       </div>

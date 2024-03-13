@@ -6,6 +6,7 @@ const initialState ={
     loading:false,
     ProfileDetailsVisible:true,
     AppylyVendorvisible:false,
+    addproduct:false,
 }
 
 const userSlice = createSlice({
@@ -48,9 +49,16 @@ const userSlice = createSlice({
         setProfiledetail:(state)=>{
             state.ProfileDetailsVisible=true;
             state.AppylyVendorvisible= false;
+            state.addproduct = false;
         },
         setVendor:(state)=>{
             state.AppylyVendorvisible = true,
+            state.ProfileDetailsVisible=false;
+            state.addproduct = false;
+        },
+        Addproduct:(state)=>{
+            state.addproduct = true;
+            state.AppylyVendorvisible = false,
             state.ProfileDetailsVisible=false;
         },
         keysuccess:(state)=>{
@@ -73,6 +81,7 @@ export const {
     signoutUserFailure,
     setProfiledetail,
     setVendor,
+    Addproduct,
     keysuccess,
     keyfaile
 } = userSlice.actions;
