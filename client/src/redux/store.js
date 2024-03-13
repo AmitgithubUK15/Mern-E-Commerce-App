@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 
+
 const rootreducer = combineReducers({user:userSlice})
 
 const persistConfig = {
@@ -15,7 +16,7 @@ const persistConfig = {
   const persistedReducer = persistReducer(persistConfig,rootreducer)
 
 export const store = configureStore({
-    reducer:{user:userSlice},
+    // reducer:{user:userSlice,seller:sellerSlice},
     reducer:persistedReducer,
     middleware:(getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck:false,
