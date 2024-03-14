@@ -2,21 +2,41 @@ import React, { useState } from 'react'
 import ClotheType from '../components/ClotheType';
 import app from '../firebase';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
+import {useSelector,useDispatch} from 'react-redux'
+import {productlistingStart,productlistingSuccess,productlistingFailure} from "../redux/user/userSlice"
+import MobileProduct from '../components/MobileProduct';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 
 export default function ProductListing() {
+ const {currentUser,loading,error} = useSelector((state)=>state.user);
+ const dispatch = useDispatch();
  const [Clothes,setClothes] = useState(false);
  const [Electronic,setElectronic] = useState(false);
  const [Male,setMale] = useState(false);
  const [Female,setFemale] = useState(false);
+ const [Mobile,setMobile] = useState(false);
+ const [Laptop,setLaptop] = useState(false);
  const [posterfile,setPosterfile] = useState([])
  const [coverfile,setCoverfile] = useState([]) 
  const [formData ,setFormData] = useState({
-  posterimage:[],
-  coverimage:[],
- })
+  posterImage:[],
+  coverImage:[],
+ });
+ const navigate = useNavigate();
+ const [errormessage,setErrorMsg] = useState(false);
+ const [successmessage,setSuccessMsg] = useState(false); 
+ const [posterButton,setposeterButton] = useState(false);
+ const [coverButton,setcoverButton] = useState(false);
+ const [postererror,setpostererror] = useState(false);
+ const [covererror,setcovererror] = useState(false);
+ const [showposterimage,setshowPoster] = useState(false);
+ const [showcoverimage,setshowcover] = useState(false);
+ const [globalError,setGlobalError] = useState(false);
+ const [success,setSuccess] = useState();
  
 
- console.log(formData);
+
 
  function HandlechangeSelect(e){
   if(e.target.value==='Clothes'){
@@ -34,6 +54,7 @@ export default function ProductListing() {
  }
 
  function handle_he_she(e){
+  
   if(e.target.value==='Male'){
     setMale(true);
     setFemale(false)
@@ -49,40 +70,78 @@ export default function ProductListing() {
   
  }
 
+ function handleDevice(e){
+   if(e.target.value === "Mobile"){
+    setMobile(true);
+    setLaptop(false);
+   }
+   else if(e.target.value === "Laptop"){
+    setLaptop(true);
+    setMobile(false);
+   }
+   else{
+    setMobile(false);
+    setLaptop(false);
+   }
+ }
  function handleImagesubmit(){
-  if(posterfile.length > 0 && posterfile.length + formData.posterimage.length <= 1){
-     
+  if(posterfile.length > 0 && posterfile.length + formData.posterImage.length <= 1){
+    setposeterButton(true);
     const promise = [];
 
     for(let i =0; i<posterfile.length; i++){
       promise.push(storeImage(posterfile[i]));
     }
     Promise.all(promise).then((urls)=>{
-      setFormData({...formData,posterimage:formData.posterimage.concat(urls)})
+      setFormData({...formData,posterImage:formData.posterImage.concat(urls)})
+      setshowPoster(true)
+      setposeterButton(false)  
+      setpostererror(false);
     })
     .catch((err)=>{
-        console.log(err);
+      setErrorMsg(err.message)
+      setpostererror(true)
+      setposeterButton(false);
+      setshowPoster(false)
     })
   }else{ 
-    console.log("image not upload")
-  }
+    setpostererror(true);
+    setposeterButton(true)
+    setErrorMsg("Please select image")
+    setposeterButton(false);
+    setshowPoster(false);
+   }
  }
 
  function handleCoverimagesubmit(){
-  if(coverfile.length >0 && coverfile.length + formData.coverimage.length < 5){
+  if(coverfile.length >0 && coverfile.length + formData.coverImage.length < 6){
+    setcoverButton(true)
     const promise = [];
 
     for(let i =0; i<coverfile.length; i++){
       promise.push(storeImage(coverfile[i]));
     }
     Promise.all(promise).then((urls)=>{
-      setFormData({...formData,coverimage:formData.coverimage.concat(urls)})
+      setFormData({...formData,coverImage:formData.coverImage.concat(urls)})
+      setshowcover(true)
+      setcoverButton(false)
+      setcovererror(false);
     })
     .catch((err)=>{
-      console.log(err);
+      setErrorMsg(err.message)
+      setcoverButton(false);
+      setcovererror(true);
+      setshowcover(false)
     })
   }
+  else{
+    setcovererror(true);
+    setcoverButton(false);
+    setErrorMsg("Please select image")
+    setshowcover(false);
+  }
  }
+
  async function storeImage(file){
   return new Promise((resole,reject)=>{
     const storage = getStorage(app);
@@ -106,15 +165,202 @@ export default function ProductListing() {
     )
   })
  }
+ 
+function deleteposterimage(index){
+  setFormData({
+    ...formData,
+    posterImage:formData.posterImage.filter((_,i)=> i!==index)
+  })
+}
 
-//  function handleformsubmit(e){
-//   e.preventDefault();
-//   let form = e.target;
-//   let formData = new FormData(form);
-//   let obj = Object.fromEntries(formData.entries());
+function deletecoverimage(index){
+  setFormData({
+    ...formData,
+    coverImage:formData.coverImage.filter((_,i)=> i!==index)
+  })
+}
 
-//   console.log(obj);
-//  }
+async function handleformsubmit(e){
+  e.preventDefault();
+  let form = e.target;
+  let formdata = new FormData(form);
+  let obj = Object.fromEntries(formdata.entries());
+  dispatch(productlistingStart());
+  try {
+    if(obj.productType === "Clothes"){
+      let jeansQuantity = Number(parseInt(obj.size30) + parseInt(obj.size32) + parseInt(obj.size34) + parseInt(obj.size36));
+      let t_shirtQuantity = Number(parseInt(obj.sizeS) + parseInt(obj.sizeM) + parseInt(obj.sizeL) + parseInt(obj.sizeXL));
+      let price = parseInt(obj.regularprice);
+      let discountprice = parseInt(obj.discountPrice)
+     
+      if(jeansQuantity  || t_shirtQuantity > obj.quantity){
+        setGlobalError(true);
+        setErrorMsg("please enter valid quantity")
+        setSuccessMsg(false);
+      }
+      if(price < discountprice){
+        setGlobalError(true);
+        setErrorMsg("Discount price must be  lower then regular price")
+        setSuccessMsg(false);
+      }
+  
+      let ClothingObj = {
+        companyname: currentUser.company,
+        regualarPrice: obj.regularprice,
+        discountPrice: obj.discountPrice,
+        productVarious:{
+          ProductType:obj.productType,
+           ClotheType:obj.clotheType,
+           genders:obj.Gender,
+           sizes:{
+             sizeL:obj.sizeL,
+             sizeM:obj.sizeM,
+             sizeS:obj.sizeS,
+             sizeXL:obj.sizeXL,
+             size30:obj.size30,
+             size32:obj.size32,
+             size34:obj.size34,
+             size36:obj.size36
+           }
+        },
+        posterimage:formData.posterImage,
+        coverimage:formData.coverImage,
+        description:obj.description,
+        sellerRef:currentUser._id,
+        quantity:obj.quantity,
+        title:obj.producttile,
+        stock:true,
+        brand:obj.brandname,
+    }
+
+
+    let res = await axios.post("/listing/addproduct",ClothingObj)
+    
+    if(res.success === false){
+      dispatch(productlistingFailure());
+      setErrorMsg(res.message);
+      setGlobalError(true);
+    }
+    let result = res.data.msg;
+    console.log(res);
+    dispatch(productlistingSuccess());
+    setSuccessMsg(true);
+    setSuccess(result)
+
+    navigate("/account")
+    setGlobalError(false);
+  
+    }
+    
+    else if(obj.productType === "Electronic"){
+      let AsperRamQuantity = Number(parseInt(obj.RAM_6GB,) + parseInt(obj.RAM_8GB) + parseInt(obj.RAM_12GB));
+      let AsperRomQuantity = Number(parseInt(obj.ROM_64) + parseInt(obj.ROM_128) + parseInt(obj.ROM_256) + parseInt(obj.ROM_512));
+      let price = parseInt(obj.regularprice);
+      let discountprice = parseInt(obj.discountPrice)
+      
+      if(AsperRamQuantity !== AsperRomQuantity ) {
+        setGlobalError(true);
+        setErrorMsg("RAM and ROM Quantity not matched")
+        setSuccessMsg(false);
+      }
+      if(AsperRamQuantity >obj.quantity || AsperRomQuantity >obj.quantity ){
+        setGlobalError(true);
+        setErrorMsg("please enter valid quantity")
+        setSuccessMsg(false);
+      }
+      if(price < discountprice){
+        setGlobalError(true);
+        setErrorMsg("Discount price must be  lower then regular price")
+        setSuccessMsg(false);
+      }
+     
+      let Mobileobj = {
+        companyname:currentUser.company,
+        regualarPrice:obj.regularprice,
+        discountPrice:obj.discountPrice,
+        productVarious:{
+          ProductType:obj.productType,
+          DeviceType:obj.deviceType,
+          deviceName:obj.DeviceName,
+          ModelName:obj.ModelName,
+          Processor:obj.ProcessorName,
+          OpreatingSystem:obj.OS,
+          Batterytype:obj.batterytype,
+          storage:{
+           RAM:{
+            ram_6:obj.RAM_6GB,
+            ram_8:obj.RAM_8GB,
+            ram_12:obj.RAM_12GB,
+           },
+           ROM:{
+            rom_64:obj.ROM_64,
+            rom_128:obj.ROM_128,
+            rom_256:obj.ROM_256,
+            rom_512:obj.ROM_512
+           }
+          },
+          DisplaySize:obj.displaySize,
+          DisplayType:obj.displayType,
+          Camera:{
+            backSideCamera:{
+              backside1:obj.backSide1,
+              backside2:obj.backSide2,
+              backside3:obj.backSide3,
+              backside4:obj.backSide4
+            },
+            FrontCamera:obj.frontCamera
+          },
+         simSlot:obj.simSlots,
+         Warranty:obj.warranty,
+        },
+        posterimage:formData.posterImage,
+        coverimage:formData.coverImage,
+        description:obj.description,
+        sellerRef:currentUser._id,
+        quantity:obj.quantity,
+        title:obj.ModelName,
+        stock:true,
+      }
+
+      let res = await axios.post("/listing/addproduct",Mobileobj)
+    
+     if(res.success === false){
+      dispatch(productlistingFailure());
+      setErrorMsg(res.message);
+      setGlobalError(true);
+      setSuccess(false);
+     }
+     
+      let result = res.data.msg;
+      console.log(res);
+      dispatch(productlistingSuccess());
+
+      setSuccessMsg(true);
+      setSuccess(result);
+
+      setGlobalError(false);
+      console.log(Mobileobj);
+    }
+
+
+    else{
+      dispatch(productlistingFailure());
+      setGlobalError(false);
+      setSuccessMsg(false);
+      console.log(null);
+    }
+    
+  } catch (error) {
+    dispatch(productlistingFailure());
+    setErrorMsg(error.message);
+    setGlobalError(true);
+    setSuccessMsg(false);
+    console.log(error)
+  }
+
+
+ }
+ 
 
   return (
     <div className='w-full'>
@@ -124,12 +370,12 @@ export default function ProductListing() {
             </div>
 
             <div className='p-3 rounded-lg'>
-              <form  className='flex flex-col gap-4'>
+              <form onSubmit={handleformsubmit}  className='flex flex-col gap-4'>
 
                <div className='flex flex-col gap-3'>
                  <label>Choose Product type</label>
                  <select onChange={HandlechangeSelect}
-                 className='border p-3 outline-none rounded-lg' name="Producttype" id="">
+                 className='border p-3 outline-none rounded-lg' name='productType' required>
                   <option value="null">Choose type</option>
                   <option value="Clothes">Clothes</option>
                   <option value="Electronic">Electronic</option>
@@ -139,7 +385,7 @@ export default function ProductListing() {
                <div className='flex flex-col gap-3'>
                   <label>Male / Female</label>
                   <select onChange={handle_he_she}
-                 className='border p-3 outline-none rounded-lg' name="genders" id="">
+                 className='border p-3 outline-none rounded-lg' name='Gender' required>
                   <option  value="null">Choose</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -148,32 +394,56 @@ export default function ProductListing() {
                 {Female || Male ? (<ClotheType />):null}
                </div>
                }
+
+               {Electronic && 
+               <div className='flex flex-col gap-3'>
+                  <label>Device</label>
+                  <select onChange={handleDevice}
+                 className='border p-3 outline-none rounded-lg' name='deviceType' required>
+                  <option  value="null">Choose</option>
+                  <option value="Mobile">Mobile</option>
+                  <option value="Laptop">Laptop</option>
+                 </select>
+              
+                 {Mobile && <MobileProduct />}
+               </div>
+               }
                </div>
                <div className='flex flex-col gap-3'>
-                <label >Brand Name</label>
+
+                {Clothes && 
+                <div className='flex flex-col gap-3'>
+                  <label >Brand Name</label>
                 <input type="text" 
                 name="brandname"
                 className='border outline-none p-3 rounded-lg'
+                required
                 />
-                <label >Product Title</label>
+                </div>
+                }
+               {Clothes &&
+               <div className='flex flex-col gap-3'>
+                 <label >Product Title</label>
                 <input type="text" 
                 name='producttile'
-                className='border outline-none p-3 rounded-lg'
+                className='border outline-none p-3 rounded-lg' required
                 />
+               </div>
+               }
                 <label >Product Description</label>
                 <textarea type="text" 
                 name='description'
                 minLength="10"
-                maxLength="70"
-                className='border outline-none p-3 rounded-lg'
+                maxLength="250"
+                className='border outline-none p-3 rounded-lg' required
                 />
                 <label >Price</label>
                 <input type="number" 
-                name='price'
+                name='regularprice'
                 minLength="10"
                 maxLength="70"
                 defaultValue={0}
-                className='appearance-none border outline-none p-3 rounded-lg'
+                className='appearance-none border outline-none p-3 rounded-lg' required
                 />
                 {/* <label>Offers</label>
                 <div className='flex gap-2 border p-3 rounded-lg'>
@@ -195,34 +465,61 @@ export default function ProductListing() {
                 minLength="10"
                 maxLength="70"
                 defaultValue={0}
-                className='appearance-none border outline-none p-3 rounded-lg'
+                className='appearance-none border outline-none p-3 rounded-lg' required
                 />
                </div>
 
-                <label htmlFor="">Upload Poster Image</label>
+                <label>Upload Poster Image</label>
                <div className='flex  items-center'>
 
-               <input onChange={(e)=>setPosterfile(e.target.files)}
+               <input onChange={(e)=>setPosterfile(e.target.files)} required
                 type="file" accept='images/*' name='posterImage' multiple/>
 
-               <button onClick={handleImagesubmit}
+               <button 
+               onClick={handleImagesubmit} disabled={posterButton}
                type="button"
-               className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>Upload</button>
+               className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>{posterButton === true? "Uploading..." : "Upload"}</button>
                </div>
+                
+                {showposterimage && <div >
+                   {formData.posterImage.map((imgurl,index)=>(
+                    <div key={index} className='flex justify-between item-center p-1 border rounded-lg '>
+                     <div ><img src={imgurl} alt="" className='w-24 h-24'/></div>
+                     <p className='font-semibold py-10 hover:underline'>{posterfile[0].name}</p>
+                     <button onClick={()=>deleteposterimage(index)} className='text-red-500 px-2 font-semibold  hover:underline'>Delete</button>
+                    </div>
+                   ))}
+                  </div>}
+                {postererror && <p className='text-red-500'>{errormessage}</p>}
+
 
                <label htmlFor="">The first image will be the cover (max 5)</label>
                <div className='flex '>
-               <input onChange={(e)=>setCoverfile(e.target.files)}
+               <input onChange={(e)=>setCoverfile(e.target.files)} required
                type="file" name='coverImage' accept='images/*' multiple/>   
 
-               <button type='button' onClick={handleCoverimagesubmit}
-                className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>Upload</button>             
+               <button type='button' onClick={handleCoverimagesubmit} disabled={coverButton}
+                className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>{coverButton ? "Uploading...":"Upload"}</button>             
                </div>
-
-               <button type='submit'
+               {showcoverimage && <div  >
+                   {formData.coverImage.map((imgurl,index)=>(
+                    <div key={index} className='flex  justify-between my-2 item-center p-1 border rounded-lg'>
+                     <div><img src={imgurl} alt="" className='w-24 h-24'/></div>
+                     <p className='font-semibold py-10 hover:underline'>{coverfile[index].name}</p>
+                     <button onClick={()=>deletecoverimage(index)} className='text-red-500 px-2 font-semibold  hover:underline'>Delete</button>
+                    </div>
+                   ))}
+                  </div>}
+               {covererror && <p className='text-red-500'>{errormessage}</p>}
+               <button type='submit' disabled={loading}
                className='bg-slate-700 text-white p-2 rounded-lg font-semibold my-2'
-               >Create Product</button>
+               >{loading ? "Product Creating...":"Create Product"}</button>
               </form>
+            </div>
+
+            <div>
+              {globalError === true && <p className='text-red-500 font-semibold'>{errormessage}</p>}
+              {successmessage === true && <p className='text-green-500 font-semibold text-center'>{success}</p>}
             </div>
         </div>
     </div>

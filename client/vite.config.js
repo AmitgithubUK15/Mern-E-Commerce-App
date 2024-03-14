@@ -16,6 +16,10 @@ export default defineConfig({
      '/vendor':{
       target:'http://localhost:8005',
       secure:false
+     },
+     '/listing':{
+      target:'http://localhost:8005',
+      secure:false
      }
     }
    },

@@ -9,6 +9,7 @@ export default function UpdateProfile() {
   const dispatch = useDispatch();
   const [update,setUpdate] = useState(false)
   const [errormsg,setErrorMsg] = useState("")
+ 
   
   async function handleUpdate(e){
    e.preventDefault();
@@ -19,11 +20,13 @@ export default function UpdateProfile() {
 
    try {
      dispatch(userUpdateStart())
+    
      if(currentUser.type === "Seller"){
       let res =  await axios.post(`/api/vendorupdate/${currentUser._id}`,fromobj);
      let data = res.data;
      dispatch(userUpdateSuccess(data));
      setUpdate(true)
+    
      }
      else{
       let res =  await axios.post(`/api/update/${currentUser._id}`,fromobj);
@@ -35,7 +38,7 @@ export default function UpdateProfile() {
     setErrorMsg(error.response.data.message)
      dispatch(userUpdateFailure())
      setUpdate(false)
-    
+  
    }
   }
 
@@ -81,6 +84,7 @@ export default function UpdateProfile() {
             <input type="date" name="dob" defaultValue={currentUser.dob ? currentUser.dob : ""} className=" border-b border-slate-400 outline-none" />
              </div>)}
             <button
+             disabled={loading}
               type="submit"
               className="bg-green-700 mt-3 font-semibold p-3 rounded-lg text-white hover:opacity-80"
             >

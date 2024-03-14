@@ -15,6 +15,7 @@ import PrivateRoute from "./components/PrivateRoute"
 
 
 
+
 function App() {
 
 //  const {currentUser} = useSelector((state)=>state.user)
@@ -35,6 +36,7 @@ function App() {
       <Route path="/loginvendor" element={<Vendorlogin />} />
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />
+   
     
       </Route>
    

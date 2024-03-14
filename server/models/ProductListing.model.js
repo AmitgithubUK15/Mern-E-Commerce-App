@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const ProductSchema = new mongoose.Schema({
-    company:{
+    companyname:{
         type:String,
         required:true
     },
@@ -17,11 +17,11 @@ const ProductSchema = new mongoose.Schema({
         type:Object,
         required:true,
     },
-    posterImage:{
-       type:String,
+    posterimage:{
+       type:Array,
         required:true,
     },
-    coverImage:{
+    coverimage:{
         type:Array,
         required:true,
     },
@@ -42,6 +42,13 @@ const ProductSchema = new mongoose.Schema({
     },
     stock:{
         type:Boolean,
+    },
+    title:{
+        type:String,
+        required:true,
+    },
+    brand:{
+        type:String,
     }
 },{timestamps:true});
 

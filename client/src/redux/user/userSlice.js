@@ -3,7 +3,7 @@ import { createSlice  } from '@reduxjs/toolkit'
 const initialState ={
     currentUser:null,
     error:null,
-    loading:false,
+    loading:null,
     ProfileDetailsVisible:true,
     AppylyVendorvisible:false,
     addproduct:false,
@@ -66,6 +66,17 @@ const userSlice = createSlice({
         },
         keyfaile:(state)=>{
             state.loading = false;
+        },
+        productlistingStart:(state)=>{
+            state.loading = true;
+        },
+        productlistingSuccess:(state)=>{
+            state.loading =false;
+            state.error = false;
+        },
+        productlistingFailure:(state)=>{
+            state.loading =false;
+            state.error = true;
         }
     }
 });
@@ -83,6 +94,9 @@ export const {
     setVendor,
     Addproduct,
     keysuccess,
-    keyfaile
+    keyfaile,
+    productlistingSuccess,
+    productlistingStart,
+    productlistingFailure
 } = userSlice.actions;
 export default userSlice.reducer;
