@@ -7,6 +7,8 @@ const initialState ={
     ProfileDetailsVisible:true,
     AppylyVendorvisible:false,
     addproduct:false,
+    sellerproductlist:null,
+    prodcutlistTab:false
 }
 
 const userSlice = createSlice({
@@ -50,14 +52,23 @@ const userSlice = createSlice({
             state.ProfileDetailsVisible=true;
             state.AppylyVendorvisible= false;
             state.addproduct = false;
+            state.prodcutlistTab = false;
         },
         setVendor:(state)=>{
             state.AppylyVendorvisible = true,
             state.ProfileDetailsVisible=false;
             state.addproduct = false;
+            state.prodcutlistTab = false;
         },
         Addproduct:(state)=>{
             state.addproduct = true;
+            state.AppylyVendorvisible = false,
+            state.ProfileDetailsVisible=false;
+            state.prodcutlistTab = false;
+        },
+        showproductlistTab:(state)=>{
+            state.prodcutlistTab = true
+            state.addproduct = false;
             state.AppylyVendorvisible = false,
             state.ProfileDetailsVisible=false;
         },
@@ -77,6 +88,9 @@ const userSlice = createSlice({
         productlistingFailure:(state)=>{
             state.loading =false;
             state.error = true;
+        },
+        productList:(state,action)=>{
+            state.sellerproductlist = action.payload;
         }
     }
 });
@@ -93,10 +107,12 @@ export const {
     setProfiledetail,
     setVendor,
     Addproduct,
+    showproductlistTab,
     keysuccess,
     keyfaile,
     productlistingSuccess,
     productlistingStart,
-    productlistingFailure
+    productlistingFailure,
+    productList
 } = userSlice.actions;
 export default userSlice.reducer;

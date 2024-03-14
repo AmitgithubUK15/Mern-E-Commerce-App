@@ -1,12 +1,13 @@
 
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, Navigate, useNavigate} from "react-router-dom"
-import { signoutUserSuccess,signoutUserFailure, setVendor,Addproduct } from '../redux/user/userSlice';
+import { signoutUserSuccess,signoutUserFailure, setVendor,setProfiledetail,Addproduct, productList,showproductlistTab } from '../redux/user/userSlice';
 import axios from 'axios';
 import ProfileDetails from '../components/ProfileDetails';
 
 import ApplyVendor from '../components/ApplyVendor';
 import ProductListing from './ProductListing';
+import ProductList from '../components/ProductList';
 
 
 export default function Account() {
@@ -15,7 +16,8 @@ export default function Account() {
     error,
     ProfileDetailsVisible,
     AppylyVendorvisible,
-    addproduct} = useSelector((state)=> state.user);
+    addproduct,
+    prodcutlistTab} = useSelector((state)=> state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -54,6 +56,22 @@ function setAddProduct(){
   dispatch(Addproduct());
 }
 
+async function showproductlist(){
+  try {
+    let res = await axios.get(`/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
+    if(res.success===false){
+      console.log(res.err.message);
+      
+    }
+    let result = res.data;
+    dispatch(productList(result));
+    dispatch(showproductlistTab())
+  } catch (error) {
+    console.log(error)
+    dispatch(setProfiledetail);
+  }
+}
+
   return (
     <div className=' h-full flex justify-center items-center '>
       <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
@@ -88,7 +106,7 @@ function setAddProduct(){
 
              {
                 currentUser.type === "Seller" ? 
-                (<div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
+                (<div onClick={showproductlist} className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
                 Product List
               </div>)
               :
@@ -123,6 +141,7 @@ function setAddProduct(){
            {ProfileDetailsVisible && <ProfileDetails />}
            {AppylyVendorvisible && <ApplyVendor />}
            {addproduct && <ProductListing />}
+           {prodcutlistTab && <ProductList />}
           </div>
         </div>
       </div>

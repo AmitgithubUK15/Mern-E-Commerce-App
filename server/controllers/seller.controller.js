@@ -4,6 +4,7 @@ const { errorHandler } = require("../utils/error.js");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const { setUser } = require("../utils/verifyUser.js");
+const Product = require("../models/ProductListing.model.js");
 
 async function CreateSellerAccount(req,res,next){
     try {
@@ -54,7 +55,22 @@ async function loginVendor(req,res,next){
     }
 }
 
+
+async function getProductList(req,res,next){
+  const {id} = req.body;
+
+  try {
+    const findUserlistingProdcut = await Product.find({id});
+    if(!findUserlistingProdcut) return next(errorHandler(404,'No product found'))
+
+    res.status(200).json(findUserlistingProdcut);
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
     CreateSellerAccount,
     loginVendor,
+    getProductList,
 }
