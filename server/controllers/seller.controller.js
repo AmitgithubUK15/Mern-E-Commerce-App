@@ -72,13 +72,17 @@ async function getProductList(req,res,next){
 }
 
 async function ProductDelete(req,res,next){
-    const {productId} = req.params;
-    
+    const {prodcutId,sellerId} = req.params;
+    console.log(req.params);
     try {
-        const findProduct = await Product.findOneAndDelete({productId});
-        if(!findProduct) return next(errorHandler(500,"Login again"))
+        const findProduct = await Product.findOneAndDelete({_id:prodcutId});
+        if(!findProduct) return next(errorHandler(500,"Product no found"))
 
-        res.status(200).json({msg:"Delete product"});
+        const findSeller = await Product.find({sellerRef:sellerId});
+        if(!findSeller) return next(errorHandler(500,"Login again"));
+
+
+        res.status(200).json({msg:"Delete product",findSeller});
     } catch (error) {
         next(error);
     }

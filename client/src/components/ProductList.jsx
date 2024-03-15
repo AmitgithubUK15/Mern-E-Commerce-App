@@ -1,6 +1,8 @@
-import React from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import {Addproduct} from '../redux/user/userSlice'
+import {Addproduct,productList} from '../redux/user/userSlice'
+
+
 const ProductList = () => {
  const {sellerproductlist} = useSelector((state)=>state.user);
  const dispatch = useDispatch();
@@ -9,8 +11,21 @@ const ProductList = () => {
    dispatch(Addproduct())
  }
 
- async function deleteProduct(index,id){
-   console.log(index,id);
+ async function deleteProduct(index,id,sellerId){
+   
+  
+  try {
+    const res = await axios.post(`/vendor/productdelete/${id}/${sellerId}`);
+    if(res.data.success === false){
+      alert(res.data.message);
+      console.log(res);
+    }
+    let data = res.data.findSeller;
+    dispatch(productList(data))
+    alert(res.data.msg);
+  } catch (error) {
+    alert(error.message);
+  }
  }
   return (
    <div>
@@ -37,7 +52,7 @@ const ProductList = () => {
               </div>
               <div 
               className='self-start xl:block lg:block md:block sm:block m:block s:hidden' >
-                <button onClick={()=>deleteProduct(index,product._id)}
+                <button onClick={()=>deleteProduct(index,product._id,product.sellerRef)}
                 className='text-red-500 font-semibold  '>X</button></div>
             </div>
           </li>

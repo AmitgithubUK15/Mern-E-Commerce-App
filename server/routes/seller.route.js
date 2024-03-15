@@ -8,6 +8,6 @@ const router = express.Router();
 router.post("/createseller",CreateSellerAccount);
 router.post("/loginvendor",loginVendor)
 router.get("/productList/:id",restrictToLoggedinUserOnly,getProductList)
-router.delete("/productdelete/:prodcutId",restrictToLoggedinUserOnly,ProductDelete);
+router.post("/productdelete/:prodcutId/:sellerId",restrictToLoggedinUserOnly,ProductDelete);
 
 module.exports = router;
