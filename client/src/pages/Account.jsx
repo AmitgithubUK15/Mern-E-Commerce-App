@@ -60,15 +60,17 @@ async function showproductlist(){
   try {
     let res = await axios.get(`/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
     if(res.success===false){
-      console.log(res.err.message);
-      
+      dispatch(productList(false));
+      dispatch(showproductlistTab())
     }
     let result = res.data;
     dispatch(productList(result));
     dispatch(showproductlistTab())
   } catch (error) {
-    console.log(error)
-    dispatch(setProfiledetail);
+    
+    dispatch(productList(error.response.data.message));
+    dispatch(showproductlistTab())
+   
   }
 }
 

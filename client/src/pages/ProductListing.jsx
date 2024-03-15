@@ -192,16 +192,19 @@ async function handleformsubmit(e){
       let t_shirtQuantity = Number(parseInt(obj.sizeS) + parseInt(obj.sizeM) + parseInt(obj.sizeL) + parseInt(obj.sizeXL));
       let price = parseInt(obj.regularprice);
       let discountprice = parseInt(obj.discountPrice)
-     
-      if(jeansQuantity  || t_shirtQuantity > obj.quantity){
+      
+      if( isNaN(jeansQuantity) ? t_shirtQuantity > parseInt(obj.quantity) ||t_shirtQuantity < parseInt(obj.quantity): jeansQuantity > parseInt(obj.quantity) || jeansQuantity < parseInt(obj.quantity)){
         setGlobalError(true);
-        setErrorMsg("please enter valid quantity")
         setSuccessMsg(false);
+        e.preventDefault();
+        throw new Error("Sizes quantities should be equal All product quantities")
+       
       }
       if(price < discountprice){
         setGlobalError(true);
-        setErrorMsg("Discount price must be  lower then regular price")
         setSuccessMsg(false);
+        throw new Error("Product Price must be Greathen discountprice")
+      
       }
   
       let ClothingObj = {
@@ -238,11 +241,11 @@ async function handleformsubmit(e){
     
     if(res.success === false){
       dispatch(productlistingFailure());
-      setErrorMsg(res.message);
       setGlobalError(true);
+      console.log(res);
     }
     let result = res.data.msg;
-    console.log(res);
+    
     dispatch(productlistingSuccess());
     setSuccessMsg(true);
     setSuccess(result)
@@ -260,18 +263,18 @@ async function handleformsubmit(e){
       
       if(AsperRamQuantity !== AsperRomQuantity ) {
         setGlobalError(true);
-        setErrorMsg("RAM and ROM Quantity not matched")
         setSuccessMsg(false);
+        throw new Error("RAM and ROM Quantity not matched")
       }
       if(AsperRamQuantity >obj.quantity || AsperRomQuantity >obj.quantity ){
         setGlobalError(true);
-        setErrorMsg("please enter valid quantity")
         setSuccessMsg(false);
+        throw new Error("please enter valid quantity")
       }
       if(price < discountprice){
         setGlobalError(true);
-        setErrorMsg("Discount price must be  lower then regular price")
         setSuccessMsg(false);
+        throw new Error("Discount price must be  lower then regular price")
       }
      
       let Mobileobj = {
@@ -352,13 +355,10 @@ async function handleformsubmit(e){
     
   } catch (error) {
     dispatch(productlistingFailure());
-    setErrorMsg(error.message);
     setGlobalError(true);
     setSuccessMsg(false);
-    console.log(error)
+    setErrorMsg(error.message);
   }
-
-
  }
  
 

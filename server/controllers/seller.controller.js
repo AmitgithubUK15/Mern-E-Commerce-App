@@ -1,10 +1,11 @@
 const User = require("../models/user.model.js");
 const Seller = require("../models/seller.model.js");
+const Product = require("../models/ProductListing.model.js");
 const { errorHandler } = require("../utils/error.js");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const { setUser } = require("../utils/verifyUser.js");
-const Product = require("../models/ProductListing.model.js");
+
 
 async function CreateSellerAccount(req,res,next){
     try {
@@ -57,11 +58,12 @@ async function loginVendor(req,res,next){
 
 
 async function getProductList(req,res,next){
-  const {id} = req.body;
-
+  const {id} = req.params;
+ console.log(id);
   try {
-    const findUserlistingProdcut = await Product.find({id});
-    if(!findUserlistingProdcut) return next(errorHandler(404,'No product found'))
+    let arr = [];
+    const findUserlistingProdcut = await Product.find({sellerRef:id});
+    if(findUserlistingProdcut.length ===0) return next(errorHandler(404,'No product found'))
 
     res.status(200).json(findUserlistingProdcut);
   } catch (error) {
@@ -69,8 +71,22 @@ async function getProductList(req,res,next){
   }
 }
 
+async function ProductDelete(req,res,next){
+    const {productId} = req.params;
+    
+    try {
+        const findProduct = await Product.findOneAndDelete({productId});
+        if(!findProduct) return next(errorHandler(500,"Login again"))
+
+        res.status(200).json({msg:"Delete product"});
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     CreateSellerAccount,
     loginVendor,
     getProductList,
+    ProductDelete,
 }

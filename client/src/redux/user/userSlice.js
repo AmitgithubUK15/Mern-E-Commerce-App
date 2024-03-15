@@ -7,8 +7,8 @@ const initialState ={
     ProfileDetailsVisible:true,
     AppylyVendorvisible:false,
     addproduct:false,
-    sellerproductlist:null,
-    prodcutlistTab:false
+    sellerproductlist:false,
+    prodcutlistTab:false,
 }
 
 const userSlice = createSlice({
@@ -90,6 +90,9 @@ const userSlice = createSlice({
             state.error = true;
         },
         productList:(state,action)=>{
+            state.sellerproductlist = action.payload;
+        },
+        deleteProduct:(state,action)=>{
             state.sellerproductlist = action.payload;
         }
     }
