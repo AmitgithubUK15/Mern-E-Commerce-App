@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {Addproduct,productList} from '../redux/user/userSlice'
-
+import {Link} from 'react-router-dom'
 
 const ProductList = () => {
  const {sellerproductlist} = useSelector((state)=>state.user);
  const dispatch = useDispatch();
 
+ 
+ 
  function addproduct(){
    dispatch(Addproduct())
  }
@@ -34,13 +36,17 @@ const ProductList = () => {
       <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Product List</h2>
       <ul className="flex flex-col gap-5 ">
-        {sellerproductlist.map((product,index) => (
-          <li key={product.id} 
+        {sellerproductlist && sellerproductlist.map((product,index) => (
+          <li key={product._id} 
           className="p-2 border rounded-lg cursor-pointer hover:text-slate-500 hover:border-slate-400   ">
-            
-            <div className="flex w-full justify-between items-center  xl:flex-row lg:flex-row md:flex-row sm:flex-row m:flex-row s:flex-col">
-            <div className='self-end inline xl:hidden lg:hidden md:hidden sm:hidden m:hidden s:block ' ><button className='text-red-500 font-semibold  '>X</button></div>
-              <div className="flex-shrink-0 w-36 h-48 z-10 rounded-lg mx-4 bg-gray-200  overflow-hidden">
+         
+           <Link to={`/productDetails/${encodeURIComponent(product._id)}`}>
+           <div className="flex w-full justify-between items-center  xl:flex-row lg:flex-row md:flex-row sm:flex-row m:flex-row s:flex-col">
+            <div className='self-end inline xl:hidden lg:hidden md:hidden sm:hidden m:hidden s:block ' >
+              <button  onClick={()=>deleteProduct(index,product._id,product.sellerRef)} 
+              className='text-red-500 font-semibold text-xl '>X</button>
+              </div>
+              <div className="flex-shrink-0 w-36 h-48  rounded-lg mx-4 bg-gradient-to-tr from-gray-100 to-gray-200  overflow-hidden">
                 <img src={product.posterimage[0]} alt={product.brand} className="w-full h-full object-cover" />
               </div>
               <div className=' self-start xl:w-96 lg:w-96 md:w-48 sm:w-full'>
@@ -53,8 +59,9 @@ const ProductList = () => {
               <div 
               className='self-start xl:block lg:block md:block sm:block m:block s:hidden' >
                 <button onClick={()=>deleteProduct(index,product._id,product.sellerRef)}
-                className='text-red-500 font-semibold  '>X</button></div>
+                className='text-red-500 font-semibold text-xl  '>X</button></div>
             </div>
+           </Link>
           </li>
         ))}
       </ul>

@@ -59,7 +59,7 @@ async function loginVendor(req,res,next){
 
 async function getProductList(req,res,next){
   const {id} = req.params;
- console.log(id);
+
   try {
     let arr = [];
     const findUserlistingProdcut = await Product.find({sellerRef:id});
@@ -73,7 +73,7 @@ async function getProductList(req,res,next){
 
 async function ProductDelete(req,res,next){
     const {prodcutId,sellerId} = req.params;
-    console.log(req.params);
+
     try {
         const findProduct = await Product.findOneAndDelete({_id:prodcutId});
         if(!findProduct) return next(errorHandler(500,"Product no found"))

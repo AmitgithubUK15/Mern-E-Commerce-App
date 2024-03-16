@@ -11,6 +11,7 @@ import UpdateProfile from "./pages/UpdateProfile"
 import SignupVendor from "./pages/SignupVendor"
 import Vendorlogin from "./pages/Vendorlogin"
 import PrivateRoute from "./components/PrivateRoute"
+import ProductDetailsPage from "./pages/ProductDetailsPage"
 
 
 
@@ -36,8 +37,8 @@ function App() {
       <Route path="/loginvendor" element={<Vendorlogin />} />
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />
-   
-    
+      <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
+
       </Route>
    
      </Routes>

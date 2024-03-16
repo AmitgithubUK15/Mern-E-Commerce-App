@@ -62,14 +62,19 @@ async function showproductlist(){
     if(res.success===false){
       dispatch(productList(false));
       dispatch(showproductlistTab())
+    
     }
     let result = res.data;
     dispatch(productList(result));
     dispatch(showproductlistTab())
   } catch (error) {
-    
-    dispatch(productList(error.response.data.message));
-    dispatch(showproductlistTab())
+    if(error.response.data.message === "Please Login again"){
+      alert(`Authorization failed ${error.response.data.message}`)
+    }
+    else{
+      dispatch(productList(error.response.data.message));
+      dispatch(showproductlistTab())
+    }
    
   }
 }

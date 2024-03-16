@@ -7,7 +7,13 @@ export default {
   theme: {
     extend: {
       height: {
+        '450px':'450px',
         '557px': '557px',
+        '600px':'600px'
+      },
+      width:{
+        '1300px':'1300px',
+        '411px':'411px'
       }
     },
     screens: {
