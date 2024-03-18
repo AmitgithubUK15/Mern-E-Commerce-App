@@ -1,4 +1,7 @@
-const Product = require("../models/ProductListing.model.js")
+const Product = require("../models/ProductListing.model.js");
+const { errorHandler } = require("../utils/error.js");
+
+
 
 
 async function Addproduct(req,res,next){
@@ -10,6 +13,34 @@ async function Addproduct(req,res,next){
     }
 }
 
+async function UpdateClothingProduct(req,res,next){
+
+    let Allsizes = req.body.productVarious.sizes;
+    
+    let AllQuantity = 0;
+    for(let i in Allsizes){
+        AllQuantity += Number(Allsizes[i]);
+    }
+
+
+    try {
+
+        const findProduct = await Product.findByIdAndUpdate(req.params.id, {$set:{
+            regualarPrice: req.body.regualarPrice,
+	        discountPrice: req.body.discountPrice,
+            quantity:AllQuantity,
+            productVarious: req.body.productVarious,
+        }},{new:true});
+        if(!findProduct) return next(errorHandler(403,"Not found Product"));
+
+        const findAll = await Product.find({sellerRef:req.params.sellerId})
+        res.status(200).json(findAll);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports ={
     Addproduct,
+    UpdateClothingProduct
 }

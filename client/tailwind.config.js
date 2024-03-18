@@ -25,7 +25,7 @@ export default {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
       'm':'500px',
-      's':"350px",
+      's':"300px",
       // => @media (min-width: 1280px) { ... }
     },
   },

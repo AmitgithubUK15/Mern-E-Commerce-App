@@ -32,7 +32,7 @@ export default function Navbar() {
           to='/'
         >
            <h1 className='font-bold  xl:text-xl lg:text-xl sm:text-1xl flex flex-wrap m:text-1xl '>
-            <span className="text-red-300 ">Shophy</span>
+            <span className="text-red-300 ">Shopy</span>
             <span className="text-red-400">Book</span>
           </h1>
           

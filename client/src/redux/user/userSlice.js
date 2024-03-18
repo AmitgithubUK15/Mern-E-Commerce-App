@@ -91,6 +91,7 @@ const userSlice = createSlice({
         },
         productList:(state,action)=>{
             state.sellerproductlist = action.payload;
+            state.loading = false;
         },
         deleteProduct:(state,action)=>{
             state.sellerproductlist = action.payload;

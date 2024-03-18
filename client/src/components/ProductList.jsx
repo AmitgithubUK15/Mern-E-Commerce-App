@@ -53,7 +53,10 @@ const ProductList = () => {
               <h3 className="text-lg font-medium ">{product.brand}</h3>
                 <h3 className="text-sm  text-gray-400 font-semibold">Sold by : {product.companyname}</h3>
                 <h3 className="text-sm font-sm text-gray-400 ">{product.title}</h3>
-                <p className="text-gray-700 mt-2 font-semibold">Price: ${product.regualarPrice}</p>
+                <p className="text-gray-700 mt-2 font-semibold">Price: ₹{product.regualarPrice - product.discountPrice}
+                <span className=' line-through text-gray-400 mx-2 '>₹{ product &&product.regualarPrice }</span>
+                <span className=' text-green-500 font-semibold '>{ product &&Math.floor( product.discountPrice/product.regualarPrice *100)}% Off</span>
+                 </p>
                 <p className="text-gray-600 mt-2 font-semibold">Stock : {product.quantity}</p>
               </div>
               <div 

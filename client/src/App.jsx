@@ -12,6 +12,8 @@ import SignupVendor from "./pages/SignupVendor"
 import Vendorlogin from "./pages/Vendorlogin"
 import PrivateRoute from "./components/PrivateRoute"
 import ProductDetailsPage from "./pages/ProductDetailsPage"
+import LoginSignupPrivate from "./components/LoginSignupPrivate"
+import UpdateProduct from "./pages/UpdateProduct"
 
 
 
@@ -28,17 +30,21 @@ function App() {
      <Navbar />
      <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Signin />} />
+       <Route element={<LoginSignupPrivate />} >
+       <Route path="/login" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/liked" element={<Liked />} />
-      <Route path='/updateProfile' element={<UpdateProfile />} />
       <Route path="/signupVendor" element={<SignupVendor />} />
       <Route path="/loginvendor" element={<Vendorlogin />} />
+       </Route>
+
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/liked" element={<Liked />} />
+      
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
-
+      <Route path='/updateProfile' element={<UpdateProfile />} />
+      <Route path="productupdate/:productid" element={<UpdateProduct />} />
       </Route>
    
      </Routes>

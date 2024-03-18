@@ -30,7 +30,7 @@ export default function ClotheType() {
   return (   
     <div className='flex flex-col gap-3'>
     <label>Choose Clothe type</label>
-    <select onChange={handleClothe}
+    <select onChange={handleClothe} 
    className='border p-3 outline-none rounded-lg' name='clotheType'  required>
     <option value="null">Choose</option>
     <option value="Jeans">Jeans</option>

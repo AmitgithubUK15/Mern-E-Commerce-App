@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export default function ProductDetailsPage() {
     const {productid} = useParams()
@@ -67,14 +67,14 @@ export default function ProductDetailsPage() {
                     </div>
                    ))}
                 
-                <div className='flex justify-around my-5 xl:block lg:block md:block sm:hidden m:hidden s:hidden'>
+                {/* <div className='flex justify-around my-5 xl:block lg:block md:block sm:hidden m:hidden s:hidden'>
                 <button 
                 className='mx-2 xl:py-3 xl:px-8  bg-green-600 text-white font-semibold rounded-lg lg:py-3 lg:px-5 md:py-2 md:px-2 '
                 >Update</button>
                 <button 
                 className='mx-2 xl:py-3 xl:px-8  bg-red-700 text-white font-semibold rounded-lg lg:py-3 lg:px-5 md:py-2 md:px-2 '
                 >Delete</button>
-                </div>
+                </div> */}
                 </div>
               
             </div>
@@ -90,9 +90,9 @@ export default function ProductDetailsPage() {
                     <p className='text-xl '>{ productdetails && productdetails.title}</p>
                 </div>
                <div>
-               <h1 className='text-3xl font-bold inline mx-2'>${ productdetails && productdetails.regualarPrice - productdetails.discountPrice}</h1>
-               <span className=' line-through text-gray-400 mx-2 font-semibold'>${ productdetails &&productdetails.discountPrice}</span>
-               <span className=' text-green-500 font-semibold text-xl'>{ productdetails &&Math.round(productdetails.regualarPrice/ productdetails.discountPrice)}% Off</span>
+               <h1 className='text-3xl font-bold inline mx-2'>₹{ productdetails && productdetails.regualarPrice - productdetails.discountPrice}</h1>
+               <span className=' line-through text-gray-400 mx-2 font-semibold'>₹{ productdetails &&productdetails.regualarPrice }</span>
+               <span className=' text-green-500 font-semibold text-xl'>{ productdetails &&Math.floor( productdetails.discountPrice/productdetails.regualarPrice *100)}% Off</span>
                </div>
                 <div >
                     <p className='text-xl'>Sizes</p>
@@ -130,9 +130,11 @@ export default function ProductDetailsPage() {
                     </p>
                 </div>
 
-                 <div className='flex my-5 xl:hidden lg:hidden md:hidden sm:block m:block s:block'>
-                <button className='py-3 px-8 bg-green-600 text-white font-semibold rounded-lg mx-2 my-2'>Update</button>
-                   <button className='py-3 px-8 bg-red-700 text-white font-semibold rounded-lg mx-2 my-2'>Delete</button>
+                 <div className='flex my-5 '>
+                   <Link to={`/productupdate/${encodeURIComponent(productdetails && productdetails._id)}`} >
+                   <button className='py-3 px-8 bg-green-600 text-white font-semibold rounded-lg mx-2 my-2 '>Update</button>
+                   </Link>
+                   <button className='py-3 px-8 bg-red-400 text-white font-semibold rounded-lg mx-2 my-2'>Delete</button>
                 </div>
             </div>
            </div>
