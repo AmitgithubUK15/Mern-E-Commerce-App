@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import  { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import axios from "axios";
+import { productDeleteStart,productDeleteFailure,  productList } from '../redux/user/userSlice';
 
 export default function ProductDetailsPage() {
     const {productid} = useParams()
-    const {sellerproductlist} = useSelector((state)=>state.user);
+    const {currentUser,loading,sellerproductlist} = useSelector((state)=>state.user);
     const [productdetails,setProductDetails]= useState();
     const [image,setImage] = useState("");
-    
+    const dispatch = useDispatch();
+    const navigate= useNavigate();
     
 
     useEffect(()=>{
@@ -27,6 +30,22 @@ export default function ProductDetailsPage() {
 
     function changeImage(img){
         setImage(img)
+    }
+
+   async function DeleteProduct(){
+     
+        try {
+          dispatch(productDeleteStart())
+          let req = await axios.delete(`/listing/DeleteProduct/${productdetails._id}/${currentUser._id}`);
+
+          let data = req.data
+          dispatch(productList(data))
+          alert('Product Deleted successfulyy')
+          navigate("/account")
+        } catch (error) {
+            dispatch(productDeleteFailure());
+            alert(error.message);
+        }
     }
   return (
     <div className='flex justify-center w-full  '>
@@ -67,14 +86,6 @@ export default function ProductDetailsPage() {
                     </div>
                    ))}
                 
-                {/* <div className='flex justify-around my-5 xl:block lg:block md:block sm:hidden m:hidden s:hidden'>
-                <button 
-                className='mx-2 xl:py-3 xl:px-8  bg-green-600 text-white font-semibold rounded-lg lg:py-3 lg:px-5 md:py-2 md:px-2 '
-                >Update</button>
-                <button 
-                className='mx-2 xl:py-3 xl:px-8  bg-red-700 text-white font-semibold rounded-lg lg:py-3 lg:px-5 md:py-2 md:px-2 '
-                >Delete</button>
-                </div> */}
                 </div>
               
             </div>
@@ -134,7 +145,11 @@ export default function ProductDetailsPage() {
                    <Link to={`/productupdate/${encodeURIComponent(productdetails && productdetails._id)}`} >
                    <button className='py-3 px-8 bg-green-600 text-white font-semibold rounded-lg mx-2 my-2 '>Update</button>
                    </Link>
-                   <button className='py-3 px-8 bg-red-400 text-white font-semibold rounded-lg mx-2 my-2'>Delete</button>
+                   <Link to="/" onClick={DeleteProduct}>
+                   <button disabled={loading}
+                    className='py-3 px-8 bg-red-400 text-white font-semibold rounded-lg mx-2 my-2'>
+                    {loading ? "Deleting":"Delete"}</button>
+                   </Link>
                 </div>
             </div>
            </div>

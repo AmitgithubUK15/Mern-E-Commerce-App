@@ -89,6 +89,13 @@ const userSlice = createSlice({
             state.loading =false;
             state.error = true;
         },
+        productDeleteStart:(state)=>{
+            state.loading = true;
+        },
+        productDeleteFailure:(state)=>{
+            state.loading =false;
+            state.error = true;
+        },
         productList:(state,action)=>{
             state.sellerproductlist = action.payload;
             state.loading = false;
@@ -117,6 +124,8 @@ export const {
     productlistingSuccess,
     productlistingStart,
     productlistingFailure,
-    productList
+    productList,
+    productDeleteStart,
+    productDeleteFailure,
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -40,7 +40,22 @@ async function UpdateClothingProduct(req,res,next){
     }
 }
 
+async function DeleteClothingProduct(req,res,next){
+    try {
+        const findProduct = await Product.findByIdAndDelete(req.params.id);
+        if(!findProduct) return next(errorHandler(403,"Not found prodcut"))
+
+        const Allprodcut = await Product.find({sellerRef:req.params.sellerId});
+        if(!Allprodcut) return next(errorHandler(500,"Server issue"));
+
+        res.status(200).json(Allprodcut);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports ={
     Addproduct,
-    UpdateClothingProduct
+    UpdateClothingProduct,
+    DeleteClothingProduct
 }
