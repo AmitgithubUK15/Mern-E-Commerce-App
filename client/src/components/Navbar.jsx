@@ -60,8 +60,7 @@ export default function Navbar() {
           </div>
           {currentUser ? (
             <Link
-              to='/account'
-            >
+              to='/account'>
               <li onClick={()=>dispatch( setProfiledetail())} className={`text-center  h-px-78px py-4   text-slate-700 hover:text-red-500 font-semibold xl:block lg:block md:block sm:hidden m:hidden s:hidden`}>
                 <img className='rounded-full h-9 w-9 object-cover' src={currentUser.avatar} alt="" />
               </li>

@@ -13,7 +13,7 @@ export default function ProductDetailsPage() {
     const dispatch = useDispatch();
     const navigate= useNavigate();
     
-
+    console.log(productdetails);
     useEffect(()=>{
         for(let i in sellerproductlist){
             if(productid === sellerproductlist[i]._id){
@@ -69,7 +69,11 @@ export default function ProductDetailsPage() {
                          xl:h-20 lg:h-16 md:h-14 sm:h-12 m:h-12 s:h-14
                          
                         '>
-                          <img src={img} onClick={()=>changeImage(img)} onMouseEnter={()=>changeImage(img)} alt="" />
+                          <img src={img} onClick={()=>changeImage(img)} onMouseEnter={()=>changeImage(img)} alt="" 
+                          className='
+                          xl:w-16 lg:w-14 md:w-12 sm:w-14 m:w-12 s:w-12
+                          xl:h-20 lg:h-16 md:h-14 sm:h-12 m:h-12 s:h-14'
+                          />
                         </li>
                     ))}
                    
@@ -97,7 +101,7 @@ export default function ProductDetailsPage() {
             xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full m:w-full s:w-full
            '>
             <div className='flex flex-col gap-4'>
-                <h1 className='text-3xl font-bold text-gray-500' >{productdetails && productdetails.brand}</h1>
+                <h1 className='text-3xl font-bold text-gray-500' >{productdetails && productdetails.brand ? productdetails.brand :  productdetails && productdetails.productVarious.deviceName }</h1>
                 <div>
                     <p className='text-xl '>{ productdetails && productdetails.title}</p>
                 </div>
@@ -106,7 +110,12 @@ export default function ProductDetailsPage() {
                <span className=' line-through text-gray-400 mx-2 font-semibold'>₹{ productdetails &&productdetails.regualarPrice }</span>
                <span className=' text-green-500 font-semibold text-xl'>{ productdetails &&Math.floor( productdetails.discountPrice/productdetails.regualarPrice *100)}% Off</span>
                </div>
-                <div >
+
+                {/*  */}
+                
+                {productdetails && productdetails.productVarious.ProductType === "Clothes" ?
+                (
+                    <div >
                     <p className='text-xl'>Sizes</p>
                   <div className='py-3 flex flex-col gap-3'>
                     <div className='w-48 flex justify-between'>
@@ -130,8 +139,56 @@ export default function ProductDetailsPage() {
                      value={productdetails && productdetails.productVarious.sizes.sizeXL} />
                     </div>
                   </div>
+                </div>   
+                )
+                :
+                (
+                    <div>
+                  <p className='text-xl'>RAM</p>
+                  <div className='py-3 flex flex-col gap-3'>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >6GB: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.RAM.ram_6} />
+                    </div>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >8GB: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.RAM.ram_8} />
+                    </div>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >12GB: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.RAM.ram_12} />
+                    </div>
+                  </div>
+                  <p className='text-xl'>Storage</p>
+                  <div className='py-3 flex flex-col gap-3'>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >64GB: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.ROM.rom_64} />
+                    </div>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >Size M: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.ROM.rom_128} />
+                    </div>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >Size L: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.ROM.rom_256} />
+                    </div>
+                    <div className='w-48 flex justify-between'>
+                    <label className='text-md font-semibold text-slate-700' >Size XL: </label>
+                    <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
+                     value={productdetails && productdetails.productVarious.storage.ROM.rom_512} />
+                    </div>
+                  </div>
                 </div>
-                
+                )
+                }
+
                 <div>
                     <p className='text-2xl font-semibold'>Curretly Stock avilable:  {productdetails && productdetails.quantity}</p>
                 </div>

@@ -14,6 +14,7 @@ import PrivateRoute from "./components/PrivateRoute"
 import ProductDetailsPage from "./pages/ProductDetailsPage"
 import LoginSignupPrivate from "./components/LoginSignupPrivate"
 import UpdateProduct from "./pages/UpdateProduct"
+import ProductListing from "./pages/ProductListing"
 
 
 
@@ -44,7 +45,8 @@ function App() {
       <Route path="/account" element={<Account />} />
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
       <Route path='/updateProfile' element={<UpdateProfile />} />
-      <Route path="productupdate/:productid" element={<UpdateProduct />} />
+      <Route path="/productupdate/:productid" element={<UpdateProduct />} />
+      {/* <Route path="/productlisting" element={<ProductListing />} /> */}
       </Route>
    
      </Routes>

@@ -114,7 +114,7 @@ export default function ProductListing() {
  }
 
  function handleCoverimagesubmit(){
-  if(coverfile.length >0 && coverfile.length + formData.coverImage.length < 6){
+  if(coverfile.length >0 && coverfile.length + formData.coverImage.length < 8){
     setcoverButton(true)
     const promise = [];
 
@@ -335,14 +335,14 @@ async function handleformsubmit(e){
      }
      
       let result = res.data.msg;
-      console.log(res);
+      
       dispatch(productlistingSuccess());
 
       setSuccessMsg(true);
       setSuccess(result);
-
+      navigate("/account")
       setGlobalError(false);
-      console.log(Mobileobj);
+     
     }
 
 

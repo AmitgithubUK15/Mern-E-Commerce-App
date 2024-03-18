@@ -86,7 +86,7 @@ async function showproductlist(){
         <div className='w-full text-start gap-4 border-b'>
           <h1 className='p-7 sm:py-5'>
             <span className='font-bold block text-2xl'>Account</span>
-            <span>{currentUser.username}</span>
+            <span>{currentUser.type === "Seller"? currentUser.sellername : currentUser.username}</span>
           </h1>
         </div> 
 

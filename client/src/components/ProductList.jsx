@@ -50,9 +50,9 @@ const ProductList = () => {
                 <img src={product.posterimage[0]} alt={product.brand} className="w-full h-full object-cover" />
               </div>
               <div className=' self-start xl:w-96 lg:w-96 md:w-48 sm:w-full'>
-              <h3 className="text-lg font-medium ">{product.brand}</h3>
+              <h3 className="text-lg font-medium ">{product.brand ? product.brand : product.productVarious.deviceName}</h3>
                 <h3 className="text-sm  text-gray-400 font-semibold">Sold by : {product.companyname}</h3>
-                <h3 className="text-sm font-sm text-gray-400 ">{product.title}</h3>
+                <h3 className=" text-blue-500 font-semibold">{product.title }</h3>
                 <p className="text-gray-700 mt-2 font-semibold">Price: ₹{product.regualarPrice - product.discountPrice}
                 <span className=' line-through text-gray-400 mx-2 '>₹{ product &&product.regualarPrice }</span>
                 <span className=' text-green-500 font-semibold '>{ product &&Math.floor( product.discountPrice/product.regualarPrice *100)}% Off</span>
