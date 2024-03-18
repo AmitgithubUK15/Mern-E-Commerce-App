@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from "axios";
 import { productDeleteStart,productDeleteFailure,  productList } from '../redux/user/userSlice';
+import Footer from '../components/Footer';
 
 export default function ProductDetailsPage() {
     const {productid} = useParams()
@@ -48,7 +49,7 @@ export default function ProductDetailsPage() {
         }
     }
   return (
-    <div className='flex justify-center w-full  '>
+    <div className='flex justify-center flex-col w-full  '>
         <div 
     className='flex justify-between sm:mx-auto gap-2 py-2 bg-white 
     xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
@@ -153,7 +154,10 @@ export default function ProductDetailsPage() {
                 </div>
             </div>
            </div>
+           
         </div>
+
+        <Footer />
     </div>
   )
 }
