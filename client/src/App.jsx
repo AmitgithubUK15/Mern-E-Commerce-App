@@ -15,6 +15,7 @@ import ProductDetailsPage from "./pages/ProductDetailsPage"
 import LoginSignupPrivate from "./components/LoginSignupPrivate"
 import UpdateProduct from "./pages/UpdateProduct"
 import ProductListing from "./pages/ProductListing"
+import Footer from "./components/Footer"
 
 
 
@@ -50,6 +51,7 @@ function App() {
       </Route>
    
      </Routes>
+     
   </BrowserRouter>  
   )
 }

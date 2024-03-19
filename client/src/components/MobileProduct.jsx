@@ -77,7 +77,7 @@ export default function MobileProduct() {
                     <option value="4000">4000 mah</option>
                     <option value="5000">5000 mah</option>
                     <option value="6000">6000 mah</option>
-                </select>
+                </select>           
 
                 <label>RAM</label>
                 <div className='flex flex-col gap-3 border p-3 rounded-lg'>

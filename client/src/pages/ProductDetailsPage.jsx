@@ -13,7 +13,7 @@ export default function ProductDetailsPage() {
     const dispatch = useDispatch();
     const navigate= useNavigate();
     
-    console.log(productdetails);
+  
     useEffect(()=>{
         for(let i in sellerproductlist){
             if(productid === sellerproductlist[i]._id){
@@ -170,17 +170,17 @@ export default function ProductDetailsPage() {
                      value={productdetails && productdetails.productVarious.storage.ROM.rom_64} />
                     </div>
                     <div className='w-48 flex justify-between'>
-                    <label className='text-md font-semibold text-slate-700' >Size M: </label>
+                    <label className='text-md font-semibold text-slate-700' >128GB: </label>
                     <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
                      value={productdetails && productdetails.productVarious.storage.ROM.rom_128} />
                     </div>
                     <div className='w-48 flex justify-between'>
-                    <label className='text-md font-semibold text-slate-700' >Size L: </label>
+                    <label className='text-md font-semibold text-slate-700' >256GB: </label>
                     <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
                      value={productdetails && productdetails.productVarious.storage.ROM.rom_256} />
                     </div>
                     <div className='w-48 flex justify-between'>
-                    <label className='text-md font-semibold text-slate-700' >Size XL: </label>
+                    <label className='text-md font-semibold text-slate-700' >512GB: </label>
                     <input disabled type='text' className='outline-none border p-2 w-20 text-center mx-2 cursor-default'
                      value={productdetails && productdetails.productVarious.storage.ROM.rom_512} />
                     </div>

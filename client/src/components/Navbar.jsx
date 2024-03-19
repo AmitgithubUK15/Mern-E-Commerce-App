@@ -21,7 +21,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className='shadow-md bg-red-50 flex  sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around'>
+    <header className='border-b border-gray-200 bg-white flex  sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around'>
 
       <div className=' py-8 px-3 xl:hidden lg:hidden md:hidden sm:block m:block s:block  '>
         <FaBars   onClick={toggleSidenav}   className='w-5 h-7 cursor-pointer' />
@@ -31,9 +31,9 @@ export default function Navbar() {
         <Link
           to='/'
         >
-           <h1 className='font-bold  xl:text-xl lg:text-xl sm:text-1xl flex flex-wrap m:text-1xl '>
-            <span className="text-red-300 ">Shopy</span>
-            <span className="text-red-400">Book</span>
+           <h1 className='font-bold w-48  xl:text-3xl lg:text-xl sm:text-1xl flex flex-wrap m:text-1xl '>
+            <span className="text-slate-500 ">Shopy</span>
+            <span className="text-slate-700">Book</span>
           </h1>
           
          
