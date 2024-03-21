@@ -250,7 +250,7 @@ async function handleformsubmit(e){
     setSuccessMsg(true);
     setSuccess(result)
 
-    navigate("/account")
+    navigate("/")
     setGlobalError(false);
   
     }
@@ -340,7 +340,7 @@ async function handleformsubmit(e){
 
       setSuccessMsg(true);
       setSuccess(result);
-      navigate("/account")
+      navigate("/")
       setGlobalError(false);
      
     }

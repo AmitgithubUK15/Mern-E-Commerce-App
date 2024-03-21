@@ -31,7 +31,7 @@ app.use(cookieParser()); // Move cookieParser middleware here
 app.use("/api", restrictToLoggedinUserOnly,UserRouter);
 app.use("/auth", AuthRouter);
 app.use("/vendor",SellerRouter);
-app.use("/listing", restrictToLoggedinUserOnly,ProductListingRouter);
+app.use("/listing",ProductListingRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

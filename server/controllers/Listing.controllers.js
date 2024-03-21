@@ -1,4 +1,5 @@
 const Product = require("../models/ProductListing.model.js");
+
 const { errorHandler } = require("../utils/error.js");
 
 
@@ -54,8 +55,19 @@ async function DeleteClothingProduct(req,res,next){
     }
 }
 
+async function getClothingProduct(req,res,next){
+    try {
+        const product = await Product.find({});
+        if(!product) return next(errorHandler(400,"Not found product"));
+
+        res.json(product);
+    } catch (error) {
+        next(error)
+    }
+}
 module.exports ={
     Addproduct,
     UpdateClothingProduct,
-    DeleteClothingProduct
+    DeleteClothingProduct,
+    getClothingProduct
 }

@@ -1,16 +1,40 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ScrollBars from "../components/Scrollbars";
 
 
 
 export default function Home() {
+  const [items,setitems] = useState();
+  useEffect(()=>{
+    async function GetProduct(){
+      try {
+        const res = await axios.get("/listing/getproduct");
+        const data = res.data;
+        let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt")
+
+        setitems(filter);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    GetProduct();
+  },[])
+
+
   return (
-   <div  className='flex justify-center flex-col w-full  '>
-    <div  className='flex justify-between sm:mx-auto gap-2 py-2 bg-white 
-    xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
+   <div  className='flex justify-center flex-col w-full  ' >
+    
+    <div  className='flex justify-between flex-col gap-5 mx-auto
+   xl:w-1536px lg:w-full md:w-full sm:w-full m:w-full s:w-full
+   
   '>
+   
 
       {/* Hero Section */}
-      <section className="w-full ">
-        <div className="flex justify-between flex-col sm:flex-row">
+      <section className="w-full py-10 sm:py-20"
+      style={{background:"url('https://img.freepik.com/free-photo/excited-young-woman-scream-joy-say-yes-make-fist-pump-satisfied-buying-gifts-with-discounts-triumphing-holding-shopping-bags-standing-blue-background_1258-128563.jpg?t=st=1711015997~exp=1711019597~hmac=cc7a2fe4391df0fd515a8e8e93c54f97f7ca02891484ebbe345131c16964d76f&w=1380')",backgroundPosition:"center",backgroundSize:"100% 100%",backgroundRepeat:"no-repeat"}}>
+        <div className="flex justify-between flex-col sm:flex-row ">
           <div className="w-full md:w-1/2  flex justify-center items-center ">
              <div className="flex flex-col gap-3 md:gap-6 px-3">
               <h1 className=" text-3xl md:text-6xl text-slate-800">Explore</h1>
@@ -26,13 +50,17 @@ export default function Home() {
               </button>
              </div>
           </div>
-          <div className="w-full md:w-1/2  ">
+          {/* <div className="w-full md:w-1/2  hidden">
             <div>
               <img src="/logo/ecommerce.avif" alt="" />
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
+       
+       <section className="w-full ">
+         <ScrollBars items={items}/>
+       </section>
     </div>
    </div>
   )

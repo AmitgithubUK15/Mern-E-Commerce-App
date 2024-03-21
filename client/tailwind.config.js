@@ -12,12 +12,12 @@ export default {
         '600px':'600px'
       },
       width:{
-        '1300px':'1300px',
+        '1536px':'1536px',
         '411px':'411px'
       }
     },
     screens: {
-      
+     
       'xl': '1280px',
       'lg': '1024px',
       // => @media (min-width: 1024px) { ... }

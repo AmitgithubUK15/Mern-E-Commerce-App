@@ -21,13 +21,17 @@ export default function Navbar() {
   };
 
   return (
-    <header className='border-b border-gray-200 bg-white flex  sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around'>
+    <header className='xl:w-1536px  lg:w-full md:w-full sm:w-full   m:w-full s:w-full mx-auto bg-white flex sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around' 
+    style={{
+      // backgroundImage:"linear-gradient(to right,#7ccbef, #b7e5fb)"
+    }}
+    >
 
       <div className=' py-8 px-3 xl:hidden lg:hidden md:hidden sm:block m:block s:block  '>
         <FaBars   onClick={toggleSidenav}   className='w-5 h-7 cursor-pointer' />
       </div>
 
-      <div className='flex  items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4  sm:p-4 m:p-4 s:p-4 sm:w-48   m:w-48 s:w-32  '>
+      <div className='flex  items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4 sm:p-4 m:p-4 s:p-4   sm:w-48   m:w-48 s:w-32  '>
         <Link
           to='/'
         >
