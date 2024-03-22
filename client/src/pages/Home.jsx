@@ -61,6 +61,9 @@ export default function Home() {
        <section className="w-full ">
          <ScrollBars items={items}/>
        </section>
+       <section className="w-full ">
+         <ScrollBars items={items}/>
+       </section>
     </div>
    </div>
   )
