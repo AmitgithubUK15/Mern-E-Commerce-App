@@ -128,7 +128,12 @@ async function DeletewishListProduct(req,res,next){
       }
     },{new:true})
 
-    res.json({message:"Delete successfully",deleteWishlist})
+    if(deleteWishlist.Wishlist.length > 0){
+      res.json(deleteWishlist)
+    }
+    else{
+      res.json(null)
+    }
   } catch (error) {
     next(error)
   }
@@ -141,7 +146,7 @@ async function GetwishListProduct(req,res,next){
     if(!findUser) return next(errorHandler(400,"No user found please login again"))
    
     const getwishlist = await Product.find({});
-    if(!getwishlist) return res.json(null)
+    if(!getwishlist) return next(errorHandler(400,"There is not product in database"))
     
     const userproduct = findUser.Wishlist;
     
@@ -157,7 +162,12 @@ async function GetwishListProduct(req,res,next){
       }
     }
 
-    res.status(200).json(wishlist)
+    if(wishlist.length >0){
+      res.status(200).json(wishlist)
+    }
+    else{
+      res.json(null)
+    }
    
   } catch (error) {
     next(error)

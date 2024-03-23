@@ -1,11 +1,12 @@
 import { FaSearch, FaUser, FaShoppingBag, FaBars } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import Sidenav from './SideNav';
 import { setProfiledetail } from '../redux/user/userSlice';
-
+import axios from 'axios';
+import { GetWishListproduct } from '../redux/user/userSlice';
 
 
 
@@ -15,11 +16,22 @@ export default function Navbar() {
   const {currentUser,ProfileDetailsVisible} = useSelector((state)=>state.user)
   const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleSidenav = () => {
     setIsOpen(!isOpen);
   };
 
+  async function getWishlistproduct(){
+    try {
+      let res = await axios.get(`/api/getWishlist/${currentUser._id}`);
+      let result = res.data;
+      dispatch(GetWishListproduct(result))
+      navigate("/liked")
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   return (
     <header className='xl:w-1536px  lg:w-full md:w-full sm:w-full   m:w-full s:w-full mx-auto bg-white flex sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around' 
     style={{
@@ -83,15 +95,27 @@ export default function Navbar() {
               </Link>
             )
           }
-
-          <Link to='/liked'>
-            <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
-              <span className='block px-5'>
-                <RiHeartFill className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-8 m:w-7 m:h-8 s:w-7 s:h-8' />
-              </span>
-              <span className='xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Wishlist</span>
-            </li>
-          </Link>
+ 
+         {currentUser ? 
+         ( <Link onClick={getWishlistproduct} >
+          <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
+            <span className='block px-5'>
+              <RiHeartFill className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-8 m:w-7 m:h-8 s:w-7 s:h-8' />
+            </span>
+            <span className='xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Wishlist</span>
+          </li>
+        </Link>)
+         :
+         ( <Link to="/liked" >
+          <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
+            <span className='block px-5'>
+              <RiHeartFill className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-8 m:w-7 m:h-8 s:w-7 s:h-8' />
+            </span>
+            <span className='xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Wishlist</span>
+          </li>
+        </Link>)
+         }
+         
           <Link to='/cart'>
             <li className='  h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
               <span className='block px-3'>

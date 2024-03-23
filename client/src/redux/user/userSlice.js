@@ -9,6 +9,7 @@ const initialState ={
     addproduct:false,
     sellerproductlist:false,
     prodcutlistTab:false,
+    wishlistProduct:null
 }
 
 const userSlice = createSlice({
@@ -102,7 +103,10 @@ const userSlice = createSlice({
         },
         deleteProduct:(state,action)=>{
             state.sellerproductlist = action.payload;
-        }
+        },
+        GetWishListproduct:(state,action)=>{
+            state.wishlistProduct= action.payload;
+        },
     }
 });
 
@@ -127,5 +131,6 @@ export const {
     productList,
     productDeleteStart,
     productDeleteFailure,
+    GetWishListproduct,
 } = userSlice.actions;
 export default userSlice.reducer;
