@@ -103,10 +103,42 @@ async function AddwishListProduct(req,res,next){
     next(error)
    }
 }
+
+async function DeletewishListProduct(req,res,next){
+  const {userid,productid} = req.params;
+
+  try {
+    const user = await User.findById(userid);
+    if(!user) return next(errorHandler(400,"Not Delete product form wishlist"));
+
+    const findIndexofWishlist = user.Wishlist;
+    const newWishlist = [];
+    for(let i=0; i<findIndexofWishlist.length; i++){
+      if(findIndexofWishlist[i] === productid){
+        findIndexofWishlist.splice(i,0)
+      }
+      else{
+        newWishlist.push(findIndexofWishlist[i])
+      }
+    }
+    
+    const deleteWishlist = await User.findByIdAndUpdate(user._id,{
+      $set:{
+        Wishlist:newWishlist
+      }
+    },{new:true})
+
+    res.json(deleteWishlist)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {  
     testapi,
     updateuser,
     createVendorKey,
     updateVendor,
     AddwishListProduct,
+    DeletewishListProduct
 }
