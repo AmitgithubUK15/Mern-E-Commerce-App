@@ -97,7 +97,7 @@ async function AddwishListProduct(req,res,next){
 
     if(!user) return next(errorHandler(400,"Please login again"))
    
-    res.status(200).json(user);
+    res.status(200).json({message:"Add successfully",user});
 
    } catch (error) {
     next(error)
@@ -128,7 +128,37 @@ async function DeletewishListProduct(req,res,next){
       }
     },{new:true})
 
-    res.json(deleteWishlist)
+    res.json({message:"Delete successfully",deleteWishlist})
+  } catch (error) {
+    next(error)
+  }
+}
+
+async function GetwishListProduct(req,res,next){
+  const {userid} = req.params;
+  try {
+    const findUser = await User.findById(userid);
+    if(!findUser) return next(errorHandler(400,"No user found please login again"))
+   
+    const getwishlist = await Product.find({});
+    if(!getwishlist) return res.json(null)
+    
+    const userproduct = findUser.Wishlist;
+    
+    const wishlist = [];
+    for(let i=0; i<userproduct.length; i++){
+      for(let j =0; j<getwishlist.length ; j++){
+        if(userproduct[i] === getwishlist[j]._id.toString()){
+           wishlist.push(getwishlist[j])
+        }
+        else{
+          continue;
+        }
+      }
+    }
+
+    res.status(200).json(wishlist)
+   
   } catch (error) {
     next(error)
   }
@@ -140,5 +170,6 @@ module.exports = {
     createVendorKey,
     updateVendor,
     AddwishListProduct,
-    DeletewishListProduct
+    DeletewishListProduct,
+    GetwishListProduct
 }

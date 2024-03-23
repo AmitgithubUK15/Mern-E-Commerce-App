@@ -1,5 +1,11 @@
 const express = require("express");
-const { testapi,updateuser, createVendorKey ,updateVendor,AddwishListProduct,DeletewishListProduct} = require("../controllers/user.controller.js");
+const { testapi,
+    updateuser, 
+    createVendorKey ,
+    updateVendor,
+    AddwishListProduct,
+    DeletewishListProduct
+    ,GetwishListProduct} = require("../controllers/user.controller.js");
 
 
 
@@ -11,5 +17,6 @@ router.post("/vendor/:id",createVendorKey)
 router.post("/vendorupdate/:id",updateVendor)
 router.post("/addWishlist/:userid/:productid",AddwishListProduct)
 router.post("/deleteWishlist/:userid/:productid",DeletewishListProduct)
+router.get("/getWishlist/:userid",GetwishListProduct)
 
 module.exports = router;

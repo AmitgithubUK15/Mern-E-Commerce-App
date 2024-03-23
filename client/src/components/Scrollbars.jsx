@@ -2,10 +2,12 @@ import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import { RiHeartFill, RiSafariFill } from 'react-icons/ri';
+import { RiHeartFill } from 'react-icons/ri';
+import {useSelector} from 'react-redux'
+import axios from 'axios';
 
 export default function ScrollBars({ items }) {
-
+  const {currentUser} = useSelector((state)=>state.user);
   const [Slider, setSlider] = useState();
   const [currentindex, setCurrentIndex] = useState();
   const scrollbar = useRef();
@@ -28,6 +30,17 @@ export default function ScrollBars({ items }) {
 
   function RigthScroll() {
     scrollbar.current.scrollLeft = scrollbar.current.scrollLeft + 350 * 4;
+  }
+
+  async function addWishList(productid){
+      try {
+        let res = await axios.post(`/api/addWishlist/${currentUser._id}/${productid}`);
+        let data = res.data;
+        alert(data.message);
+      } catch (error) {
+          alert(error.message);
+          console.log(error)
+      }
   }
   return (
     <div className='flex flex-col gap-8 '>
@@ -73,7 +86,7 @@ export default function ScrollBars({ items }) {
                        </h1>
                </div>
                <div>
-                <RiHeartFill className='text-gray-400 xl:text-2xl lg:text-2xl md:text-xl sm:text-md my-2'/>
+                <RiHeartFill onClick={()=>addWishList(item._id)} className='text-gray-400 xl:text-2xl lg:text-2xl md:text-xl sm:text-md my-2 hover:text-red-500 transition-colors'/>
                </div>
                   </div>
                 </div>
@@ -81,7 +94,7 @@ export default function ScrollBars({ items }) {
             ))}
           </div>
         </div>
-        <button onClick={RigthScroll}><MdKeyboardArrowRight style={{ fontSize: "28px", padding: "0", margin: "0" }} /></button>
+        <button onClick={RigthScroll}><MdKeyboardArrowRight  style={{ fontSize: "28px", padding: "0", margin: "0" }} /></button>
       </div>
     </div>
   )
