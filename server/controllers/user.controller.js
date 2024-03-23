@@ -1,3 +1,4 @@
+const Product = require("../models/ProductListing.model.js");
 const Seller = require("../models/seller.model.js");
 const User = require("../models/user.model.js");
 const { errorHandler } = require("../utils/error")
@@ -81,9 +82,31 @@ async function updateVendor(req,res,next){
   }
 }
 
+async function AddwishListProduct(req,res,next){
+   const {userid,productid} = req.params;
+   try {
+    //  check exist user or not
+    const product = await Product.findById(productid);
+    if(!product) return next(errorHandler(400,"Product not add wishlist"));
+
+    const user = await User.findByIdAndUpdate(userid,{
+      $push:{
+        Wishlist:productid
+      }
+    },{new:true})
+
+    if(!user) return next(errorHandler(400,"Please login again"))
+   
+    res.status(200).json(user);
+
+   } catch (error) {
+    next(error)
+   }
+}
 module.exports = {  
     testapi,
     updateuser,
     createVendorKey,
     updateVendor,
+    AddwishListProduct,
 }

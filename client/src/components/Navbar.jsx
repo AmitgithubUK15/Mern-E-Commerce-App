@@ -45,11 +45,11 @@ export default function Navbar() {
       </div >
 
       <div className='flex justify-around items-center mx-w-6xl  p-4 xl:block lg:block md:block sm:hidden m:hidden s:hidden '>
-        <form action="" className='lg:w-96 sm:w-80  flex items-center rounded-lg p-3 bg-gray-50 border border-gray-200'>
+        <form action="" className='lg:w-96 sm:w-80  flex items-center  p-3 border-b border-black'>
           <input
             type="text"
-            placeholder="search..."
-            className='bg-transparent focus:outline-none  lg:w-full sm:w-64 '
+            placeholder="Search..."
+            className='bg-transparent focus:outline-none text-black lg:w-full sm:w-64 '
           />
           <FaSearch />
         </form>
