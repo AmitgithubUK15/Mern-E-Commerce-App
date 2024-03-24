@@ -31,7 +31,7 @@ const  LikedProductList = () => {
       <ul className="flex flex-col gap-5 ">
         {wishlistProduct &&  wishlistProduct.map((product,index) => (
           <li key={product._id} 
-          className="p-2 shadow-md  rounded-lg cursor-pointer hover:text-slate-500 hover:shadow-none transition-all ease-out " >
+          className="p-2 shadow-lg  rounded-lg cursor-pointer hover:text-slate-500 hover:shadow-none transition-all ease-out " >
          
            
            <div className="flex w-full justify-between items-center  xl:flex-row lg:flex-row md:flex-row sm:flex-row m:flex-row s:flex-col">
@@ -39,7 +39,7 @@ const  LikedProductList = () => {
               <button  onClick={()=>deleteProduct(index,product._id)} 
               className='text-red-500 font-semibold text-xl '>X</button>
               </div>
-              <Link to={``/``}>
+              <Link to={`/`}>
               <div className="flex-shrink-0 w-36 h-48  rounded-lg mx-4 bg-gradient-to-tr from-gray-100 to-gray-200  overflow-hidden">
                 <img src={product.posterimage[0]} alt={product.brand} className="w-full h-full object-cover" />
               </div></Link>

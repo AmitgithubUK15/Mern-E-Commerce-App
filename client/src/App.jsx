@@ -16,6 +16,7 @@ import LoginSignupPrivate from "./components/LoginSignupPrivate"
 import UpdateProduct from "./pages/UpdateProduct"
 import ProductListing from "./pages/ProductListing"
 import Footer from "./components/Footer"
+import ItemDetailsUser from "./pages/ItemDetailsUser"
 
 
 
@@ -41,6 +42,7 @@ function App() {
 
       <Route path="/cart" element={<Cart />} />
       <Route path="/liked" element={<Liked />} />
+      <Route path="/itemDetails/:productId" element={<ItemDetailsUser />} />
       
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />

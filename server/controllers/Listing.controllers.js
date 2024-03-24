@@ -65,9 +65,22 @@ async function getClothingProduct(req,res,next){
         next(error)
     }
 }
+
+async function getSingleProduct(req,res,next){
+    const {productId} = req.params;
+    try {
+        const findProduct = await Product.findById(productId);
+        if(!findProduct) return next(errorHandler(400,"Occurse error"))
+
+        res.status(200).json(findProduct);
+    } catch (error) {
+        next(error)
+    }
+}
 module.exports ={
     Addproduct,
     UpdateClothingProduct,
     DeleteClothingProduct,
-    getClothingProduct
+    getClothingProduct,
+    getSingleProduct
 }

@@ -5,6 +5,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { RiHeartFill } from 'react-icons/ri';
 import {useSelector} from 'react-redux'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function ScrollBars({ items }) {
   const {currentUser} = useSelector((state)=>state.user);
@@ -38,8 +39,8 @@ export default function ScrollBars({ items }) {
         let data = res.data;
         alert(data.message);
       } catch (error) {
-          alert(error.message);
-          console.log(error)
+          alert("Please login you account");
+          // console.log(error)
       }
   }
   return (
@@ -59,18 +60,18 @@ export default function ScrollBars({ items }) {
                flex flex-col justify-between mx-auto  cursor-pointer 
                xl:h-[500px]  l:h-[390px] ll:h-[390px] lll:h-[360px] lx:h-[330px] lg:h-[320px] lg1:h-[320px] lg2:h-[320px] lg3:h-[320px] lg4:h-[320px] md:h-[240px]'>
                 {/* bg-gradient-to-tr from-gray-100 to-gray-200 */}
-
+                 <Link to={`/itemDetails/${item._id}`} >
                 <div onMouseEnter={() => ChangeImage(index, item.coverimage)} onMouseLeave={() => setDefaultImage(index, item.posterimage)}
                 className='hover:text-gray-600 xl:px-7 l:px-9 ll:px-9 lll:px-8 lx:px-8 lg:px-10 lg1:px-7 lg2:px-6 lg3:px-[26px] lg4:px-[29px] md:px-[26px] sm1:px-[10px] sm2:px-[7px] sm:px-[10px] m:px-[6px] s:px-[8px]'>
                   
-                  <div className=' bg-gradient-to-tr from-gray-100 to-gray-200   xl:w-72  l:w-48 ll:w-48 lll:w-38 lx:w-48 lg:w-36 lg1:w-32 lg2:w-32 lg3:w-28 lg4:w-24 md:w-24 sm1:w-36 sm2:w-36 sm:w-32 m:w-32 s:w-28'
+                  <div className=' bg-gradient-to-tr from-gray-100 to-gray-200   xl:w-72  l:w-48 ll:w-48 lll:w-38 lx:w-48 lg:w-36 lg1:w-32 lg2:w-32 lg3:w-28 lg4:w-24 md:w-24 sm1:w-36 sm2:w-36 sm:w-32 m:w-32 s:w-28 hover:shadow-xl'
                    >
              
                     <img src={currentindex === index ? Slider : item.posterimage}
 
                       alt="" className='xl:w-full l:w-auto ll:w-auto lll:w-auto lx:w-[191px] lg:w-full lg1:w-full lg2:w-full lg3:w-full lg4:w-full md:w-full sm:w-full m:w-full s:w-full
                   xl:h-96 l:h-72 ll:h-72 lll:h-64 lx:h-56 lg:h-56 lg1:h-56 lg2:h-52 lg3:h-52  lg4:h-52 md:h-36 sm:h-36 m:h-36 s:h-32
-                   transition-all'/>
+                   '/>
                  
                   </div>
                   <div className=' py-1 flex justify-between  bg-white  '>
@@ -90,6 +91,7 @@ export default function ScrollBars({ items }) {
                </div>
                   </div>
                 </div>
+                </Link>
               </div>
             ))}
           </div>
