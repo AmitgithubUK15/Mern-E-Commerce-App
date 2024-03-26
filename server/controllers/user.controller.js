@@ -197,7 +197,7 @@ async function AddCartProduct(req,res,next){
     if(checkingflag === true){
       const findUser = await User.findByIdAndUpdate(userid,{
         $push: {
-        Cart:{id:productId , size:ProductSize}
+        Cart:{id:productId , size:ProductSize,Quantity:1}
       }
     },{new:true});
   
@@ -213,6 +213,51 @@ async function AddCartProduct(req,res,next){
   }
 }
 
+async function GetCartProduct(req,res,next){
+  const {userid} = req.params;
+  try {
+    const findUser = await User.findById(userid);
+    if(!findUser) return next(errorHandler(500,"Occurse error"));
+
+    const cartProductsId = findUser.Cart;
+    const cartProduct =[];
+    const Products = await Product.find({});
+    if(!Products) return next(errorHandler(500,"Occurse error"));
+    
+    for(let i in cartProductsId){
+      for(let j in Products){
+        if(cartProductsId[i].id === Products[j]._id.toString()){
+          let cartProductDetails = {}; 
+          
+          cartProductDetails._id = Products[j]._id;
+          cartProductDetails.title = Products[j].title;
+          cartProductDetails.companyname = Products[j].companyname;
+          cartProductDetails.regualarPrice = Products[j].regualarPrice;
+          cartProductDetails.discountPrice = Products[j].discountPrice;
+          cartProductDetails.posterimage = Products[j].posterimage;
+          
+          if(Products[j].productVarious.ProductType === "Electronic"){
+            cartProductDetails.DeviceName = Products[j].productVarious.deviceName;
+          }
+          else{
+            cartProductDetails.brand = Products[j].brand;
+          }
+
+          cartProduct.push(cartProductDetails)
+        }
+        else{
+          continue;
+        }
+      }
+    }
+
+    res.status(200).json(cartProduct);
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 module.exports = {  
     testapi,
     updateuser,
@@ -221,5 +266,6 @@ module.exports = {
     AddwishListProduct,
     DeletewishListProduct,
     GetwishListProduct,
-    AddCartProduct
+    AddCartProduct,
+    GetCartProduct
 }
