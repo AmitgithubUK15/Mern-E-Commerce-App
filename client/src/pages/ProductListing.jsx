@@ -256,17 +256,17 @@ async function handleformsubmit(e){
     }
     
     else if(obj.productType === "Electronic"){
-      let AsperRamQuantity = Number(parseInt(obj.RAM_6GB,) + parseInt(obj.RAM_8GB) + parseInt(obj.RAM_12GB));
-      let AsperRomQuantity = Number(parseInt(obj.ROM_64) + parseInt(obj.ROM_128) + parseInt(obj.ROM_256) + parseInt(obj.ROM_512));
+      let AsperRamQuantity = Number(parseInt(obj.ram6GB_128GB) + parseInt(obj.ram8GB_128GB) + parseInt(obj.ram8GB_256GB) +  parseInt(obj.ram12GB_256GB));
+      
       let price = parseInt(obj.regularprice);
       let discountprice = parseInt(obj.discountPrice)
       
-      if(AsperRamQuantity !== AsperRomQuantity ) {
+      if(AsperRamQuantity !== parseInt(obj.quantity) ) {
         setGlobalError(true);
         setSuccessMsg(false);
         throw new Error("RAM and ROM Quantity not matched")
       }
-      if(AsperRamQuantity >obj.quantity || AsperRomQuantity >obj.quantity ){
+      if(AsperRamQuantity >obj.quantity ){
         setGlobalError(true);
         setSuccessMsg(false);
         throw new Error("please enter valid quantity")
@@ -290,17 +290,10 @@ async function handleformsubmit(e){
           OpreatingSystem:obj.OS,
           Batterytype:obj.batterytype,
           storage:{
-           RAM:{
-            ram_6:obj.RAM_6GB,
-            ram_8:obj.RAM_8GB,
-            ram_12:obj.RAM_12GB,
-           },
-           ROM:{
-            rom_64:obj.ROM_64,
-            rom_128:obj.ROM_128,
-            rom_256:obj.ROM_256,
-            rom_512:obj.ROM_512
-           }
+            ram6_rom128:obj.ram6GB_128GB,
+            ram8_rom128:obj.ram8GB_128GB,
+            ram8_rom256:obj.ram8GB_256GB,
+            ram12_rom256:obj.ram12GB_256GB,
           },
           DisplaySize:obj.displaySize,
           DisplayType:obj.displayType,
@@ -434,7 +427,7 @@ async function handleformsubmit(e){
                 <textarea type="text" 
                 name='description'
                 minLength="10"
-                maxLength="250"
+                maxLength="400"
                 className='border outline-none p-3 rounded-lg' required
                 />
                 <label >Price</label>

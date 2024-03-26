@@ -5,7 +5,8 @@ const { testapi,
     updateVendor,
     AddwishListProduct,
     DeletewishListProduct
-    ,GetwishListProduct} = require("../controllers/user.controller.js");
+    ,GetwishListProduct,
+    AddCartProduct} = require("../controllers/user.controller.js");
 
 
 
@@ -18,5 +19,6 @@ router.post("/vendorupdate/:id",updateVendor)
 router.post("/addWishlist/:userid/:productid",AddwishListProduct)
 router.post("/deleteWishlist/:userid/:productid",DeletewishListProduct)
 router.get("/getWishlist/:userid",GetwishListProduct)
+router.post("/addCartproduct/:userid/:productId/:ProductSize",AddCartProduct)
 
 module.exports = router;

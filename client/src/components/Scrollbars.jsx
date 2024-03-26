@@ -44,8 +44,8 @@ export default function ScrollBars({ items }) {
       }
   }
   return (
-    <div className='flex flex-col gap-8 '>
-      <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular T-shirt</div>
+    <div className='flex flex-col gap-5'>
+      
       <div className='xl:mx-12  l:mx-12 ll:mx-6 lll:mx-4 lg:mx-3 flex justify-between'>
         <button onClick={LeftScroll}><MdKeyboardArrowLeft style={{ fontSize: "28px", padding: "0", margin: "0" }} /></button>
         <div className='overflow-x-scroll overflow-y-hidden xl:mx-5 l:mx-5 ll:mx-5 lll:mx-5 lx:mx-5 lg:mx-4 lg1:mx-4 lg2:mx-3 lg3:mx-3 lg4:mx-2 md:mx-2
@@ -64,7 +64,7 @@ export default function ScrollBars({ items }) {
                 <div onMouseEnter={() => ChangeImage(index, item.coverimage)} onMouseLeave={() => setDefaultImage(index, item.posterimage)}
                 className='hover:text-gray-600 xl:px-7 l:px-9 ll:px-9 lll:px-8 lx:px-8 lg:px-10 lg1:px-7 lg2:px-6 lg3:px-[26px] lg4:px-[29px] md:px-[26px] sm1:px-[10px] sm2:px-[7px] sm:px-[10px] m:px-[6px] s:px-[8px]'>
                   
-                  <div className=' bg-gradient-to-tr from-gray-100 to-gray-200   xl:w-72  l:w-48 ll:w-48 lll:w-38 lx:w-48 lg:w-36 lg1:w-32 lg2:w-32 lg3:w-28 lg4:w-24 md:w-24 sm1:w-36 sm2:w-36 sm:w-32 m:w-32 s:w-28 hover:shadow-xl'
+                  <div className=' shadow-xl bg-gradient-to-tr from-gray-100 to-gray-200   xl:w-72  l:w-48 ll:w-48 lll:w-38 lx:w-48 lg:w-36 lg1:w-32 lg2:w-32 lg3:w-28 lg4:w-24 md:w-24 sm1:w-36 sm2:w-36 sm:w-32 m:w-32 s:w-28 hover:shadow-xl'
                    >
              
                     <img src={currentindex === index ? Slider : item.posterimage}

@@ -6,16 +6,21 @@ import ScrollBars from "../components/Scrollbars";
 
 export default function Home() {
   const [items,setitems] = useState();
+  const [mobile,setMobile] = useState();
+  const [Jeans,setJeans] = useState();
   useEffect(()=>{
     async function GetProduct(){
       try {
         const res = await axios.get("/listing/getproduct");
         const data = res.data;
         let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt")
-
+        let JeansFilter = data.filter((value)=> value.productVarious.ClotheType === "Jeans")
+        let MobileFilter = data.filter((value)=> value.productVarious.DeviceType === "Mobile")
         setitems(filter);
+        setJeans(JeansFilter);
+        setMobile(MobileFilter);
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
     }
     GetProduct();
@@ -25,7 +30,7 @@ export default function Home() {
   return (
    <div  className='flex justify-center flex-col w-full  ' >
     
-    <div  className='flex justify-between flex-col gap-5 mx-auto
+    <div  className='flex justify-between flex-col gap-2 mx-auto
    xl:w-1536px lg:w-full md:w-full sm:w-full m:w-full s:w-full
    
   '>
@@ -59,10 +64,16 @@ export default function Home() {
       </section>
        
        <section className="w-full ">
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular T-shirt</div>
          <ScrollBars items={items}/>
        </section>
        <section className="w-full ">
-         <ScrollBars items={items}/>
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Jeans</div>
+         <ScrollBars items={Jeans}/>
+       </section>
+       <section className="w-full ">
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Mobile</div>
+         <ScrollBars items={mobile}/>
        </section>
     </div>
    </div>

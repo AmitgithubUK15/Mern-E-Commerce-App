@@ -174,6 +174,25 @@ async function GetwishListProduct(req,res,next){
   }
 }
 
+
+async function AddCartProduct(req,res,next){
+  const {userid,productId,ProductSize} = req.params;
+
+  try {
+    const findUser = await User.findByIdAndUpdate(userid,{
+      $push: {
+      Cart:{id:productId , size:ProductSize}
+    }
+  },{new:true});
+
+    if(!findUser) return next(errorHandler(400,"Occurse error"))
+    
+    res.status(200).json({message:"Product add successfully"})
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {  
     testapi,
     updateuser,
@@ -181,5 +200,6 @@ module.exports = {
     updateVendor,
     AddwishListProduct,
     DeletewishListProduct,
-    GetwishListProduct
+    GetwishListProduct,
+    AddCartProduct
 }

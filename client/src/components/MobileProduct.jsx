@@ -79,7 +79,7 @@ export default function MobileProduct() {
                     <option value="6000">6000 mah</option>
                 </select>           
 
-                <label>RAM</label>
+                {/* <label>RAM</label>
                 <div className='flex flex-col gap-3 border p-3 rounded-lg'>
                 
                     <label>Enter quantities as per RAM</label>
@@ -102,32 +102,32 @@ export default function MobileProduct() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
-                <label>ROM</label>
+                <label>Storage (RAM - ROM)</label>
                 <div className='flex flex-col gap-3 border p-3 rounded-lg'>
                 
-                    <label>Enter quantities as per ROM</label>
-                    <div className='flex gap-8'>
+                    <label>Enter quantities as per RAM - ROM</label>
+                    <div className='flex flex-col gap-8'>
                         <div className='flex flex-col gap-3'>
-                            <div className='flex gap-2 items-center'>
-                                <label className="w-full text-sm sm:w-16">64 GB</label>
-                                <input type="number" placeholder='Quantity' defaultValue={0} name="ROM_64" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
+                            <div className='flex justify-between items-center'>
+                                <label className="w-full text-sm sm:w-32">6GB - 128GB</label>
+                                <input type="number" placeholder='Quantity' defaultValue={0} name="ram6GB_128GB" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
                             </div>
 
-                            <div className='flex gap-2 items-center'>
-                                <label className="w-full text-sm sm:w-16">128 GB</label>
-                                <input type="number" placeholder='Quantity' defaultValue={0} name="ROM_128" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
+                            <div className='flex justify-between items-center'>
+                                <label className="w-full text-sm sm:w-32">8GB - 128GB</label>
+                                <input type="number" placeholder='Quantity' defaultValue={0} name="ram8GB_128GB" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
                             </div>
                         </div>
                         <div className='flex flex-col gap-3'>
-                            <div className='flex gap-2 items-center'>
-                                <label className="w-full text-sm sm:w-16">256 GB</label>
-                                <input type="number" placeholder='Quantity' defaultValue={0} name="ROM_256" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
+                            <div className='flex justify-between items-center'>
+                                <label className="w-full text-sm sm:w-32">8GB - 256GB</label>
+                                <input type="number" placeholder='Quantity' defaultValue={0} name="ram8GB_256GB" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
                             </div>
-                            <div className='flex gap-2 items-center'>
-                                <label className="w-full text-sm sm:w-16">512 GB</label>
-                                <input type="number" placeholder='Quantity' defaultValue={0} name="ROM_512" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
+                            <div className='flex justify-between items-center'>
+                                <label className="w-full text-sm sm:w-32">12GB - 256GB</label>
+                                <input type="number" placeholder='Quantity' defaultValue={0} name="ram12GB_256GB" className='border w-24 sm:w-full outline-none p-3 rounded-lg' required />
                             </div>
                         </div>
                     </div>

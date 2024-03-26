@@ -39,12 +39,12 @@ const  LikedProductList = () => {
               <button  onClick={()=>deleteProduct(index,product._id)} 
               className='text-red-500 font-semibold text-xl '>X</button>
               </div>
-              <Link to={`/`}>
+              <Link to={`/itemDetails/${product._id}`}>
               <div className="flex-shrink-0 w-36 h-48  rounded-lg mx-4 bg-gradient-to-tr from-gray-100 to-gray-200  overflow-hidden">
                 <img src={product.posterimage[0]} alt={product.brand} className="w-full h-full object-cover" />
               </div></Link>
               
-              <Link to={`/`}>
+              <Link to={`/itemDetails/${product._id}`}>
               <div className=' self-start xl:w-96 lg:w-96 md:w-48 sm:w-full'>
               <h3 className="text-lg font-medium ">{product.brand ? product.brand : product.productVarious.deviceName}</h3>
                 <h3 className="text-sm  font-semibold">Sold by : {product.companyname}</h3>
