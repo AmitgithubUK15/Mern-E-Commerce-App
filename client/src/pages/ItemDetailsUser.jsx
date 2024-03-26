@@ -3,14 +3,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiHeartFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import {  FaShoppingCart,FaBolt} from "react-icons/fa";
+import {  FaShoppingCart,FaBolt, FaUserAltSlash} from "react-icons/fa";
 
 export default function ItemDetailsUser() {
   const {currentUser} = useSelector((state)=>state.user);
 const {productId} = useParams();
 const [productdetails,setProductDetail] =useState();
 const [image,setImage] = useState("");
+const [sizesValue,setSizeValue] = useState("");
 
+console.log(sizesValue);
 useEffect(()=>{
     async function getProduct(){
       try {
@@ -40,6 +42,25 @@ async function addWishList(productid){
   }
 }
 
+function sizes(e){
+  setSizeValue(e.target.value);
+}
+
+async function AddToCart(){
+  try {
+     if(sizesValue === ""){
+      alert("Please choose size")
+     }
+     else{
+      let req = await axios.post(`/api/addCartproduct/${currentUser._id}/${productdetails._id}/${sizesValue}`);
+    
+      const res = req.data;
+      alert(res.message);
+     }
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
     return (
     <div>{
@@ -116,23 +137,27 @@ async function addWishList(productid){
                     <p className='text-xl'>Sizes</p>
                   <div className='py-3 flex gap-1 item-start'>
                     <div className=' '>
-                       <button onClick={sizeS} value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "S": "28"}
+                       <button onClick={sizes} 
+                       value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeS": "size30"}
                        className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
-      {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "S": "28"}</button>
+      {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "S": "30"}</button>
                     </div>
                     <div className=' '>
-                    <button className="px-[13px] py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
-                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "M": "30"}
+                    <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeM": "size32"}
+                    className="px-[13px] py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "M": "32"}
                       </button>
                     </div>
                     <div className=''>
-                    <button className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
-                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "L": "32"}
+                    <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeL": "size34"}
+                    className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "L": "34"}
                       </button>
                     </div>
                     <div className=' '>
-                    <button className="px-3 py-2 rounded-full border border-slate-600 text-slate-600   focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200" >
-                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "XL": "34"}
+                    <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeXL": "size36"}
+                    className="px-3 py-2 rounded-full border border-slate-600 text-slate-600   focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200" >
+                    {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "XL": "36"}
                       </button>
                     </div>
                   </div>
@@ -140,14 +165,17 @@ async function addWishList(productid){
               
 
                 <div className='flex my-5 '>
-                   <Link to={`/productupdate`} >
+            
                    <button className='py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>Buy</button>
-                   </Link>
-                   <Link to="/" >
-                   <button 
-                    className='py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
-                   Add Cart</button>
-                   </Link>
+                
+                   <button onClick={AddToCart} 
+                className='flex py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
+                  <span>Cart</span>
+                 <span className='block px-3'>
+                 <FaShoppingCart className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-5 sm:h-3 m:w-4 m:h-6 s:w-4 s:h-6' />
+                </span>
+                 </button>
+                
                 </div>
                 <div>
                     <p className='text-1xl text-gray-500 text-justify'>
@@ -236,20 +264,23 @@ xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
                 <p className='text-xl'>Storage</p>
               <div className='py-3 flex gap-1 flex-col sm:flex-row item-start'>
                 <div className=' '>
-                   <button 
+                   <button onClick={sizes} value="ram6_rom128" 
                    className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
                     6GB-128GB</button>
                 </div>
                 <div className=' '>
-                <button className="px-[13px] py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                <button onClick={sizes} value="ram8_rom128"
+                className="px-[13px] py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
                   8GB-128GB</button>
                 </div>
                 <div className=''>
-                <button className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                <button onClick={sizes} value="ram8_rom256"
+                className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
                   8GB-256GB</button>
                 </div>
                 <div className=' '>
-                <button className="px-3 py-2 rounded-full border border-slate-600 text-slate-600   focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200" >
+                <button onClick={sizes} value="ram12_rom256"
+                 className="px-3 py-2 rounded-full border border-slate-600 text-slate-600   focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200" >
                   12GB-256GB</button>
                 </div>
               </div>
@@ -257,23 +288,23 @@ xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
           
 
             <div className='flex my-5 '>
-               <Link to={`/productupdate`} >
+            
                <button className=' flex py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>
                <span>Buy</span>
                  <span className='block px-3'>
                  <FaBolt className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-5 sm:h-3 m:w-4 m:h-6 s:w-4 s:h-6' />
                 </span>
                </button>
-               </Link>
-               <Link to="/" >
-               <button 
+            
+          
+               <button onClick={AddToCart} 
                 className='flex py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
                   <span>Cart</span>
                  <span className='block px-3'>
                  <FaShoppingCart className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-5 sm:h-3 m:w-4 m:h-6 s:w-4 s:h-6' />
                 </span>
                  </button>
-               </Link>
+             
             </div>
             <div>
                 <p className='text-xl'>Description</p>

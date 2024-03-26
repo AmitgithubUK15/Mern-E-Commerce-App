@@ -179,15 +179,35 @@ async function AddCartProduct(req,res,next){
   const {userid,productId,ProductSize} = req.params;
 
   try {
-    const findUser = await User.findByIdAndUpdate(userid,{
-      $push: {
-      Cart:{id:productId , size:ProductSize}
-    }
-  },{new:true});
+    const existProductCheck = await User.findById(userid);
+    if(!existProductCheck) return next(errorHandler(500,"Occurse error"))
 
-    if(!findUser) return next(errorHandler(400,"Occurse error"))
+    const existUsercart = existProductCheck.Cart;
+    let checkingflag = false;
+    for(let i in existUsercart){
+      if(existUsercart[i].id === productId && existUsercart[i].size === ProductSize){
+        checkingflag = false;
+        break;
+      }
+      else{
+        checkingflag = true;
+      }
+    }
     
-    res.status(200).json({message:"Product add successfully"})
+    if(checkingflag === true){
+      const findUser = await User.findByIdAndUpdate(userid,{
+        $push: {
+        Cart:{id:productId , size:ProductSize}
+      }
+    },{new:true});
+  
+      if(!findUser) return next(errorHandler(500,"Occurse error"))
+      
+      res.status(200).json({message:"Product added in cart"})
+    }
+    else{
+      res.json({message:"Product already in cart"})
+    }
   } catch (error) {
     next(error)
   }
