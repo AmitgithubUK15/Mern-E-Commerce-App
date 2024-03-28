@@ -293,6 +293,44 @@ async function GetCartProduct(req,res,next){
 }
 
 
+async function DeleteCartProduct(req,res,next){
+  const {userid, productId} = req.params;
+
+  try {
+    const findUser = await User.findById(userid);
+    if(!findUser) return next(errorHandler(500,"Occurse error"));
+
+    let flag = null;
+    const userCart = findUser.Cart;
+    
+    for(let i =0; i<userCart.length; i++){
+      if(userCart[i].id === productId){
+        flag= true
+        userCart.splice(i,1);
+        break
+      }
+      else{
+        flag = false
+        continue;
+      }
+    }
+
+    if(flag ===true){
+      const updateUser = await User.findByIdAndUpdate(findUser._id,{ $set:{
+        Cart:userCart,
+      }},{new:true})
+
+      res.status(200).json({message:"Product deleted in cart"})
+    }
+    else{
+      next(errorHandler(500,"Occurse error"));
+    }
+
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {  
     testapi,
     updateuser,
@@ -302,5 +340,6 @@ module.exports = {
     DeletewishListProduct,
     GetwishListProduct,
     AddCartProduct,
-    GetCartProduct
+    GetCartProduct,
+    DeleteCartProduct
 }

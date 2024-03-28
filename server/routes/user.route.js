@@ -7,7 +7,8 @@ const { testapi,
     DeletewishListProduct
     ,GetwishListProduct,
     AddCartProduct,
-    GetCartProduct} = require("../controllers/user.controller.js");
+    GetCartProduct,
+    DeleteCartProduct} = require("../controllers/user.controller.js");
 
 
 
@@ -22,5 +23,6 @@ router.post("/deleteWishlist/:userid/:productid",DeletewishListProduct)
 router.get("/getWishlist/:userid",GetwishListProduct)
 router.post("/addCartproduct/:userid/:productId/:ProductSize",AddCartProduct)
 router.get("/getCartproduct/:userid",GetCartProduct)
+router.delete("/deleteCartproduct/:userid/:productId",DeleteCartProduct)
 
 module.exports = router;
