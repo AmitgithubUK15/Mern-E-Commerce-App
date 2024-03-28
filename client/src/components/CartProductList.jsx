@@ -10,33 +10,33 @@ const  CartProductList = () => {
  const navigate = useNavigate();
 
 
- async function deleteProduct(index,id){
+ async function deleteProduct(id){
    
   try {
-    const res = await axios.post(`/api/deleteWishlist/${currentUser._id}/${id}`);
+    const res = await axios.delete(`/api/deleteCartproduct/${currentUser._id}/${id}`);
     let result = res.data;
-    dispatch(GetWishListproduct(result))
-    alert("Delete Product")
+    alert(`${result.message}`)
     navigate("/")
   } catch (error) {
+    console.log(error);
     alert(error.message);
   }
  }
   return (
    <div>
-    {cartproduct !==null? 
+    {cartproduct.length !==0? 
     (
       <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Product List</h2>
       <ul className="flex flex-col gap-5 ">
         {cartproduct &&  cartproduct.map((product,index) => (
-          <li key={product._id} 
+          <li key={index} 
           className="p-2 shadow-lg  rounded-lg cursor-pointer hover:text-slate-500 hover:shadow-none transition-all ease-out " >
          
            
            <div className="flex w-full justify-between items-center  xl:flex-row lg:flex-row md:flex-row sm:flex-row m:flex-row s:flex-col">
             <div className='self-end inline xl:hidden lg:hidden md:hidden sm:hidden m:hidden s:block ' >
-              <button  onClick={()=>deleteProduct(index,product._id)} 
+              <button  onClick={()=>deleteProduct(product._id)} 
               className='text-red-500 font-semibold text-xl '>X</button>
               </div>
               <Link to={`/itemDetails/${product._id}`}>
@@ -50,8 +50,8 @@ const  CartProductList = () => {
               <div>
               <h3 className="text-lg font-medium ">{product.brand ? product.brand : product.deviceName}</h3>
                 <h3 className="text-sm  font-semibold">Sold by : {product.companyname}</h3>
-                <h3 className="  font-semibold">{product.title }</h3>
-                <p className="mt-2 font-semibold">Price: ₹{product.regualarPrice - product.discountPrice}
+                <h3 className="mt-1 sm:mt-2  font-semibold  text-[14px] sm:text-md  w-48 sm:w-64   h-6  overflow-hidden truncate ">{product.title }</h3>
+                <p className="mt-1 font-semibold">Price: ₹{product.regualarPrice - product.discountPrice}
                 <span className=' line-through text-gray-400 mx-2 '>₹{ product &&product.regualarPrice }</span>
                 <span className=' text-green-500 font-semibold '>{ product &&Math.floor( product.discountPrice/product.regualarPrice *100)}% Off</span>
                  </p>
@@ -71,7 +71,7 @@ const  CartProductList = () => {
               
               <div 
               className='self-start xl:block lg:block md:block sm:block m:block s:hidden' >
-                <button onClick={()=>deleteProduct(index,product._id)}
+                <button onClick={()=>deleteProduct(product._id)}
                 className='text-red-500 font-semibold text-xl  '>X</button></div>
             </div>
           
@@ -81,22 +81,21 @@ const  CartProductList = () => {
     </div>
     ):
     ( 
-        <div className='flex flex-col  self-center py-20'>
-
-        <h1 className='pt-5 font-bold text-slate-700 text-center text-2xl self-center w-80'>WISHLIST</h1>
-        <p className='py-1  text-slate-400 text-center text-sm  self-center w-80'>There is no product in wishlist</p>
-
+     
+      <div className='flex flex-col  self-center py-20'>
         <div className='w-80'>
-          <img
-            // 
-            src='/logo/cards.avif'
-            alt=""
-          />
+          <img 
+          // 
+          src='/logo/cards.avif'
+           alt="" 
+           />
         </div>
-        <div className='py-5 w-80 '>
-          <Link to="/">
-            <button className='px-9 py-3 rounded-xl mx-24 text-blue-500 border-2 border-blue-500 font-semibold hover:opacity-70'>Explore</button>
-          </Link>
+       <h1 className='pt-5 font-bold text-slate-700 text-center text-2xl self-center w-80'>Hey, it feels so light!</h1>
+       <p className='py-1  text-slate-400 text-center text-sm  self-center w-80'>There is nothing in your bag. Let`s add some items.</p>
+        <div className='py-5 w-80 '> 
+        <Link to="/liked">
+          <button className='p-3 mx-10 rounded-lg text-pink-500 border-2 border-pink-500 font-semibold'>ADD ITEMS FROM WISHLIST</button>
+        </Link>
         </div>
       </div>
     )
