@@ -182,32 +182,66 @@ async function AddCartProduct(req,res,next){
     const existProductCheck = await User.findById(userid);
     if(!existProductCheck) return next(errorHandler(500,"Occurse error"))
 
-    const existUsercart = existProductCheck.Cart;
-    let checkingflag = false;
-    for(let i in existUsercart){
-      if(existUsercart[i].id === productId && existUsercart[i].size === ProductSize){
-        checkingflag = false;
-        break;
-      }
-      else{
-        checkingflag = true;
-      }
-    }
-    
-    if(checkingflag === true){
-      const findUser = await User.findByIdAndUpdate(userid,{
-        $push: {
-        Cart:{id:productId , size:ProductSize,Quantity:1}
-      }
-    },{new:true});
+    const existProductIncart = existProductCheck.Cart;
+    let checkingflag = null;
   
-      if(!findUser) return next(errorHandler(500,"Occurse error"))
+    if(existProductIncart.length !==0){
+      for(let i =0; i< existProductIncart.length ; i++){
+        if(existProductIncart[i].id === productId &&existProductIncart[i].size === ProductSize ){
+          checkingflag = false;
+          break;
+        }
+        else if(existProductIncart[i].id === productId && existProductIncart[i].size !== ProductSize ){
+         checkingflag = null;
+        
+         existProductIncart[i].size = ProductSize;
+         existProductIncart[i].Quantity = 1;
       
-      res.status(200).json({message:"Product added in cart"})
+         const findUser = await User.findOneAndUpdate({_id:userid},{
+          $set:{
+            Cart:existProductIncart
+          },
+        },{new:true});
+
+
+        
+        if(!findUser) return next(errorHandler(500,"Occurse error"))
+        
+        console.log(existProductIncart);
+        res.status(200).json({message:"Product added in cart"})
+        break;
+        }
+        else{
+          checkingflag = true;
+        }
+      }
+
     }
     else{
-      res.json({message:"Product already in cart"})
+      checkingflag = true;
     }
+
+
+
+
+    if(checkingflag !== null){
+      if(checkingflag === true ){
+        const findUser = await User.findByIdAndUpdate(userid,{
+            $push: {
+            Cart:{id:productId , size:ProductSize,Quantity:1}
+          }
+        },{new:true});
+      
+          if(!findUser) return next(errorHandler(500,"Occurse error"))
+          
+          res.status(200).json({message:"Product added in cart"})
+        }
+        else{
+          res.json({message:"Product already in cart"})
+        }
+    }
+
+    
   } catch (error) {
     next(error)
   }
@@ -235,9 +269,10 @@ async function GetCartProduct(req,res,next){
           cartProductDetails.regualarPrice = Products[j].regualarPrice;
           cartProductDetails.discountPrice = Products[j].discountPrice;
           cartProductDetails.posterimage = Products[j].posterimage;
-          
+          cartProductDetails.productQuantity = cartProductsId[i].Quantity;
+          cartProductDetails.sizes = cartProductsId[i].size
           if(Products[j].productVarious.ProductType === "Electronic"){
-            cartProductDetails.DeviceName = Products[j].productVarious.deviceName;
+            cartProductDetails.deviceName = Products[j].productVarious.deviceName;
           }
           else{
             cartProductDetails.brand = Products[j].brand;

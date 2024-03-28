@@ -1,18 +1,18 @@
-import {useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import CartProductList from '../components/CartProductList'
 
 export default function Cart() {
   const {currentUser} = useSelector((state)=>state.user)
 
   return (
-    <div className="  h-full flex  justify-center items-center">
-      {currentUser ? 
-      (
-        <div>
-        user
-      </div>
-      )
-      :
+    <div className="  h-full flex  justify-center items-start overflow-x-hidden overflow-y-scroll" 
+    style={{scrollbarWidth:"none"}}>
+      {currentUser ?
+        (
+         <CartProductList />
+        )
+        :
       (
 
       <div className='flex flex-col  self-center py-20'>

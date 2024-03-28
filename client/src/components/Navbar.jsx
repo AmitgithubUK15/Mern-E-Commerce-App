@@ -4,7 +4,7 @@ import { RiHeartFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import Sidenav from './SideNav';
-import { setProfiledetail } from '../redux/user/userSlice';
+import { getcartproductlist, setProfiledetail } from '../redux/user/userSlice';
 import axios from 'axios';
 import { GetWishListproduct } from '../redux/user/userSlice';
 
@@ -30,6 +30,17 @@ export default function Navbar() {
       navigate("/liked")
     } catch (error) {
       console.log(error.message);
+    }
+  }
+
+  async function getCartProduct(){
+    try {
+      let req = await axios.get(`/api/getCartproduct/${currentUser._id}`);
+      let res = req.data;
+      dispatch(getcartproductlist(res));
+      navigate("/cart")
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -116,14 +127,29 @@ export default function Navbar() {
         </Link>)
          }
          
-          <Link to='/cart'>
-            <li className='  h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
-              <span className='block px-3'>
-                <FaShoppingBag className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-7 m:w-7 m:h-7 s:w-7 s:h-7' />
-              </span>
-              <span className=' xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Cart</span>
-            </li>
-          </Link>
+          {currentUser && currentUser.type === "Seller" ? 
+          (null)
+          :
+        
+          (currentUser ? 
+        
+        (
+          <li onClick={getCartProduct} className=' cursor-pointer h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
+            <span className='block px-3'>
+              <FaShoppingBag className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-7 m:w-7 m:h-7 s:w-7 s:h-7' />
+            </span>
+            <span className=' xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Cart</span>
+          </li>)
+        :
+          (<Link to='/cart'>
+          <li className='  h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
+            <span className='block px-3'>
+              <FaShoppingBag className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-7 m:w-7 m:h-7 s:w-7 s:h-7' />
+            </span>
+            <span className=' xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Cart</span>
+          </li>
+        </Link>))
+          }
         </ul>
       </div>
       {/* {sidenav &&   <div   className={`w-64 h-full bg-white absolute top-0 left-0 xl:hidden lg:hidden md:hidden`}>SideNav
