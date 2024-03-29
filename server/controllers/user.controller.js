@@ -331,6 +331,52 @@ async function DeleteCartProduct(req,res,next){
   }
 }
 
+async function BuyProduct(req,res,next){
+  const {userid,productId,productSize,productQuantities} = req.params;
+
+  try {
+    const findUser = await User.findByIdAndUpdate(userid,{$push:{
+      Order:{ProductId:productId,productsize:productSize},
+    }}, {new:true});
+
+
+    if(!findUser) return next(errorHandler(500,"Occurse error"));
+
+    const findProduct = await Product.findById(productId);
+
+    if(!findProduct) return next(errorHandler(500,"Occurse error"));
+    const clotheProductSizes = findProduct.productVarious.sizes;
+    const ElectronicProductStorage = findProduct.productVarious.storage;
+    const ProductSizes = clotheProductSizes ? clotheProductSizes : ElectronicProductStorage;
+     
+    const DecreaseQuantity = productQuantities  ? 1 : productQuantities;
+    ProductSizes[productSize] = String(Number(ProductSizes[productSize])-Number(DecreaseQuantity));
+
+    let UpdateProducttotalQuantity = 0;
+
+   
+    for(let j in ProductSizes){
+     UpdateProducttotalQuantity += Number(ProductSizes[j])
+    }
+
+
+
+    const UpdataProductData  = await Product.findByIdAndUpdate(findProduct._id,{
+      $set:{
+        productVarious:findProduct.productVarious,
+        quantity:UpdateProducttotalQuantity,
+      },
+      $push:{
+        Orders:{customerId:findUser._id,OrderSize:productSize, Orderquantites:DecreaseQuantity}
+      }
+    },{new:true})
+   
+    res.json({UpdataProductData});
+    
+  } catch (error) {
+    next(error);
+  }
+}
 module.exports = {  
     testapi,
     updateuser,
@@ -341,5 +387,6 @@ module.exports = {
     GetwishListProduct,
     AddCartProduct,
     GetCartProduct,
-    DeleteCartProduct
+    DeleteCartProduct,
+    BuyProduct
 }

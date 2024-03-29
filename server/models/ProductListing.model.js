@@ -49,6 +49,9 @@ const ProductSchema = new mongoose.Schema({
     },
     brand:{
         type:String,
+    },
+    Orders:{
+        type:Array,
     }
 },{timestamps:true});
 

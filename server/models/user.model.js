@@ -40,6 +40,9 @@ const userSchema = new mongoose.Schema({
    },
    Cart:{
     type:Array,
+   },
+   Order:{
+    type:Array,
    }
 },{timestamps:true});
 
