@@ -17,6 +17,7 @@ import UpdateProduct from "./pages/UpdateProduct"
 import ProductListing from "./pages/ProductListing"
 import Footer from "./components/Footer"
 import ItemDetailsUser from "./pages/ItemDetailsUser"
+import CheckOutBuying from "./pages/CheckOutBuying"
 
 
 
@@ -49,6 +50,7 @@ function App() {
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
       <Route path='/updateProfile' element={<UpdateProfile />} />
       <Route path="/productupdate/:productid" element={<UpdateProduct />} />
+      <Route path="/checkout/:productId/:sizeValues" element={<CheckOutBuying />} />
       {/* <Route path="/productlisting" element={<ProductListing />} /> */}
       </Route>
    

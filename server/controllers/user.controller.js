@@ -333,7 +333,7 @@ async function DeleteCartProduct(req,res,next){
 
 async function BuyProduct(req,res,next){
   const {userid,productId,productSize,productQuantities} = req.params;
-
+  
   try {
     const findUser = await User.findByIdAndUpdate(userid,{$push:{
       Order:{ProductId:productId,productsize:productSize},
@@ -371,7 +371,7 @@ async function BuyProduct(req,res,next){
       }
     },{new:true})
    
-    res.json({UpdataProductData});
+    res.json({message:"buy start"});
     
   } catch (error) {
     next(error);

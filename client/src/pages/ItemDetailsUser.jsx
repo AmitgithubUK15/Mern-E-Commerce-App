@@ -1,9 +1,9 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiHeartFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import {  FaShoppingCart,FaBolt, FaUserAltSlash} from "react-icons/fa";
+import {  FaShoppingCart,FaBolt} from "react-icons/fa";
 
 export default function ItemDetailsUser() {
   const {currentUser} = useSelector((state)=>state.user);
@@ -11,8 +11,8 @@ const {productId} = useParams();
 const [productdetails,setProductDetail] =useState();
 const [image,setImage] = useState("");
 const [sizesValue,setSizeValue] = useState("");
+const navigate = useNavigate();
 
-console.log(sizesValue);
 useEffect(()=>{
     async function getProduct(){
       try {
@@ -61,6 +61,25 @@ async function AddToCart(){
     console.log(error.message);
   }
 }
+
+
+// async function BuyProduct(){
+ 
+//   try {
+
+//     if(sizesValue === ""){
+//       alert("Please choose size")
+//     }
+//     else{
+//       let req = await axios.post(`/api/buyCartproduct/${currentUser._id}/${productId}/${sizesValue}/${null}`);
+//       navigate("/checkout")
+//     }
+
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 
     return (
     <div>{
@@ -165,8 +184,10 @@ async function AddToCart(){
               
 
                 <div className='flex my-5 '>
-            
-                   <button className='py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>Buy</button>
+                  <Link to={`/checkout/${productId}/${sizesValue}`}>
+                   <button 
+                   className='py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>Buy</button>
+                  </Link>
                 
                    <button onClick={AddToCart} 
                 className='flex py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
@@ -288,14 +309,16 @@ xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
           
 
             <div className='flex my-5 '>
-            
-               <button className=' flex py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>
+
+            <Link to={`/checkout/${productId}/${sizesValue}`}>
+               <button 
+               className=' flex py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>
                <span>Buy</span>
                  <span className='block px-3'>
                  <FaBolt className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-5 sm:h-3 m:w-4 m:h-6 s:w-4 s:h-6' />
                 </span>
                </button>
-            
+            </Link>
           
                <button onClick={AddToCart} 
                 className='flex py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
