@@ -371,7 +371,7 @@ async function BuyProduct(req,res,next){
       }
     },{new:true})
    
-    res.json({message:"buy start"});
+    res.json({message:"Order successfull"});
     
   } catch (error) {
     next(error);
