@@ -336,8 +336,8 @@ async function BuyProduct(req,res,next){
   
   try {
     const findUser = await User.findByIdAndUpdate(userid,{$push:{
-      Order:{ProductId:productId,productsize:productSize},
-    }}, {new:true});
+      Order:{ProductId:productId,productsize:productSize ,quantity:productQuantities},
+    }}, {new:true,timestamps:true});
 
 
     if(!findUser) return next(errorHandler(500,"Occurse error"));
@@ -377,6 +377,44 @@ async function BuyProduct(req,res,next){
     next(error);
   }
 }
+
+async function GetBuyProduct(req,res,next){
+  const {userid} = req.params;
+
+  try {
+    const findUser = await User.findById(userid);
+    if(!findUser) return next(errorHandler(403,'You are not authented'))
+
+    const UserOrderProduct = findUser.Order;
+    const Orders = [];
+    const Allproducts = await Product.find({});
+    if(!Allproducts) return next(errorHandler(500,"Occurse error"))
+
+    for(let i =0; i<UserOrderProduct.length ; i++){
+      for(let j =0 ; j<Allproducts.length; j++){
+        if(UserOrderProduct[i].ProductId === Allproducts[j]._id.toString()){
+          let obj = {};
+          obj._id = Allproducts[j]._id;
+          obj.title = Allproducts[j].title;
+          obj.regualarPrice = Allproducts[j].regualarPrice;
+          obj.posterimage = Allproducts[j].posterimage;
+
+          Orders.push(obj);
+        }
+      }
+    }
+
+    if(Orders.length ===0){
+      res.json({message:"no found orders"});
+    }
+    else{
+      res.status(200).json(Orders)
+    }
+  } catch (error) {
+    next(error)
+  }
+
+}
 module.exports = {  
     testapi,
     updateuser,
@@ -388,5 +426,6 @@ module.exports = {
     AddCartProduct,
     GetCartProduct,
     DeleteCartProduct,
-    BuyProduct
+    BuyProduct,
+    GetBuyProduct
 }
