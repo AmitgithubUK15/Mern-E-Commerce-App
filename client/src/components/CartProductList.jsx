@@ -64,7 +64,9 @@ const  CartProductList = () => {
                <button>{product.sizes}</button>
                </div>
                <div>
+                <Link to={`/checkout/${product._id}/${product.sizes}`}>
                <button className='py-1 px-10 mt-2 bg-blue-500 rounded-full text-white hover:opacity-75'>Buy</button>
+                </Link>
                </div>
               </div>
               </div>

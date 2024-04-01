@@ -416,6 +416,32 @@ async function GetBuyProduct(req,res,next){
   }
 
 }
+
+async function CheckBuyproductStock(req,res,next){
+  const {productId,productSize} = req.params;
+
+  try {
+    const findProduct = await Product.findById(productId);
+    if(!findProduct) return next(500,"Occurse error");
+
+    let checkingProduct;
+    if(findProduct.productVarious.ProductType === "Clothes"){
+      checkingProduct = findProduct.productVarious.sizes
+    }
+    else{
+      checkingProduct = findProduct.productVarious.storage;
+    }
+
+    if(checkingProduct[productSize] ===0){
+      res.json({message:"Out of stock"})
+    }
+    else{
+      res.json({message:"In stock"})
+    }
+  } catch (error) {
+    next(error);
+  }
+}
 module.exports = {  
     testapi,
     updateuser,
@@ -428,5 +454,6 @@ module.exports = {
     GetCartProduct,
     DeleteCartProduct,
     BuyProduct,
-    GetBuyProduct
+    GetBuyProduct,
+    CheckBuyproductStock
 }
