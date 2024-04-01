@@ -1,13 +1,14 @@
 
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, Navigate, useNavigate} from "react-router-dom"
-import { signoutUserSuccess,signoutUserFailure, setVendor,setProfiledetail,Addproduct, productList,showproductlistTab } from '../redux/user/userSlice';
+import { signoutUserSuccess,signoutUserFailure, setVendor,setProfiledetail,Addproduct, productList,showproductlistTab, showOrderProductlist } from '../redux/user/userSlice';
 import axios from 'axios';
 import ProfileDetails from '../components/ProfileDetails';
 
 import ApplyVendor from '../components/ApplyVendor';
 import ProductListing from './ProductListing';
 import ProductList from '../components/ProductList';
+import OrderProductList from '../components/OrderProductList';
 
 
 export default function Account() {
@@ -17,7 +18,8 @@ export default function Account() {
     ProfileDetailsVisible,
     AppylyVendorvisible,
     addproduct,
-    prodcutlistTab} = useSelector((state)=> state.user);
+    prodcutlistTab,
+    orderProductListtab} = useSelector((state)=> state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -64,7 +66,9 @@ async function showproductlist(){
       dispatch(showproductlistTab())
     
     }
+    console.log(res);
     let result = res.data;
+  
     dispatch(productList(result));
     dispatch(showproductlistTab())
   } catch (error) {
@@ -79,6 +83,30 @@ async function showproductlist(){
   }
 }
 
+async function getOrderProductList(){
+    
+  try {
+    let res = await axios.get(`/api/getBuyproductList/${currentUser._id}`);
+    if(res.success===false){
+      dispatch(productList(false));
+      dispatch(showproductlistTab())
+    
+    }
+  
+    let result = res.data;
+    dispatch(productList(result));
+    dispatch(showOrderProductlist())
+  } catch (error) {
+    if(error.response.data.message === "Please Login again"){
+      alert(`Authorization failed ${error.response.data.message}`)
+    }
+    else{
+      dispatch(productList(error.response.data.message));
+      dispatch(showOrderProductlist())
+    }
+   
+  }
+}
   return (
     <div className=' h-full flex justify-center items-center '>
       <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
@@ -106,7 +134,7 @@ async function showproductlist(){
                 Sell Product
               </div>)
               :
-              (<div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
+              (<div onClick={getOrderProductList} className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
               Orders
             </div>)
               }
@@ -149,6 +177,7 @@ async function showproductlist(){
            {AppylyVendorvisible && <ApplyVendor />}
            {addproduct && <ProductListing />}
            {prodcutlistTab && <ProductList />}
+           {orderProductListtab && <OrderProductList />}
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ const initialState ={
     addproduct:false,
     sellerproductlist:false,
     prodcutlistTab:false,
+    orderProductListtab:false,
     wishlistProduct:null,
     cartproduct:null
 }
@@ -55,21 +56,32 @@ const userSlice = createSlice({
             state.AppylyVendorvisible= false;
             state.addproduct = false;
             state.prodcutlistTab = false;
+            state.orderProductListtab = false;
         },
         setVendor:(state)=>{
             state.AppylyVendorvisible = true,
             state.ProfileDetailsVisible=false;
             state.addproduct = false;
             state.prodcutlistTab = false;
+            state.orderProductListtab = false;
         },
         Addproduct:(state)=>{
             state.addproduct = true;
             state.AppylyVendorvisible = false,
             state.ProfileDetailsVisible=false;
             state.prodcutlistTab = false;
+            state.orderProductListtab = false;
         },
         showproductlistTab:(state)=>{
             state.prodcutlistTab = true
+            state.addproduct = false;
+            state.AppylyVendorvisible = false,
+            state.ProfileDetailsVisible=false;
+            state.orderProductListtab = false;
+        },
+        showOrderProductlist:(state)=>{
+            state.orderProductListtab = true;
+            state.prodcutlistTab = false;
             state.addproduct = false;
             state.AppylyVendorvisible = false,
             state.ProfileDetailsVisible=false;
@@ -100,6 +112,10 @@ const userSlice = createSlice({
         },
         productList:(state,action)=>{
             state.sellerproductlist = action.payload;
+            state.loading = false;
+        },
+        OrderproductList:(state,action)=>{
+            state.Orderproductlist = action.payload;
             state.loading = false;
         },
         deleteProduct:(state,action)=>{
@@ -137,5 +153,6 @@ export const {
     productDeleteFailure,
     GetWishListproduct,
     getcartproductlist,
+    showOrderProductlist
 } = userSlice.actions;
 export default userSlice.reducer;

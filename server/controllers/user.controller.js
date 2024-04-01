@@ -398,6 +398,7 @@ async function GetBuyProduct(req,res,next){
           obj.title = Allproducts[j].title;
           obj.regualarPrice = Allproducts[j].regualarPrice;
           obj.posterimage = Allproducts[j].posterimage;
+          obj.discountPrice = Allproducts[j].discountPrice
 
           Orders.push(obj);
         }
