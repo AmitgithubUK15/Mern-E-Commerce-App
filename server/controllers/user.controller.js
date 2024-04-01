@@ -432,7 +432,7 @@ async function CheckBuyproductStock(req,res,next){
       checkingProduct = findProduct.productVarious.storage;
     }
 
-    if(checkingProduct[productSize] ===0){
+    if(Number(checkingProduct[productSize]) ===0){
       res.json({message:"Out of stock"})
     }
     else{

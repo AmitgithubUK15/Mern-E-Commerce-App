@@ -12,6 +12,7 @@ const [productdetails,setProductDetail] =useState();
 const [image,setImage] = useState("");
 const [sizesValue,setSizeValue] = useState("");
 const navigate = useNavigate();
+const [outofstock,setOutofstock] = useState(false);
 
 useEffect(()=>{
     async function getProduct(){
@@ -63,22 +64,24 @@ async function AddToCart(){
 }
 
 
-// async function BuyProduct(){
- 
-//   try {
+async function checkproductStock(){
+  try {
+    let req = await axios.post(`/api/buybeforecheckQuantity/${productdetails._id}/${sizesValue}`)
+    let res = req.data;
 
-//     if(sizesValue === ""){
-//       alert("Please choose size")
-//     }
-//     else{
-//       let req = await axios.post(`/api/buyCartproduct/${currentUser._id}/${productId}/${sizesValue}/${null}`);
-//       navigate("/checkout")
-//     }
+    if(res.message === "Out of stock"){
+     alert(`${res.message}`)
+     setOutofstock(true);
+    }
+    else{
+      setOutofstock(false);
+      navigate(`/checkout/${productId}/${sizesValue}`)
 
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
     return (
@@ -158,24 +161,24 @@ async function AddToCart(){
                     <div className=' '>
                        <button onClick={sizes} 
                        value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeS": "size30"}
-                       className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                       className={`px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200`}>
       {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "S": "30"}</button>
                     </div>
                     <div className=' '>
                     <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeM": "size32"}
-                    className="px-[13px] py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                    className={`px-[13px] py-2 rounded-full border border-slate-600 text-slate-600  focus:bg-gray-200 focus:border-blue-500 focus:text-blue-500`}>
                     {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "M": "32"}
                       </button>
                     </div>
                     <div className=''>
                     <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeL": "size34"}
-                    className="px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200">
+                    className={`px-4 py-2 rounded-full border border-slate-600 text-slate-600 focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200`}>
                     {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "L": "34"}
                       </button>
                     </div>
                     <div className=' '>
                     <button onClick={sizes}  value={productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "sizeXL": "size36"}
-                    className="px-3 py-2 rounded-full border border-slate-600 text-slate-600   focus:border-blue-500 focus:text-blue-500 focus:bg-gray-200" >
+                    className={`px-3 py-2 rounded-full border border-slate-600 text-slate-600   ${outofstock === true?`focus:border-red-500 focus:text-red-500` :`focus:border-blue-500 focus:text-blue-500`} focus:bg-gray-200`} >
                     {productdetails.productVarious.ClotheType === "T-Shirt" || productdetails.productVarious.ClotheType === "Hoodie" ? "XL": "36"}
                       </button>
                     </div>
@@ -185,7 +188,7 @@ async function AddToCart(){
 
                 <div className='flex my-5 '>
                   <Link to={`/checkout/${productId}/${sizesValue}`}>
-                   <button 
+                   <button onClick={checkproductStock}
                    className='py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>Buy</button>
                   </Link>
                 
@@ -310,15 +313,15 @@ xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
 
             <div className='flex my-5 '>
 
-            <Link to={`/checkout/${productId}/${sizesValue}`}>
-               <button 
+            
+               <button onClick={checkproductStock}
                className=' flex py-3 px-12 bg-sky-500 text-white font-semibold rounded-3xl mx-2 my-2 '>
                <span>Buy</span>
                  <span className='block px-3'>
                  <FaBolt className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-5 sm:h-3 m:w-4 m:h-6 s:w-4 s:h-6' />
                 </span>
                </button>
-            </Link>
+            
           
                <button onClick={AddToCart} 
                 className='flex py-3 px-8 bg-yellow-300 text-white font-semibold rounded-3xl mx-2 my-2'>
