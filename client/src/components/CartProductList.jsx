@@ -59,8 +59,8 @@ const  CartProductList = () => {
               </Link>
               <div>
                <div>
-               <input type="number" defaultValue={product.productQuantity} 
-               className='border p-1 text-sm w-20 mr-2'/>
+               <input disabled defaultValue={product.productQuantity} 
+               className='border p-1 text-sm w-20 mr-2 ' />
                <button>{product.sizes}</button>
                </div>
                <div>

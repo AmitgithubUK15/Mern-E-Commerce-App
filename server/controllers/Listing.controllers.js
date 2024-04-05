@@ -77,10 +77,46 @@ async function getSingleProduct(req,res,next){
         next(error)
     }
 }
+
+
+async function GetSearchResult(req, res, next) {
+    try {
+      const limit = parseInt(req.query.limit) || 9;
+      const startIndex = parseInt(req.query.startIndex) || 0;
+  
+      let genders = req.query.gender;
+  
+      if (genders === undefined || genders === 'all') {
+        genders = ['Male', 'Female'];
+      }
+  
+      let regualarPrice = req.query.price;
+
+      const minPrice = req.query.minPrice || 0;
+      const maxPrice = req.query.maxPrice || Infinity;
+
+      const searchTerm = req.query.searchTerm || "";
+  
+      const products = await Product.find({
+        title:{$regex:searchTerm,$options:'i'},
+        [`productVarious.genders`]: genders,
+        regualarPrice:{ $gte: minPrice, $lte: maxPrice },
+      }).limit(limit).skip(startIndex);
+  
+      res.status(200).json(products);
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+
+
+
 module.exports ={
     Addproduct,
     UpdateClothingProduct,
     DeleteClothingProduct,
     getClothingProduct,
-    getSingleProduct
+    getSingleProduct,
+    GetSearchResult
 }

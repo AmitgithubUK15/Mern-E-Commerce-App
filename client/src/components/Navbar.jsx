@@ -107,7 +107,8 @@ export default function Navbar() {
             )
           }
  
-         {currentUser ? 
+         {currentUser  ? 
+         (currentUser && currentUser.type !=="Seller" ?
          ( <Link onClick={getWishlistproduct} >
           <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
             <span className='block px-5'>
@@ -115,7 +116,7 @@ export default function Navbar() {
             </span>
             <span className='xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Wishlist</span>
           </li>
-        </Link>)
+        </Link>) :(null))
          :
          ( <Link to="/liked" >
           <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
