@@ -2,7 +2,7 @@ import { FaSearch, FaUser, FaShoppingBag, FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Sidenav from './SideNav';
 import { getcartproductlist, setProfiledetail } from '../redux/user/userSlice';
 import axios from 'axios';
@@ -15,9 +15,11 @@ export default function Navbar() {
   
   const {currentUser,ProfileDetailsVisible} = useSelector((state)=>state.user)
   const [isOpen, setIsOpen] = useState(false)
+  const [searchTerm,setSearchTerm] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  
   const toggleSidenav = () => {
     setIsOpen(!isOpen);
   };
@@ -43,6 +45,26 @@ export default function Navbar() {
       console.log(error)
     }
   }
+
+  function handleSubmit(e){
+   e.preventDefault();
+   const urlParams = new URLSearchParams(window.location.search);
+   urlParams.set('searchTerm',searchTerm);
+   const searchQuery = urlParams.toString();
+   navigate(`/search?${searchQuery}`);
+  }
+
+
+  useEffect(()=>{
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchtermFromURL = urlParams.get('searchTerm')
+
+    if(searchtermFromURL){
+      setSearchTerm(searchtermFromURL);
+    }
+  },[location.search])
+
+
   return (
     <header className='shadow-md z-10 xl:w-1536px  lg:w-full md:w-full sm:w-full   m:w-full s:w-full mx-auto bg-white flex sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around' 
     style={{
@@ -68,13 +90,17 @@ export default function Navbar() {
       </div >
 
       <div className='flex justify-around items-center mx-w-6xl  p-4 xl:block lg:block md:block sm:hidden m:hidden s:hidden '>
-        <form action="" className='lg:w-96 sm:w-80  flex items-center  p-3 border-b border-black'>
+        <form onSubmit={handleSubmit} className='lg:w-96 sm:w-80  flex items-center  p-3 border-b border-black'>
           <input
             type="text"
             placeholder="Search..."
             className='bg-transparent focus:outline-none text-black lg:w-full sm:w-64 '
+            value={searchTerm}
+            onChange={(e)=>setSearchTerm(e.target.value)}
           />
+          <button type="submit">
           <FaSearch />
+          </button>
         </form>
       </div>
 
