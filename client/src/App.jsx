@@ -6,7 +6,6 @@ import Signin from "./pages/Signin"
 import Signup from "./pages/Signup"
 import Cart from "./pages/Cart"
 import Liked from "./pages/Liked"
-import {  useSelector } from "react-redux"
 import UpdateProfile from "./pages/UpdateProfile"
 import SignupVendor from "./pages/SignupVendor"
 import Vendorlogin from "./pages/Vendorlogin"
@@ -18,6 +17,7 @@ import ProductListing from "./pages/ProductListing"
 import Footer from "./components/Footer"
 import ItemDetailsUser from "./pages/ItemDetailsUser"
 import CheckOutBuying from "./pages/CheckOutBuying"
+import SearchResult from "./pages/SearchResult"
 
 
 
@@ -25,9 +25,6 @@ import CheckOutBuying from "./pages/CheckOutBuying"
 
 function App() {
 
-//  const {currentUser} = useSelector((state)=>state.user)
-
- 
 
   return ( <BrowserRouter>
      
@@ -44,7 +41,8 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/liked" element={<Liked />} />
       <Route path="/itemDetails/:productId" element={<ItemDetailsUser />} />
-      
+      <Route path="/search" element={<SearchResult />} />
+
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
