@@ -80,6 +80,7 @@ async function getSingleProduct(req,res,next){
 
 
 async function GetSearchResult(req, res, next) {
+    
     try {
       const limit = parseInt(req.query.limit) || 9;
       const startIndex = parseInt(req.query.startIndex) || 0;
@@ -90,11 +91,12 @@ async function GetSearchResult(req, res, next) {
         genders = ['Male', 'Female'];
       }
   
-      let regualarPrice = req.query.price;
+      console.log(req.query.minPrice);
 
-      const minPrice = req.query.minPrice || 0;
-      const maxPrice = req.query.maxPrice || Infinity;
+      const minPrice = parseInt(req.query.minPrice) || 0;
+      const maxPrice = parseInt(req.query.maxPrice) || Infinity;
 
+      console.log(req.query.searchTerm)
       const searchTerm = req.query.searchTerm || "";
   
       const products = await Product.find({

@@ -77,7 +77,7 @@ export default function ScrollBars({ items }) {
                   <div className=' py-1 flex justify-between  bg-white  '>
                <div>
                <h1 className='text-sm  lg:text-xl font-semibold text-gray-400 '>{item.brand}</h1>
-                    <h1 className=' text-[12px] sm:text-md  w-24 xl:w-48 lg:w-36  h-6  overflow-hidden truncate ' >{item.title}</h1>
+                    <h1 className=' text-[12px] sm:text-md  w-24 xl:w-48 lg:w-36  h-6  overflow-hidden  ' >{item.title}</h1>
 
                     <h1 
                     className='text-[14px] sm:text-[16px] text-blue-500 font-semibold'>
