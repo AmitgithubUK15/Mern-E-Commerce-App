@@ -79,7 +79,9 @@ async function checkproductStock(){
 
     }
   } catch (error) {
-    console.log(error);
+    alert(error.response.data.message)
+    navigate("/login")
+    console.log(error.response.data.message);
   }
 }
 

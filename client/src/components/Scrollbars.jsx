@@ -81,8 +81,8 @@ export default function ScrollBars({ items }) {
 
                     <h1 
                     className='text-[14px] sm:text-[16px] text-blue-500 font-semibold'>
-                      ₹{item.regualarPrice - item.discountPrice}  
-                      <span className='text-[10px] sm:text-sm line-through text-gray-400'>  {item.regualarPrice}</span>
+                      ₹{item.regualarPrice }  
+                      <span className='text-[10px] sm:text-sm line-through text-gray-400'>  {item.regualarPrice + item.discountPrice}</span>
                        <span className='text-green-500 text-[10px] lg:text-sm'> {Math.round(item.discountPrice /item.regualarPrice * 100)}%Off</span>
                        </h1>
                </div>

@@ -149,14 +149,7 @@ async function getOrderProductList(){
               }
           
 
-              {
-                currentUser.type === "Seller" ? null :(
-           
-              <div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
-                Saved Cards
-              </div>
-                )
-              }
+             
 
               {
                 currentUser.type === "Seller" ? null :(

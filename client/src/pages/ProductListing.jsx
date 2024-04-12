@@ -279,7 +279,7 @@ async function handleformsubmit(e){
      
       let Mobileobj = {
         companyname:currentUser.company,
-        regualarPrice:obj.regularprice,
+        regualarPrice:parseInt(obj.regularprice)-parseInt(obj.discountPrice),
         discountPrice:obj.discountPrice,
         productVarious:{
           ProductType:obj.productType,

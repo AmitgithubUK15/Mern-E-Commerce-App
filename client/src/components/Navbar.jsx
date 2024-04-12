@@ -1,6 +1,7 @@
 import { FaSearch, FaUser, FaShoppingBag, FaBars } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { RiHeartFill } from 'react-icons/ri';
+import { CgClose } from "react-icons/cg";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Sidenav from './SideNav';
@@ -18,6 +19,8 @@ export default function Navbar() {
   const [searchTerm,setSearchTerm] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [hideCartBag,setHideCartbag] = useState(true);
+  const [searchForm ,setSearchForm] = useState(false);
 
   
   const toggleSidenav = () => {
@@ -56,13 +59,24 @@ export default function Navbar() {
 
 
   useEffect(()=>{
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(location.search);
     const searchtermFromURL = urlParams.get('searchTerm')
-
+  
     if(searchtermFromURL){
       setSearchTerm(searchtermFromURL);
     }
   },[location.search])
+
+
+  function handleSearchClick(){
+    setHideCartbag(false);
+    setSearchForm(true);
+  }
+
+  function hideSearchBox(){
+    setSearchForm(false);
+    setHideCartbag(true);
+  }
 
 
   return (
@@ -76,7 +90,7 @@ export default function Navbar() {
         <FaBars   onClick={toggleSidenav}   className='w-5 h-7 cursor-pointer' />
       </div>
 
-      <div className='flex  items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4 sm:p-4 m:p-4 s:p-4   sm:w-48   m:w-48 s:w-32  '>
+     {hideCartBag &&  <div className='flex  items-center  mx-w-6xl  xl:p-4 lg:p-4 md:p-4 sm:p-4 m:p-4 s:p-4   sm:w-48   m:w-48 s:w-32  '>
         <Link
           to='/'
         >
@@ -87,7 +101,28 @@ export default function Navbar() {
           
          
         </Link>
-      </div >
+      </div >}
+
+      {searchForm &&  
+      <div className='flex justify-around items-center mx-w-6xl  p-4 w-[550px] '>
+        <form onSubmit={handleSubmit} className='w-full  flex items-center  p-3 border-b border-black'>
+          <input
+            type="text"
+            placeholder="Search..."
+            className='bg-transparent focus:outline-none text-black w-full '
+            value={searchTerm}
+            onChange={(e)=>setSearchTerm(e.target.value)}
+          />
+          <button type="submit" >
+          <FaSearch className='w-10 h-5' />
+          </button>
+          <button type='button' className='strok-2 font-semibold' onClick={hideSearchBox}>
+          <CgClose className='w-10 h-5 '/>
+          </button>
+        </form>
+        
+      </div>
+      }
 
       <div className='flex justify-around items-center mx-w-6xl  p-4 xl:block lg:block md:block sm:hidden m:hidden s:hidden '>
         <form onSubmit={handleSubmit} className='lg:w-96 sm:w-80  flex items-center  p-3 border-b border-black'>
@@ -98,7 +133,7 @@ export default function Navbar() {
             value={searchTerm}
             onChange={(e)=>setSearchTerm(e.target.value)}
           />
-          <button type="submit">
+          <button type="submit" className=''>
           <FaSearch />
           </button>
         </form>
@@ -106,11 +141,14 @@ export default function Navbar() {
 
       <div className='flex justify-around items-center mx-w-6xl '>
         <ul className='flex items-center h-px-78px  xl:gap-6 sm:gap-1 m:gap-1 s:gap-1 '>
+
+          {hideCartBag && 
           <div className=' py-8 px-3 xl:hidden lg:hidden md:hidden sm:block  m:block s:block'>
-            <button>
-              <FaSearch className='hover:text-red-500 strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-6 m:w-7 m:h-6 s:w-7 s:h-6' />
-            </button>
-          </div>
+          <button onClick={handleSearchClick}>
+            <FaSearch className='hover:text-red-500 strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-6 m:w-7 m:h-6 s:w-7 s:h-6' />
+          </button>
+        </div>}
+
           {currentUser ? (
             <Link
               to='/account'>
@@ -135,7 +173,7 @@ export default function Navbar() {
  
          {currentUser  ? 
          (currentUser && currentUser.type !=="Seller" ?
-         ( <Link onClick={getWishlistproduct} >
+         (hideCartBag &&  <Link onClick={getWishlistproduct} >
           <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
             <span className='block px-5'>
               <RiHeartFill className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-8 m:w-7 m:h-8 s:w-7 s:h-8' />
@@ -144,7 +182,7 @@ export default function Navbar() {
           </li>
         </Link>) :(null))
          :
-         ( <Link to="/liked" >
+         (hideCartBag&& <Link to="/liked" >
           <li className='  h-px-78px py-4  text-center text-slate-700 hover:text-red-500 font-semibold'>
             <span className='block px-5'>
               <RiHeartFill className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-8 m:w-7 m:h-8 s:w-7 s:h-8' />
@@ -160,7 +198,7 @@ export default function Navbar() {
         
           (currentUser ? 
         
-        (
+        ( hideCartBag &&
           <li onClick={getCartProduct} className=' cursor-pointer h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
             <span className='block px-3'>
               <FaShoppingBag className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-7 m:w-7 m:h-7 s:w-7 s:h-7' />
@@ -168,7 +206,7 @@ export default function Navbar() {
             <span className=' xl:block lg:block md:block sm:hidden m:hidden s:hidden'>Cart</span>
           </li>)
         :
-          (<Link to='/cart'>
+          (hideCartBag && <Link to='/cart'>
           <li className='  h-px-78px py-4 text-center text-slate-700 hover:text-red-500 font-semibold'>
             <span className='block px-3'>
               <FaShoppingBag className=' strok-2 xl:w-5 xl:h-5 lg:w-5 lg:h-5 md:w-5 md:h-5 sm:w-7 sm:h-7 m:w-7 m:h-7 s:w-7 s:h-7' />
