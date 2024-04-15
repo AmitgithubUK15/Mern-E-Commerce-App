@@ -8,16 +8,22 @@ export default function Home() {
   const [items,setitems] = useState();
   const [mobile,setMobile] = useState();
   const [Jeans,setJeans] = useState();
+  const [womenTshirt,setWomenTshirt] = useState();
+  const [womenJeans,setWomenJeans] = useState();
   useEffect(()=>{
     async function GetProduct(){
       try {
         const res = await axios.get("/listing/getproduct");
         const data = res.data;
-        let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt")
-        let JeansFilter = data.filter((value)=> value.productVarious.ClotheType === "Jeans")
+        let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Male")
+        let filterWomenTshirt = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Female")
+        let JeansFilter = data.filter((value)=> value.productVarious.ClotheType === "Jeans" && value.productVarious.genders === "Male")
+        let filterWomenJeans = data.filter((value)=> value.productVarious.ClotheType === "Jeans" && value.productVarious.genders === "Female")
         let MobileFilter = data.filter((value)=> value.productVarious.DeviceType === "Mobile")
         setitems(filter);
+        setWomenTshirt(filterWomenTshirt)
         setJeans(JeansFilter);
+        setWomenJeans(filterWomenJeans);
         setMobile(MobileFilter);
       } catch (error) {
         console.log(error);
@@ -64,13 +70,25 @@ export default function Home() {
       </section>
        
        <section className="w-full ">
-       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular T-shirt</div>
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Men T-shirt</div>
          <ScrollBars items={items}/>
        </section>
+
        <section className="w-full ">
-       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Jeans</div>
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Women T-shirt</div>
+         <ScrollBars items={womenTshirt}/>
+       </section>
+
+       <section className="w-full ">
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Men Jeans</div>
          <ScrollBars items={Jeans}/>
        </section>
+
+       <section className="w-full ">
+       <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Women Jeans</div>
+         <ScrollBars items={womenJeans}/>
+       </section>
+
        <section className="w-full ">
        <div className='text-3xl text-slate-700 py-5 text-center'>Most Popular Mobile</div>
          <ScrollBars items={mobile}/>

@@ -2,6 +2,7 @@ import  { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import SearchProductList from '../components/SearchProductList';
+import { CgClose } from 'react-icons/cg';
 
 export default function SearchResult() {
   const [sideFilterSearch,setsidefilter] = useState({
@@ -27,6 +28,8 @@ export default function SearchResult() {
   const opporef = useRef();
   const vivoref = useRef();
   const motoref = useRef();
+  const [filterBox,setFilterBox] = useState(false);
+  const [loading,setLoading] = useState(false);
 
   
   function handlechange(e){
@@ -79,6 +82,7 @@ export default function SearchResult() {
 
 
   useEffect(()=>{
+    setLoading(true);
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromURL = urlParams.get('searchTerm');
     const genderFromURL = urlParams.get('gender')
@@ -104,7 +108,9 @@ export default function SearchResult() {
       const res = req.data;
       setTypeProduct(res[0].productVarious.ProductType);
       setProdcuts(res);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error.response.data.message);
     }
     }
@@ -123,16 +129,32 @@ export default function SearchResult() {
     urlParams.set('namedevice',sideFilterSearch.namedevice);
     const query = urlParams.toString();
     navigate(`/search?${query}`);
+    setFilterBox(false);
   }
 
+  function ShowFilterBox(){
+    setFilterBox(true);
+  }
+
+  function hideFilterBox(){
+    setFilterBox(false);
+  }
   return (
-    <div  className='flex justify-center flex-col w-full  ' >
+    <div>
+    {loading === true ? 
+    (<div className='flex  justify-center items-center h-screen'>
+      <div className='text-3xl text-slate-700 font-semibold'>
+      Loading...
+      </div>
+    </div>)
+    :
+    ( <div  className='flex justify-center flex-col w-full  ' >
     
     <div  className='flex justify-between flex-col gap-2 mx-auto
    xl:w-1536px lg:w-full md:w-full sm:w-full m:w-full s:w-full'>
     
      {products && products.length !== 0 ?
-     (<div className='flex  flex-col sm:flex-row  m-0 sm:mx-7 sm:mt-5'>
+     (<div className='flex  flex-col sm:flex-row  m-0 sm:mx-7 sm:mt-5 '>
      <div className='border w-72 hidden sm:block'>
        <div>
          <h1 className='text-2xl p-3 text-center border-b'>Filter</h1>
@@ -298,10 +320,191 @@ export default function SearchResult() {
          </form>
        </div>
      </div>
-     <div className='w-full sm:w-9/12 border'>
-     <div>
-        <h1 className='text-2xl p-3  border-b'>Products List</h1>
+
+
+     <div className='w-full sm:w-9/12  h-[640px] overflow-x-hidden overflow-y-scroll' style={{scrollbarWidth:"none"}}>
+     <div className='flex border-b justify-between sticky top-[0px] sm:static bg-white z-10'>
+        <h1 className='text-2xl p-3  '>Products List</h1>
+
+        <div className=' block sm:hidden p-3 text-center'>
+       <button onClick={ShowFilterBox} className='px-9 py-1 bg-gray-200 rounded-full'>Filter</button>
+        </div>
+      </div>
+        
+        {/* Filter box */}
+
+       {filterBox && <div className='absolute left-0 right-0 bg-white shadow-lg'>
+       <div className='border'>
+       <div 
+       className='  flex justify-between border-b  ' > 
+         <h1 className='text-2xl p-3 text-center '>Filter</h1>
+         <button type='button' className='strok-2 font-semibold' onClick={hideFilterBox}>
+          <CgClose className='w-10 h-5 '/>
+          </button>
+       </div>
+       <div>
+         <form onSubmit={handlesubmit} className='flex flex-col gap-3 p-2'>
+         <input type="text" id='searchTerm'
+                 onChange={handlechange} 
+                 placeholder='search...'
+                 className='p-2 border'
+                 
+                 value={sideFilterSearch.searchTerm}/>
+            
+           {typeofProducts === "Clothes" ?
+            (<div className='flex flex-col gap-2'>
+           
+            <div >
+                 <input type="checkbox" id='Men'
+                 ref={menRef}
+                 onChange={handlechange} 
+                 value={"Male"}
+                 />
+                 <span> Men</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='Women'
+                 ref={womenRef}
+                 onChange={handlechange}
+                 value={"Female"}
+                 />
+                 <span> Women</span>
+             </div>
+            </div>)
+            :
+
+            (<div className='flex flex-col gap-2'>
+               <label className='font-semibold'>Filter Phones</label>
+            <div >
+                 <input type="checkbox" id='Redmi'
+                 onChange={handlechange} 
+                 ref={redmiref}
+                 value={"Redmi"}/>
+                 <span> Redmi</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='Apple'
+                 onChange={handlechange}
+                 ref={appleref}
+                 value={"Apple"}/>
+                 <span> Apple</span>
+             </div>
+              <div>
+                <input type="checkbox" id='Samsung'
+                 onChange={handlechange}
+                 ref={samsungref}
+                 value={"Samsung"}/>
+                 <span> Samsung</span>
+                 </div>
+
+                 <div>
+                 <input type="checkbox" id='Realme'
+                 onChange={handlechange}
+                 ref={realmeref}
+                 value={"Realme"}/>
+                 <span> Realme</span>
+                  </div>   
+                 
+                 <div>
+                 <input type="checkbox" id='Oppo'
+                 onChange={handlechange}
+                 ref={opporef}
+                 value={"Oppo"}/>
+                 <span> Oppo</span>
+                 </div>
+                 
+                 <div>
+                 <input type="checkbox" id='Vivo'
+                 onChange={handlechange}
+                 ref={vivoref}
+                 value={"Vivo"}/>
+                 <span> Vivo</span>
+                 </div>
+                
+                 <div>
+                 <input type="checkbox" id='moto'
+                 onChange={handlechange}
+                 ref={motoref}
+                 value={"moto"}/>
+                 <span> Moto</span>
+                 </div>
+            </div>)}
+
+
+            <label className='font-semibold'>Price</label>
+            <div className='flex flex-col gap-2'>
+            {products && products[0].productVarious.ProductType === "Electronic" ? (
+               <div>
+               <input type="checkbox" id='2000>&&<2500' 
+               onChange={handlechange}
+               ref={minfort}
+               value={ products&&products[0].productVarious.ProductType==="Electronic" ?`1000 10000` :null }/>
+               <span> { products&&products[0].productVarious.ProductType==="Electronic" ?"10000 Less" :"2000 2500" }</span>
+           </div>
+             ):null}
+            <div >
+                 <input type="checkbox" id='500>&&<1000' 
+                 onChange={handlechange}
+                 ref={minfirst}
+                 value={ products&&products[0].productVarious.ProductType==="Electronic" ?"10000 15000" :"500 1000" }/>
+                 <span>  {products &&products[0].productVarious.ProductType==="Electronic" ?"10000-15000" :"500 1000" }</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='1000>&&<1500' 
+                 onChange={handlechange}
+                 ref={minSecond}
+                 value={ products&&products[0].productVarious.ProductType==="Electronic" ?"15000 20000" :"1000 1500" }/>
+                 <span> { products&&products[0].productVarious.ProductType==="Electronic" ?"15000-20000" :"1000 1500" }</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='1500>&&<2000' 
+                 onChange={handlechange}
+                 ref={minthird}
+                 value={ products&&products[0].productVarious.ProductType==="Electronic" ?"20000 25000" :"1500 2000" }/>
+                 <span> { products&&products[0].productVarious.ProductType==="Electronic" ?"20000-25000" :"1500 2000" }</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='2000>&&<2500' 
+                 onChange={handlechange}
+                 ref={minfort}
+                 value={ products&&products[0].productVarious.ProductType==="Electronic" ?"25000 40000" :"2000 2500" }/>
+                 <span> { products&&products[0].productVarious.ProductType==="Electronic" ?"25000-40000" :"2000 2500" }</span>
+             </div>
+
+             {products && products[0].productVarious.ProductType === "Electronic" ? (
+               <div>
+               <input type="checkbox" id='2000>&&<2500' 
+               onChange={handlechange}
+               ref={minfort}
+               value={ products&&products[0].productVarious.ProductType==="Electronic" ?`40000 ${Infinity}` :null }/>
+               <span> { products&&products[0].productVarious.ProductType==="Electronic" ?"40000 Greator" :"2000 2500" }</span>
+           </div>
+             ):null}
+            </div>
+
+
+            {/* <label className='font-semibold'>Products Type</label>
+            <div className='flex flex-col gap-2'>
+            <div >
+                 <input type="checkbox" id='Men'/>
+                 <span>  Clothes</span>
+             </div>
+             <div>
+                 <input type="checkbox" id='Women'/>
+                 <span> Mobile</span>
+             </div>
+            </div> */}
+
+
+           <button type='submit' className='p-2 bg-slate-700 text-white font-semibold'
+           >Apply</button>
+
+
+         </form>
+       </div>
      </div>
+      </div>}
+
      <div>
      <SearchProductList productDetails={products}/>
      </div>
@@ -310,6 +513,8 @@ export default function SearchResult() {
      :
      (<div>no found</div>)}
     </div>
+    </div>)
+    }
     </div>
   )
 }

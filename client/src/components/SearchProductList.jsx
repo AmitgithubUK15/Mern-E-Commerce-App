@@ -55,13 +55,12 @@ export default function SearchProductList({productDetails}) {
 
               <Link   to={`/itemDetails/${value._id}`}>
               <div className='px-1'>
-              <h1 
-                    className='text-[14px] sm:text-[12px] text-blue-500 font-semibold'>
+              <h1  className='text-[14px] sm:text-[12px] text-blue-500 font-semibold'>
                       ₹{value.regualarPrice }  
                       <span className=' xl:text-[10px] lg:text-[10px]  md:text-[10px] sm:text-[5px] m:text-[12px] 
                       line-through text-gray-400'>  {value.regualarPrice + value.discountPrice}</span>
                        <span className='text-green-500 xl:text-[10px] lg:text-[10px]  md:text-[10px] sm:text-[5px] 
-                       m:text-[12px] '>   {Math.round(value.discountPrice /value.regualarPrice * 100)}%Off</span>
+                       m:text-[12px]'>   {Math.floor(value.discountPrice /value.regualarPrice * 100)}%Off</span>
                        </h1>
               </div>
               </Link>

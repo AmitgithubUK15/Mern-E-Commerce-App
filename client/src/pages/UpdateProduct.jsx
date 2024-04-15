@@ -4,6 +4,8 @@ import { userUpdateStart, userUpdateSuccess, userUpdateFailure, productList } fr
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ClotheType from '../components/ClotheType';
+import app from '../firebase';
+import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 
 export default function UpdateProfile() {
     const { productid } = useParams()
@@ -11,16 +13,111 @@ export default function UpdateProfile() {
     const { currentUser, error, loading, sellerproductlist } = useSelector((state) => state.user)
     const dispatch = useDispatch();
     const [update, setUpdate] = useState(false)
-    const [errormsg, setErrorMsg] = useState("")
+    const [errormsg, setErrorMssg] = useState("")
+    const [posterButton,setposeterButton] = useState(false);
+    const [errormessage,setErrorMsg] = useState(false);
+    const [coverButton,setcoverButton] = useState(false);
+    const [postererror,setpostererror] = useState(false);
+    const [covererror,setcovererror] = useState(false);
+    const [posterfile,setPosterfile] = useState([])
+    const [coverfile,setCoverfile] = useState([])
+    const [formData ,setFormData] = useState({
+        posterImage:[],
+        coverImage:[],
+       });
 
 
+    
+     
+    function handleImagesubmit(){
+        if(posterfile.length > 0 && posterfile.length + formData.posterImage.length <= 1){
+          setposeterButton(true);
+          const promise = [];
+      
+          for(let i =0; i<posterfile.length; i++){
+            promise.push(storeImage(posterfile[i]));
+          }
+          Promise.all(promise).then((urls)=>{
+            setFormData({...formData,posterImage:formData.posterImage.concat(urls)})
+          
+            setposeterButton(false)  
+            setpostererror(false);
+          })
+          .catch((err)=>{
+            setErrorMsg(err.message)
+            setpostererror(true)
+            setposeterButton(false);
+         
+          })
+        }else{ 
+          setpostererror(true);
+          setposeterButton(true)
+          setErrorMssg("Please select image")
+          setposeterButton(false);
+         
+         }
+       }
+      
+    function handleCoverimagesubmit(){
+        if(coverfile.length >0 && coverfile.length + formData.coverImage.length < 8){
+          setcoverButton(true)
+          const promise = [];
+      
+          for(let i =0; i<coverfile.length; i++){
+            promise.push(storeImage(coverfile[i]));
+          }
+          Promise.all(promise).then((urls)=>{
+            setFormData({...formData,coverImage:formData.coverImage.concat(urls)})
+            setcoverButton(false)
+            setcovererror(false)
+          })
+          .catch((err)=>{
+            setErrorMssg(err.message)
+            setcoverButton(false);
+            setcovererror(true);
 
-    async function handleUpdate(e) {
+          })
+        }
+        else{
+          setcovererror(true);
+          setcoverButton(false);
+          setErrorMsg("Please select image")
+   
+        }
+       }
+
+     async function storeImage(file){
+        return new Promise((resole,reject)=>{
+          const storage = getStorage(app);
+          const filename = new Date().getTime() + file.name;
+          const storageRef = ref(storage,filename);
+          const uploadTask = uploadBytesResumable(storageRef,file);
+          uploadTask.on(
+            "state_changed",
+            (snapshot)=>{
+             const progress  = (snapshot.bytesTransferred / snapshot.totalBytes ) *100
+            console.log(`upload is ${progress} done`)
+            },
+            (error)=>{
+            reject(error);
+            },
+            ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL)=>{
+              resole(downloadURL)
+            })
+            },
+          )
+        })
+     }
+       
+       
+     async function handleUpdate(e) {
         e.preventDefault();
 
         let form = e.target;
         let formdata = new FormData(form);
         let fromobj = Object.fromEntries(formdata.entries());
+
       
         try {
             dispatch(userUpdateStart())
@@ -39,7 +136,9 @@ export default function UpdateProfile() {
                             size32:fromobj.size32,
                             size34:fromobj.size34,
                           }
-                    }
+                    },
+                    posterimage:formData.posterImage,
+                    coverimage:formData.coverImage
                 }
                 let res = await axios.post(`/listing/updateProduct/${productdetails._id}/${currentUser._id}`, jeansData);
                 let data = res.data;
@@ -61,7 +160,9 @@ export default function UpdateProfile() {
                             sizeS:fromobj.sizeS,
                             sizeXL:fromobj.sizeXL,
                           }
-                    }
+                    },
+                    posterimage:formData.posterImage,
+                    coverimage:formData.coverImage
                 }
               
                 let res = await axios.post(`/listing/updateProduct/${productdetails._id}/${currentUser._id}`, otherclothe);
@@ -77,22 +178,28 @@ export default function UpdateProfile() {
             setUpdate(false)
 
         }
-    }
+     }
 
     useEffect(() => {
         for (let i in sellerproductlist) {
             if (productid === sellerproductlist[i]._id) {
                 setProductDetails(sellerproductlist[i])
-
+                setFormData({...formData,posterImage:sellerproductlist[i].posterimage,coverImage:sellerproductlist[i].coverimage}) 
                 break;
             }
             else {
                 continue;
             }
             // console.log(sellerproductlist[i])
-
+          
         }
+    
+        
     }, [productid])
+
+
+
+   
 
     return (
         <div className="flex flex-col justify-center items-center" >
@@ -179,6 +286,51 @@ export default function UpdateProfile() {
                         <input type="text" name="price" defaultValue={productdetails && productdetails.regualarPrice} className=" border-b border-slate-400 outline-none" />
                         <label className="text-slate-800 font-semibold">Discount</label>
                         <input type="text" name="discount" defaultValue={productdetails && productdetails.discountPrice} className=" border-b border-slate-400 outline-none" />
+
+                         
+                         <label className="text-slate-800 font-semibold">Poster Image</label>
+                        <div className='flex  items-center'>
+
+                            <input onChange={(e)=>setPosterfile(e.target.files)} 
+                                type="file" accept='images/*' name='posterImage' multiple />
+
+                            <button onClick={handleImagesubmit} disabled={posterButton}
+                                className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>{posterButton === true ? "Uploading..." : "Upload"}</button>
+                        </div>
+
+                         <div >
+                            { formData&& formData.posterImage.map((imgurl, index) => (
+                                <div key={index} className='flex justify-between item-center p-1 border rounded-lg '>
+                                    <div ><img src={imgurl} alt="" className='w-24 h-24' /></div>
+                                    {/* <p className='font-semibold py-10 hover:underline'>{imgurl[0].name}</p> */}
+                                    <button  className='text-red-500 px-2 font-semibold  hover:underline'>Delete</button>
+                                </div>
+                            ))}
+                        </div>
+                        {postererror && <p className='text-red-500'>{errormessage}</p>}
+
+
+                        <label className="text-slate-800 font-semibold">Cover Image</label>
+                        <div className='flex  items-center'>
+
+                            <input onChange={(e)=>setCoverfile(e.target.files)}
+                                type="file" accept='images/*' name='posterImage' multiple />
+
+                            <button  type="button" onClick={handleCoverimagesubmit}
+                                className='border bg-gray-200 p-3 rounded-lg hover:bg-gray-300'>{coverButton === true ? "Uploading..." : "Upload"}</button>
+                        </div>
+
+                         <div >
+                            { formData&& formData.coverImage.map((imgurl, index) => (
+                                <div key={index} className='flex justify-between item-center p-1 border rounded-lg '>
+                                    <div ><img src={imgurl} alt="" className='w-24 h-24' /></div>
+                                    {/* <p className='font-semibold py-10 hover:underline'>{imgurl[0].name}</p> */}
+                                    <button  className='text-red-500 px-2 font-semibold  hover:underline'>Delete</button>
+                                </div>
+                            ))}
+                        </div>
+                        {covererror && <p className='text-red-500'>{errormessage}</p>}
+
 
                         <button
                             disabled={loading}

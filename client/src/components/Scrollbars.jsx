@@ -52,7 +52,7 @@ export default function ScrollBars({ items }) {
           '  ref={scrollbar}
           style={{ scrollbarWidth: "none" }} >
           <div
-            className='flex justify-between   xl:h-[510px] l:h-[400px] ll:h-[400px] lll:h-[380px] lx:h-[350px] lg:h-[340px] lg1:h-[340px] lg2:h-[340px] lg3:h-[340px] lg4:h-[340px] md:h-[250px]'>
+            className='flex justify-between   xl:h-[510px] l:h-[400px] ll:h-[400px] lll:h-[380px] lx:h-[350px] lg:h-[340px] lg1:h-[340px] lg2:h-[340px] lg3:h-[340px] lg4:h-[340px] md:h-[250px] sm:[250px] m:[250px] s:[250px]'>
             {items && items.map((item, index) => (
 
               <div key={index}

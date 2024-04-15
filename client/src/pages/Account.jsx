@@ -165,7 +165,8 @@ async function getOrderProductList(){
             </div>
           </div>
 
-          <div className='w-full h-557px overflow-hidden overflow-y-scroll border-r border-l border-t flex  justify-center m-3 p-5 '>
+          <div className='w-full h-557px overflow-hidden overflow-y-scroll border-r border-l border-t flex  justify-center m-3 p-5 '
+           style={{scrollbarWidth:"none"}}>
            {ProfileDetailsVisible && <ProfileDetails />}
            {AppylyVendorvisible && <ApplyVendor />}
            {addproduct && <ProductListing />}
