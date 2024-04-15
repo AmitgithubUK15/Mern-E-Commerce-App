@@ -4,7 +4,8 @@ const { Addproduct ,
     DeleteClothingProduct,
     getClothingProduct,
     getSingleProduct,
-    GetSearchResult} = require("../controllers/Listing.controllers");
+    GetSearchResult,
+    GetExploreProduct} = require("../controllers/Listing.controllers");
 const { restrictToLoggedinUserOnly } = require("../middleware/Auth");
 
 
@@ -16,5 +17,7 @@ router.delete("/DeleteProduct/:id/:sellerId",restrictToLoggedinUserOnly,DeleteCl
 router.get("/getproduct",getClothingProduct)
 router.get("/getsingleProduct/:productId",getSingleProduct);
 router.get("/getsearch",GetSearchResult);
+router.get("/getExplore",GetExploreProduct);
+
 
 module.exports = router;

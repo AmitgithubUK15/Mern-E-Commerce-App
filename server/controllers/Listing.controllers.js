@@ -32,6 +32,8 @@ async function UpdateClothingProduct(req, res, next) {
                 discountPrice: req.body.discountPrice,
                 quantity: AllQuantity,
                 productVarious: req.body.productVarious,
+                posterimage:req.body.posterimage,
+                coverimage:req.body.coverimage,
             }
         }, { new: true });
         if (!findProduct) return next(errorHandler(403, "Not found Product"));
@@ -84,7 +86,7 @@ async function getSingleProduct(req, res, next) {
 async function GetSearchResult(req, res, next) {
 
     try {
-        const limit = parseInt(req.query.limit) || 9;
+        const limit = parseInt(req.query.limit) || Infinity;
         const startIndex = parseInt(req.query.startIndex) || 0;
 
         let genders = req.query.gender;
@@ -102,7 +104,7 @@ async function GetSearchResult(req, res, next) {
         let mobileflag = false;
         
         const searchTerm = req.query.searchTerm || "";
-        console.log(searchTerm)
+      
         let lowercaseSearchTerm = searchTerm.toLowerCase();
 
         if (lowercaseSearchTerm === 'phone' ||lowercaseSearchTerm === 'phones' || lowercaseSearchTerm === 'mobiles'|| lowercaseSearchTerm === 'mobile') {
@@ -162,6 +164,92 @@ async function GetSearchResult(req, res, next) {
 }
 
 
+async function GetExploreProduct(req,res,next){
+    try {
+        const limit = parseInt(req.query.limit) || Infinity;
+        const startIndex = parseInt(req.query.startindex) || 0;
+        
+        const category = req.query.productcategory || null;
+
+        if(category === undefined || category === 'all'){
+            category =['Electronic','Clothes']
+        }
+
+        let deviceType = req.query.devicetype;
+
+        if(deviceType === undefined || deviceType === 'all'){
+            deviceType=["Mobile","Laptop"]
+        }
+
+
+        let ClothesCategory = req.query.clothescategory;
+        console.log(ClothesCategory)
+        if(ClothesCategory === undefined || ClothesCategory === 'all'){
+            ClothesCategory=['T-Shirt','Jeans']
+        }
+
+
+        let MobileCategory = req.query.mobilecategory;
+        
+
+        if(MobileCategory === undefined || MobileCategory === 'all'){
+           MobileCategory = ["Apple","Iphone","Samsung","Oppo","Redmi","Realme","Vivo","Poco","Infinix","Oneplus"]
+        }
+
+        let genders = req.query.genders;
+  
+        if (genders === undefined || genders === 'all') {
+            genders = ['Female','Male' ];
+        }
+
+        
+        const minPrice = parseInt(req.query.minPrice) || 0;
+        const maxPrice = parseInt(req.query.maxPrice) || Infinity;
+
+        
+
+         
+
+        if(category === null ){
+            const Result = await Product.find({})
+        
+                if(!Result) return next(errorHandler(400,"Product not found"))
+        
+                res.json(Result);
+        }
+        else{
+          if(category === "Electronic"  ){
+            const Result = await Product.find({
+              
+                [`productVarious.ProductType`]:category,
+                [`productVarious.DeviceType`]:deviceType,
+                [`productVarious.deviceName`]:MobileCategory,    
+                regualarPrice: { $gte: minPrice, $lte: maxPrice },
+                }).limit(limit).skip(startIndex);
+        
+                if(!Result) return next(errorHandler(400,"Product not found"))
+        
+                res.json(Result);
+          }
+          else{
+            const Result = await Product.find({
+                [`productVarious.ProductType`]:category,
+                [`productVarious.ClotheType`]:ClothesCategory,
+                [`productVarious.genders`]: genders,
+                regualarPrice:{$gte:minPrice, $lte:maxPrice}
+                })
+        
+                if(!Result) return next(errorHandler(400,"Product not found"))
+        
+                res.json(Result);
+          }
+        }
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 
 module.exports = {
@@ -170,5 +258,6 @@ module.exports = {
     DeleteClothingProduct,
     getClothingProduct,
     getSingleProduct,
-    GetSearchResult
+    GetSearchResult,
+    GetExploreProduct
 }
