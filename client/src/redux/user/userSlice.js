@@ -11,7 +11,8 @@ const initialState ={
     prodcutlistTab:false,
     orderProductListtab:false,
     wishlistProduct:null,
-    cartproduct:null
+    cartproduct:null,
+    products:null,
 }
 
 const userSlice = createSlice({
@@ -127,6 +128,9 @@ const userSlice = createSlice({
         getcartproductlist:(state,action)=>{
             state.cartproduct = action.payload;
         },
+        getExploreproducts:(state,action)=>{
+            state.products = action.payload;
+        }
     }
 });
 
@@ -153,6 +157,7 @@ export const {
     productDeleteFailure,
     GetWishListproduct,
     getcartproductlist,
-    showOrderProductlist
+    showOrderProductlist,
+    getExploreproducts
 } = userSlice.actions;
 export default userSlice.reducer;

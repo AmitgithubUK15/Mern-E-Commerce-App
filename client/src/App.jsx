@@ -18,6 +18,7 @@ import Footer from "./components/Footer"
 import ItemDetailsUser from "./pages/ItemDetailsUser"
 import CheckOutBuying from "./pages/CheckOutBuying"
 import SearchResult from "./pages/SearchResult"
+import ExploreProduct from "./pages/ExploreProduct"
 
 
 
@@ -42,7 +43,8 @@ function App() {
       <Route path="/liked" element={<Liked />} />
       <Route path="/itemDetails/:productId" element={<ItemDetailsUser />} />
       <Route path="/search" element={<SearchResult />} />
-
+      <Route path='/exporeProduct' element={<ExploreProduct />} />
+      
       <Route element={<PrivateRoute />} >
       <Route path="/account" element={<Account />} />
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />

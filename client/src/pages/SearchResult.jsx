@@ -111,7 +111,7 @@ export default function SearchResult() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.response.data.message);
+      console.log(error.message);
     }
     }
 
@@ -139,6 +139,22 @@ export default function SearchResult() {
   function hideFilterBox(){
     setFilterBox(false);
   }
+
+  async function clearFitler(){
+
+   menRef.current.checked = false;
+   womenRef.current.checked = false;    
+    const urlParams = new URLSearchParams();
+    urlParams.set('searchTerm',sideFilterSearch.searchTerm);
+    urlParams.set('gender', sideFilterSearch.gender = "all");
+    urlParams.set("minPrice", sideFilterSearch.minPrice = "");
+    urlParams.set("maxPrice", sideFilterSearch.maxPrice = "");
+    urlParams.set('namedevice',sideFilterSearch.namedevice = "");
+
+    const query = urlParams.toString();
+    navigate(`/search?${query}`);
+    setFilterBox(false);
+    }
   return (
     <div>
     {loading === true ? 
@@ -159,7 +175,7 @@ export default function SearchResult() {
        <div>
          <h1 className='text-2xl p-3 text-center border-b'>Filter</h1>
        </div>
-       <div>
+       <div className='flex flex-col'>
          <form onSubmit={handlesubmit} className='flex flex-col gap-3 p-2'>
          <input type="text" id='searchTerm'
                  onChange={handlechange} 
@@ -299,25 +315,16 @@ export default function SearchResult() {
              ):null}
             </div>
 
-
-            {/* <label className='font-semibold'>Products Type</label>
-            <div className='flex flex-col gap-2'>
-            <div >
-                 <input type="checkbox" id='Men'/>
-                 <span>  Clothes</span>
-             </div>
-             <div>
-                 <input type="checkbox" id='Women'/>
-                 <span> Mobile</span>
-             </div>
-            </div> */}
-
-
            <button type='submit' className='p-2 bg-slate-700 text-white font-semibold'
            >Apply</button>
 
 
          </form>
+
+         <button type='button' onClick={clearFitler}
+          className='p-2 m-2 bg-gray-400 text-white font-semibold'
+           >Clear filter</button>
+         
        </div>
      </div>
 
@@ -331,7 +338,7 @@ export default function SearchResult() {
         </div>
       </div>
         
-        {/* Filter box */}
+        {/*Small screen Filter box */}
 
        {filterBox && <div className='absolute left-0 right-0 bg-white shadow-lg'>
        <div className='border'>
@@ -342,7 +349,7 @@ export default function SearchResult() {
           <CgClose className='w-10 h-5 '/>
           </button>
        </div>
-       <div>
+       <div className='flex flex-col'>
          <form onSubmit={handlesubmit} className='flex flex-col gap-3 p-2'>
          <input type="text" id='searchTerm'
                  onChange={handlechange} 
@@ -501,6 +508,11 @@ export default function SearchResult() {
 
 
          </form>
+
+         <button type='button' onClick={clearFitler}
+          className='p-2 m-2 bg-gray-400 w-full text-white font-semibold'
+           >Clear filter</button>
+
        </div>
      </div>
       </div>}

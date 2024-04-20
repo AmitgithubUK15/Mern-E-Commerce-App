@@ -91,7 +91,7 @@ async function GetSearchResult(req, res, next) {
 
         let genders = req.query.gender;
 
-        if (genders === undefined || genders === 'all') {
+        if (genders === undefined || genders === 'all'|| genders === "") {
             genders = ['Female','Male' ];
         }
 
@@ -169,11 +169,13 @@ async function GetExploreProduct(req,res,next){
         const limit = parseInt(req.query.limit) || Infinity;
         const startIndex = parseInt(req.query.startindex) || 0;
         
-        const category = req.query.productcategory || null;
+        let category = req.query.productcategory|| null ;
 
         if(category === undefined || category === 'all'){
             category =['Electronic','Clothes']
         }
+
+      
 
         let deviceType = req.query.devicetype;
 
@@ -183,8 +185,9 @@ async function GetExploreProduct(req,res,next){
 
 
         let ClothesCategory = req.query.clothescategory;
-        console.log(ClothesCategory)
-        if(ClothesCategory === undefined || ClothesCategory === 'all'){
+       
+
+        if(ClothesCategory === undefined || ClothesCategory === 'all' || ClothesCategory === ""){
             ClothesCategory=['T-Shirt','Jeans']
         }
 
@@ -206,11 +209,9 @@ async function GetExploreProduct(req,res,next){
         const minPrice = parseInt(req.query.minPrice) || 0;
         const maxPrice = parseInt(req.query.maxPrice) || Infinity;
 
-        
-
          
 
-        if(category === null ){
+        if(category === null ||category === undefined){
             const Result = await Product.find({})
         
                 if(!Result) return next(errorHandler(400,"Product not found"))
@@ -222,8 +223,8 @@ async function GetExploreProduct(req,res,next){
             const Result = await Product.find({
               
                 [`productVarious.ProductType`]:category,
-                [`productVarious.DeviceType`]:deviceType,
-                [`productVarious.deviceName`]:MobileCategory,    
+                // [`productVarious.DeviceType`]:deviceType,
+                [`productVarious.deviceName`]:{$regex:MobileCategory,$options:'i'},    
                 regualarPrice: { $gte: minPrice, $lte: maxPrice },
                 }).limit(limit).skip(startIndex);
         
@@ -237,7 +238,7 @@ async function GetExploreProduct(req,res,next){
                 [`productVarious.ClotheType`]:ClothesCategory,
                 [`productVarious.genders`]: genders,
                 regualarPrice:{$gte:minPrice, $lte:maxPrice}
-                })
+                }).limit(limit).skip(startIndex);
         
                 if(!Result) return next(errorHandler(400,"Product not found"))
         

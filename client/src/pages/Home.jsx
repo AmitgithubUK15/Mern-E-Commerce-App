@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ScrollBars from "../components/Scrollbars";
-
+import {getExploreproducts} from '../redux/user/userSlice'
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Home() {
@@ -10,6 +12,10 @@ export default function Home() {
   const [Jeans,setJeans] = useState();
   const [womenTshirt,setWomenTshirt] = useState();
   const [womenJeans,setWomenJeans] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
   useEffect(()=>{
     async function GetProduct(){
       try {
@@ -31,6 +37,19 @@ export default function Home() {
     }
     GetProduct();
   },[])
+
+
+  async function getExplore(){
+   try {
+      let req = await axios.get('/listing/getExplore');
+      let res= req.data;
+      dispatch(getExploreproducts(res))
+      console.log(res);
+      navigate('/exporeProduct')
+   } catch (error) {
+     console.log(error);
+   }
+  }
 
 
   return (
@@ -55,7 +74,7 @@ export default function Home() {
               At ShopyBook, we foster a culture of creativity, precision, and talent. 
               Join forces with our innovative e-commerce team to craft groundbreaking digital shopping experiences!
               </p>
-              <button 
+              <button onClick={getExplore}
               className="p-3 w-48 sm:w-64 border border-blue-400 bg-blue-400 rounded-full text-white font-semibold  transition-all ease-linear hover:bg-white hover:text-slate-800 hover:border hover:border-slate-800 ">
                 Get Started
               </button>
