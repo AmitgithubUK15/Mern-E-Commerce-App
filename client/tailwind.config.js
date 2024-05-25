@@ -17,7 +17,10 @@ export default {
       }
     },
     screens: {
-     
+      'last':'1989px',
+      'extra':'1850px',
+      'xxxl':'1700px',
+      'xxl':'1536px',
       'xl': '1260px',
        'l':'1220px',
        'll':'1160px',

@@ -80,7 +80,8 @@ export default function Navbar() {
 
 
   return (
-    <header className='shadow-md z-10 xl:w-1536px  lg:w-full md:w-full sm:w-full   m:w-full s:w-full mx-auto bg-white flex sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around' 
+    <header className='shadow-md z-10   
+ last:w-full  xxl:w-full xl:w-1536px  lg:w-full md:w-full sm:w-full   m:w-full s:w-full mx-auto bg-white flex sticky top-0 xl:justify-around lg:justify-around md:justify-around sm:justify-around m:justify-around s:justify-around' 
     style={{
       // backgroundImage:"linear-gradient(to right,#7ccbef, #b7e5fb)"
     }}

@@ -43,26 +43,41 @@ export default function ScrollBars({ items }) {
           // console.log(error)
       }
   }
+
+ async function ViewCount(id,seller){
+  let data = {
+    customerId:currentUser ?currentUser._id: "",
+    productId:currentUser ?id: "",
+    sellerId:currentUser ? seller: ""
+  }
+  try {
+    let req = await axios.post('/listing/viewProduct',data)
+    
+  } catch (error) {
+    console.log(error);
+  }
+ }
+
   return (
     <div className='flex flex-col gap-5'>
       
-      <div className='xl:mx-12  l:mx-12 ll:mx-6 lll:mx-4 lg:mx-3 flex justify-between'>
+      <div className= ' xxl:mx-12 xl:mx-12  l:mx-12 ll:mx-6 lll:mx-4 lg:mx-3 flex justify-between'>
         <button onClick={LeftScroll}><MdKeyboardArrowLeft style={{ fontSize: "28px", padding: "0", margin: "0" }} /></button>
-        <div className='overflow-x-scroll overflow-y-hidden xl:mx-5 l:mx-5 ll:mx-5 lll:mx-5 lx:mx-5 lg:mx-4 lg1:mx-4 lg2:mx-3 lg3:mx-3 lg4:mx-2 md:mx-2
+        <div className='overflow-x-scroll overflow-y-hidden xxl:mx-5 xl:mx-5 l:mx-5 ll:mx-5 lll:mx-5 lx:mx-5 lg:mx-4 lg1:mx-4 lg2:mx-3 lg3:mx-3 lg4:mx-2 md:mx-2
           '  ref={scrollbar}
           style={{ scrollbarWidth: "none" }} >
           <div
-            className='flex justify-between   xl:h-[510px] l:h-[400px] ll:h-[400px] lll:h-[380px] lx:h-[350px] lg:h-[340px] lg1:h-[340px] lg2:h-[340px] lg3:h-[340px] lg4:h-[340px] md:h-[250px] sm:[250px] m:[250px] s:[250px]'>
+            className='flex justify-between xxl:h-[510px]  xl:h-[510px] l:h-[400px] ll:h-[400px] lll:h-[380px] lx:h-[350px] lg:h-[340px] lg1:h-[340px] lg2:h-[340px] lg3:h-[340px] lg4:h-[340px] md:h-[250px] sm:[250px] m:[250px] s:[250px]'>
             {items && items.map((item, index) => (
 
-              <div key={index}
+              <div key={index}  onClick={()=>ViewCount(item._id,item.sellerRef)}
                 className='   
                flex flex-col justify-between mx-auto  cursor-pointer 
-               xl:h-[500px]  l:h-[390px] ll:h-[390px] lll:h-[360px] lx:h-[330px] lg:h-[320px] lg1:h-[320px] lg2:h-[320px] lg3:h-[320px] lg4:h-[320px] md:h-[240px]'>
+             xxl:h-[510px]  xl:h-[500px]  l:h-[390px] ll:h-[390px] lll:h-[360px] lx:h-[330px] lg:h-[320px] lg1:h-[320px] lg2:h-[320px] lg3:h-[320px] lg4:h-[320px] md:h-[240px]'>
                 {/* bg-gradient-to-tr from-gray-100 to-gray-200 */}
                  <Link to={`/itemDetails/${item._id}`} >
                 <div onMouseEnter={() => ChangeImage(index, item.coverimage)} onMouseLeave={() => setDefaultImage(index, item.posterimage)}
-                className='hover:text-gray-600 xl:px-7 l:px-9 ll:px-9 lll:px-8 lx:px-8 lg:px-10 lg1:px-7 lg2:px-6 lg3:px-[26px] lg4:px-[29px] md:px-[26px] sm1:px-[10px] sm2:px-[7px] sm:px-[10px] m:px-[6px] s:px-[8px]'>
+                className='hover:text-gray-600 extra:px-9 xxxl:px-14 xxl:px-7 xl:px-7 l:px-9 ll:px-9 lll:px-8 lx:px-8 lg:px-10 lg1:px-7 lg2:px-6 lg3:px-[26px] lg4:px-[29px] md:px-[26px] sm1:px-[10px] sm2:px-[7px] sm:px-[10px] m:px-[6px] s:px-[8px]'>
                   
                   <div className=' shadow-xl bg-gradient-to-tr from-gray-100 to-gray-200   xl:w-72  l:w-48 ll:w-48 lll:w-38 lx:w-48 lg:w-36 lg1:w-32 lg2:w-32 lg3:w-28 lg4:w-24 md:w-24 sm1:w-36 sm2:w-36 sm:w-32 m:w-32 s:w-28 hover:shadow-xl'
                    >

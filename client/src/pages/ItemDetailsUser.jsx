@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { RiHeartFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import {  FaShoppingCart,FaBolt} from "react-icons/fa";
+import ScrollBars from "../components/Scrollbars";
 
 export default function ItemDetailsUser() {
   const {currentUser} = useSelector((state)=>state.user);
@@ -13,13 +14,21 @@ const [image,setImage] = useState("");
 const [sizesValue,setSizeValue] = useState("");
 const navigate = useNavigate();
 const [outofstock,setOutofstock] = useState(false);
+const [relatedProducts,setRelatedProduct] = useState();
 
 useEffect(()=>{
+  window.scrollTo(0,0)
     async function getProduct(){
       try {
         const req = await axios.get(`/listing/getsingleProduct/${productId}`);
         const response = req.data;
+        const findRelated = response.productVarious.ProductType === 'Clothes' ?response.productVarious.ClotheType : response.productVarious.DeviceType
+        const relatedProducts = await axios.get(`/listing/getRelatedProduct/${findRelated}`);
+        const relatedData = relatedProducts.data;
+        const checkExitProduct = relatedData.filter((items)=>(items._id !== response._id))
+     
         setProductDetail(response);
+        setRelatedProduct(checkExitProduct);
       } catch (error) {
         console.log(error.message)
       }
@@ -93,14 +102,15 @@ async function checkproductStock(){
         <div className='flex justify-center flex-col w-full  '>
         <div 
     className='flex justify-between sm:mx-auto gap-2 py-2 bg-white 
-    xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
+    extra:w-[1500px]
+    xxxl:w-[1500px] xxl:w-[1500px] xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
     xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
             {/* for images */}
-           <div className='flex justify-around gap-2 
+           <div className='flex justify-center gap-2 
              xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full m:w-full s:w-full 
             xl:flex-row lg:flex-row md:flex-row sm:flex-col-reverse  m:flex-col-reverse s:flex-col-reverse
            '>
-            <div className='py-3 mx-auto'>
+            <div className='py-3 extra:mx-14 xxxl:mx-14 xxl:mx-10 mx-auto'>
                 <ul className='flex flex-col gap-5 
                 lg:flex-col md:flex-col sm:flex-row m:flex-row s:flex-row'>
                     {productdetails && productdetails.coverimage.map((img,index)=>(
@@ -120,7 +130,7 @@ async function checkproductStock(){
                    
                 </ul>
             </div>
-            <div className='py-3 mx-auto'>
+            <div className='py-3 extra:mx-14 xxxl:mx-14 xxl:mx-10 mx-auto'>
                 <div 
                 className='bg-gradient-to-tr from-gray-100 to-gray-200  
                 xl:h-557px lg:h-450px md:h-450px sm:h-full m:h-full  s:h-64
@@ -215,15 +225,21 @@ async function checkproductStock(){
            
         </div>
 
-        
+        <div  className='flex justify-between flex-col gap-2 mx-auto
+   xl:w-1536px lg:w-full md:w-full sm:w-full m:w-full s:w-full  '>
+  <section className="w-full ">
+       <div className='text-xl sm:text-3xl text-slate-700 py-5 text-center'>Related Products</div>
+         <ScrollBars items={relatedProducts}/>
+       </section>
+    </div>
     </div>
     )
     :
     (<div className='flex justify-center flex-col w-full  '>
     <div 
-className='flex justify-between sm:mx-auto gap-2 py-2 bg-white 
-xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
-xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
+   className='flex justify-between sm:mx-auto gap-2 py-2 bg-white 
+   xl:w-1300px lg:w-11/12 md:w-11/12 sm:w-full m:w-full s:w-full
+   xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
         {/* for images */}
        <div className='flex justify-around gap-2 
          xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full m:w-full s:w-full 
@@ -347,7 +363,14 @@ xl:flex-row    lg:flex-row md:flex-row sm:flex-col m:flex-col s:flex-col'>
        
     </div>
 
-    
+    <div  className='flex justify-between flex-col gap-2 mx-auto
+   xl:w-1536px lg:w-full md:w-full sm:w-full m:w-full s:w-full  '>
+  <section className="w-full ">
+       <div className='text-xl sm:text-3xl text-slate-700 py-5 text-center'>Related Products</div>
+         <ScrollBars items={relatedProducts}/>
+       </section>
+    </div>
+   
 </div>)
     }</div>
   )

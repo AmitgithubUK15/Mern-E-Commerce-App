@@ -405,12 +405,12 @@ async function GetBuyProduct(req,res,next){
       }
     }
 
-    if(Orders.length ===0){
-      res.json({message:"no found orders"});
-    }
-    else{
+    // if(Orders.length ===0){
+    //   res.json({message:"no found orders"});
+    // }
+    // else{
       res.status(200).json(Orders)
-    }
+    // }
   } catch (error) {
     next(error)
   }
@@ -442,6 +442,8 @@ async function CheckBuyproductStock(req,res,next){
     next(error);
   }
 }
+
+
 module.exports = {  
     testapi,
     updateuser,

@@ -52,7 +52,11 @@ const ProductSchema = new mongoose.Schema({
     },
     Orders:{
         type:Array,
+    },
+    viewer:{
+        type:Array,
     }
+
 },{timestamps:true});
 
 const Product = mongoose.model('product',ProductSchema);

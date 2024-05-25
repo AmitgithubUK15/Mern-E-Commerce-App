@@ -27,7 +27,7 @@ const  LikedProductList = () => {
     {wishlistProduct !==null? 
     (
       <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Product List</h2>
+      <h2 className="text-2xl font-bold mb-4">WishList 💙 Product List</h2>
       <ul className="flex flex-col gap-5 ">
         {wishlistProduct &&  wishlistProduct.map((product,index) => (
           <li key={product._id} 

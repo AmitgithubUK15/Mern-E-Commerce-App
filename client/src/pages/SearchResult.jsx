@@ -329,7 +329,7 @@ export default function SearchResult() {
      </div>
 
 
-     <div className='w-full sm:w-9/12  h-[640px] overflow-x-hidden overflow-y-scroll' style={{scrollbarWidth:"none"}}>
+     <div className='w-full h-screen sm:w-9/12   overflow-x-hidden overflow-y-scroll' style={{scrollbarWidth:"5px"}}>
      <div className='flex border-b justify-between sticky top-[0px] sm:static bg-white z-10'>
         <h1 className='text-2xl p-3  '>Products List</h1>
 

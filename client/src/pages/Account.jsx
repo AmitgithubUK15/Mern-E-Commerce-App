@@ -94,6 +94,7 @@ async function getOrderProductList(){
     }
   
     let result = res.data;
+ 
     dispatch(productList(result));
     dispatch(showOrderProductlist())
   } catch (error) {
@@ -108,7 +109,7 @@ async function getOrderProductList(){
   }
 }
   return (
-    <div className=' h-full flex justify-center items-center '>
+    <div className=' flex justify-center items-center h-[646px]'>
       <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
 
         <div className='w-full text-start gap-4 border-b'>
@@ -124,7 +125,7 @@ async function getOrderProductList(){
               <div className='py-7 border-b text-gray-500  hover:text-gray-800 cursor-pointer'>
                 Overview
               </div>
-              <div className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
+              <div onClick={()=>dispatch( setProfiledetail())} className='py-7 border-b text-gray-500 hover:text-gray-800  cursor-pointer'>
                 Profile
               </div>
 
@@ -165,7 +166,7 @@ async function getOrderProductList(){
             </div>
           </div>
 
-          <div className='w-full h-557px overflow-hidden overflow-y-scroll border-r border-l border-t flex  justify-center m-3 p-5 '
+          <div className='w-full h-screen overflow-hidden overflow-y-scroll border-r border-l border-t flex  justify-center m-3 p-5 '
            style={{scrollbarWidth:"none"}}>
            {ProfileDetailsVisible && <ProfileDetails />}
            {AppylyVendorvisible && <ApplyVendor />}

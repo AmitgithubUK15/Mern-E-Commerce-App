@@ -13,25 +13,27 @@ import PrivateRoute from "./components/PrivateRoute"
 import ProductDetailsPage from "./pages/ProductDetailsPage"
 import LoginSignupPrivate from "./components/LoginSignupPrivate"
 import UpdateProduct from "./pages/UpdateProduct"
-import ProductListing from "./pages/ProductListing"
+
 import Footer from "./components/Footer"
 import ItemDetailsUser from "./pages/ItemDetailsUser"
 import CheckOutBuying from "./pages/CheckOutBuying"
 import SearchResult from "./pages/SearchResult"
 import ExploreProduct from "./pages/ExploreProduct"
-
+import ShowAllvistor from "./pages/ShowAllvistor"
 
 
 
 
 function App() {
-
+ 
 
   return ( <BrowserRouter>
      
      <Navbar />
      <Routes>
-      <Route path="/" element={<Home />} />
+
+      <Route path='/' element={<Home/>} />
+      <Route path='/visitor' element={<ShowAllvistor />} />
        <Route element={<LoginSignupPrivate />} >
        <Route path="/login" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
@@ -55,7 +57,7 @@ function App() {
       </Route>
    
      </Routes>
-     
+     {/* <Footer /> */}
   </BrowserRouter>  
   )
 }

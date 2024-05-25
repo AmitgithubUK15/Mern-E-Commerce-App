@@ -1,21 +1,14 @@
 
-import { useDispatch, useSelector } from 'react-redux';
-import {Addproduct} from '../redux/user/userSlice'
+import { useSelector } from 'react-redux';
+
 import {Link} from 'react-router-dom'
 
 const OrderProductList = () => {
  const {sellerproductlist} = useSelector((state)=>state.user);
- const dispatch = useDispatch();
-
- 
- 
- function addproduct(){
-   dispatch(Addproduct())
- }
 
   return (
    <div>
-    {sellerproductlist !=="No product found"? 
+    {sellerproductlist.length !==0? 
     (
       <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Orders</h2>
@@ -56,8 +49,15 @@ const OrderProductList = () => {
       <img src="/logo/prodcutadd.avif" className='w-full h-full object-cover' alt="" />
     </div>
     <div className='py-3'>
-    <h2 className="text-xl  text-gray-500 ">You not add product for selling 😢</h2>
-    <div className='text-center py-5'><button onClick={addproduct} className='border-2 border-slate-500 p-3 px-5 text-slate-500 font-semibold rounded-lg hover:bg-slate-500 hover:text-white transition-all ease-in'>Add Product</button></div>
+    <h2 className="text-xl  text-gray-500 ">You not buy product 😢</h2>
+    <div className='text-center py-5'>
+      <Link to="/">
+      <button 
+    className='border-2 border-slate-500 p-3 px-5 text-slate-500 font-semibold rounded-lg hover:bg-slate-500 hover:text-white transition-all ease-in'>
+      Buy Product
+      </button>
+      </Link>
+      </div>
     </div>
     </div>
     )

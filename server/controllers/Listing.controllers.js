@@ -1,4 +1,5 @@
 const Product = require("../models/ProductListing.model.js");
+const Seller = require("../models/seller.model.js");
 
 const { errorHandler } = require("../utils/error.js");
 
@@ -79,6 +80,33 @@ async function getSingleProduct(req, res, next) {
         res.status(200).json(findProduct);
     } catch (error) {
         next(error)
+    }
+}
+
+async function getRelatedProducts(req,res,next){
+    const {productType} = req.params;
+    console.log(productType);
+    try {
+        if(productType === 'T-Shirt' || productType === 'Jeans' || productType === 'Hoodie'){
+            const findAllrelated = await Product.find({
+                [`productVarious.ClotheType`]:productType,
+            })
+            if(!findAllrelated) return next(errorHandler(500,"Not found"));
+            res.status(200).json(findAllrelated);
+        }
+        else{
+            const findAllrelated = await Product.find({
+             [`productVarious.DeviceType`]:productType,
+            })
+            if(!findAllrelated) return next(errorHandler(500,"Not found"));
+            res.status(200).json(findAllrelated);
+        }
+ 
+        
+
+        
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -251,6 +279,34 @@ async function GetExploreProduct(req,res,next){
     }
 }
 
+async function GetProductViewers(req,res,next){
+   const {customerId,productId,sellerId} = req.body
+   console.log(customerId,productId);
+   try {
+    if(!customerId && !productId && !sellerId){
+        res.json({msg:"not saved"})
+    }
+    else{
+        let findProduct = await Product.findByIdAndUpdate(productId,{
+            $push:{
+             viewer:{customer:customerId}
+            }
+         },{new:true})
+         if(!findProduct) return next(errorHandler(400,"Product not find"));
+
+         let Update_in_Seller = await Seller.findByIdAndUpdate(sellerId,{
+            $push:{
+                productVistors:{viewer:customerId}
+            }
+         },{new:true})
+
+     
+         res.status(200).json({msg:"saved"});
+    }
+   } catch (error) {
+     next(error)
+   }
+}
 
 
 module.exports = {
@@ -260,5 +316,7 @@ module.exports = {
     getClothingProduct,
     getSingleProduct,
     GetSearchResult,
-    GetExploreProduct
+    GetExploreProduct,
+    getRelatedProducts,
+    GetProductViewers
 }

@@ -41,6 +41,9 @@ const SellerSchema = new mongoose.Schema({
     },
     gender:{
         type:String,
+    },
+    productVistors:{
+        type:Array
     }
 })
 

@@ -88,9 +88,46 @@ async function ProductDelete(req,res,next){
     }
 }
 
+async function GetTotalVisitor(req,res,next){
+  const {sellerId} = req.params;
+  console.log(sellerId)
+  try {
+    const findVisitor = await Seller.findById(  sellerId);
+    if(!findVisitor) return next(errorHandler(500,"Server issue 1"))
+    
+    const visitorCount = findVisitor.productVistors.length;
+    res.status(200).json(visitorCount);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function GetTotalOrders(req,res,next){
+  const {sellerId} = req.params;
+
+  try {
+    const findSellerOrder = await Product.find({sellerRef:sellerId});
+    if(!findSellerOrder) return next(errorHandler(500,"Server issue"));
+
+    const filterProduct = findSellerOrder.filter((item) => item.Orders.length >0);
+    
+    let TotalCountOFOrders = 0;
+
+    for(let i in filterProduct){
+      TotalCountOFOrders += filterProduct[i].Orders.length;
+    }
+    
+    res.status(200).json(TotalCountOFOrders);
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
     CreateSellerAccount,
     loginVendor,
     getProductList,
     ProductDelete,
+    GetTotalVisitor,
+    GetTotalOrders
 }
