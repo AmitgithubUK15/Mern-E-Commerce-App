@@ -20,6 +20,7 @@ import CheckOutBuying from "./pages/CheckOutBuying"
 import SearchResult from "./pages/SearchResult"
 import ExploreProduct from "./pages/ExploreProduct"
 import ShowAllvistor from "./pages/ShowAllvistor"
+import Mystore from "./pages/Mystore"
 
 
 
@@ -33,7 +34,7 @@ function App() {
      <Routes>
 
       <Route path='/' element={<Home/>} />
-      <Route path='/visitor' element={<ShowAllvistor />} />
+ 
        <Route element={<LoginSignupPrivate />} >
        <Route path="/login" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
@@ -48,6 +49,8 @@ function App() {
       <Route path='/exporeProduct' element={<ExploreProduct />} />
       
       <Route element={<PrivateRoute />} >
+      <Route path='/visitor' element={<ShowAllvistor />} />
+      <Route path='/mystore' element={<Mystore />} />
       <Route path="/account" element={<Account />} />
       <Route path="/productDetails/:productid" element={<ProductDetailsPage />} />
       <Route path='/updateProfile' element={<UpdateProfile />} />

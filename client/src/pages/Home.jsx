@@ -46,7 +46,7 @@ export default function Home() {
       let req = await axios.get('/listing/getExplore');
       let res= req.data;
       dispatch(getExploreproducts(res))
-      console.log(res);
+     
       navigate('/exporeProduct')
    } catch (error) {
      console.log(error);

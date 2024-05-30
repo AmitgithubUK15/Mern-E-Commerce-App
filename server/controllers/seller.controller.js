@@ -90,7 +90,6 @@ async function ProductDelete(req,res,next){
 
 async function GetTotalVisitor(req,res,next){
   const {sellerId} = req.params;
-  console.log(sellerId)
   try {
     const findVisitor = await Seller.findById(  sellerId);
     if(!findVisitor) return next(errorHandler(500,"Server issue 1"))
@@ -112,16 +111,47 @@ async function GetTotalOrders(req,res,next){
     const filterProduct = findSellerOrder.filter((item) => item.Orders.length >0);
     
     let TotalCountOFOrders = 0;
-
+    let TotalSales = 0;
     for(let i in filterProduct){
       TotalCountOFOrders += filterProduct[i].Orders.length;
+      TotalSales += TotalCountOFOrders * filterProduct[i].regualarPrice;
     }
     
-    res.status(200).json(TotalCountOFOrders);
+    res.status(200).json({allOrders:TotalCountOFOrders,allSales:TotalSales});
   } catch (error) {
     next(error)
   }
 }
+
+async function GetVisitorsByProduct(req,res,next){
+  const {sellerId} = req.params;
+
+  try {
+    const findSeller_Items = await Product.find({sellerRef:sellerId});
+    if(!findSeller_Items) return next(errorHandler(500,'server issue'));
+
+    const filterByVisitors = findSeller_Items.filter((item)=> item.viewer.length> 0)
+
+    let Visyitors_DataArray = [];
+
+    for(let i in filterByVisitors){
+      let obj = {
+        poster:filterByVisitors[i].posterimage,
+        name:filterByVisitors[i].title,
+        visitors:filterByVisitors[i].viewer.length
+      }
+
+      Visyitors_DataArray.push(obj);
+    }
+
+    res.status(200).json(Visyitors_DataArray);
+
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 
 module.exports = {
     CreateSellerAccount,
@@ -129,5 +159,6 @@ module.exports = {
     getProductList,
     ProductDelete,
     GetTotalVisitor,
-    GetTotalOrders
+    GetTotalOrders,
+    GetVisitorsByProduct,
 }
