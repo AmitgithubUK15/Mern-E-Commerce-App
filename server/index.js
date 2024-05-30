@@ -11,7 +11,7 @@ const path = require('path')
 dotenv.config();
 const cookieParser = require('cookie-parser');
 
-const __dirname = path.resolve();
+const _dirname = path.resolve();
 
 const app = express();
 
@@ -36,10 +36,10 @@ app.use("/auth", AuthRouter);
 app.use("/vendor",SellerRouter);
 app.use("/listing",ProductListingRouter);
 
-app.use(express.static(path.join(__dirname,'/client/dist')))
+app.use(express.static(path.join(_dirname,'/client/dist')))
 
 app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,'client','dist','index.html'))
+    res.sendFile(path.join(_dirname,'client','dist','index.html'))
 })
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
