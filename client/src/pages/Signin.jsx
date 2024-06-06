@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { SignSuccess,SignFailure, signoutUserFailure, signoutUserSuccess} from "../redux/user/userSlice";
 import { useDispatch, useSelector,  } from "react-redux";
 import OAuth from "../components/OAuth";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Signin() {
 
@@ -14,7 +16,7 @@ export default function Signin() {
   const [errorvisible ,setErrorVisible] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [Showpassword,setShowPassword] = useState(false);
 
   async function handleSubmit(e){
     e.preventDefault();
@@ -40,6 +42,13 @@ export default function Signin() {
   }
 
 
+  function showPassword(){
+     setShowPassword(true);
+  }
+
+  function hidePassword(){
+    setShowPassword(false);
+  }
 
   return (
     <div className="flex bg-red-40 items-center md:justify-center  sm:justify-center m:justify-center s:justify-center">
@@ -70,11 +79,16 @@ export default function Signin() {
           className=" border px-5 py-4 rounded-lg focus:outline-none "
           ref={email}
           />
-          <input type="text" 
+          <div className="flex border rounded-lg">
+          <input type={Showpassword === true ? "text" : "password"} 
           placeholder="Password"
-          className="border px-5 py-4 rounded-lg focus:outline-none"
+          className=" px-5 py-4 rounded-lg focus:outline-none"
           ref={password}
           />
+           <div className="mx-auto my-3" onMouseEnter={showPassword} onMouseLeave={hidePassword}>
+           <FontAwesomeIcon  icon={Showpassword ? faEyeSlash : faEye} />
+           </div>
+          </div>
           <button type="submit"
           className="bg-red-400 font-semibold p-3 rounded-lg text-white hover:opacity-80"
           >Login</button>

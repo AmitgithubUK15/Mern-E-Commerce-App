@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Addproduct, productList, setProfiledetail, setVendor, showproductlistTab, signoutUserFailure, signoutUserSuccess } from '../redux/user/userSlice';
+import { Addproduct, productList, setProfiledetail, setVendor, showOrderProductlist, showproductlistTab, signoutUserFailure, signoutUserSuccess } from '../redux/user/userSlice';
 import axios from 'axios';
 
 const Sidenav = ({ isOpen, onClose }) => {
@@ -36,15 +36,23 @@ const Sidenav = ({ isOpen, onClose }) => {
     }
    }
 
+   function GotoProfile(){
+    navigate("/account")
+    dispatch(setProfiledetail())
+   }
+
    function AppylyVendorAccount(){
+    navigate('/account')
     dispatch(setVendor())
   }
 
   function setAddProduct(){
+    navigate("/account")
     dispatch(Addproduct());
   }
 
   async function showproductlist(){
+    navigate("/account")
     try {
       let res = await axios.get(`/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
       if(res.success===false){
@@ -62,6 +70,33 @@ const Sidenav = ({ isOpen, onClose }) => {
       else{
         dispatch(productList(error.response.data.message));
         dispatch(showproductlistTab())
+      }
+     
+    }
+  }
+
+  async function getOrderProductList(){
+    navigate("/account")
+    
+    try {
+      let res = await axios.get(`/api/getBuyproductList/${currentUser._id}`);
+      if(res.success===false){
+        dispatch(productList(false));
+        dispatch(showproductlistTab())
+      
+      }
+    
+      let result = res.data;
+   
+      dispatch(productList(result));
+      dispatch(showOrderProductlist())
+    } catch (error) {
+      if(error.response.data.message === "Please Login again"){
+        alert(`Authorization failed ${error.response.data.message}`)
+      }
+      else{
+        dispatch(productList(error.response.data.message));
+        dispatch(showOrderProductlist())
       }
      
     }
@@ -114,13 +149,10 @@ const Sidenav = ({ isOpen, onClose }) => {
        )
       :null}
 
-        {currentUser ? 
-        (<li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Overview</Link></li>
-       )
-        :null}
+      
         
         {currentUser ? 
-        ( <li className="mb-2 py-2"><Link to="/" className="text-slate-400 hover:text-slate-500">Profile</Link></li>
+        ( <li onClick={GotoProfile}  className="mb-2 py-2 cursor-pointer" >Profile</li>
        )
         :null}
         
@@ -131,7 +163,7 @@ const Sidenav = ({ isOpen, onClose }) => {
         Sell Product
       </div>)
         :
-        (<Link to="/" className="text-slate-400 hover:text-slate-500">Order</Link>)
+        (<div onClick={getOrderProductList} className="text-slate-400 hover:text-slate-500 cursor-pointer">Order</div>)
         }
       </li>)
         :null
@@ -145,7 +177,7 @@ const Sidenav = ({ isOpen, onClose }) => {
        Product List
      </div>)
      :
-       (<Link to="/" className="text-slate-400 hover:text-slate-500">Saved cards</Link>)}</li>)
+       (<Link to="/cart" className="text-slate-400 hover:text-slate-500">Saved cards</Link>)}</li>)
       :null
       }
 

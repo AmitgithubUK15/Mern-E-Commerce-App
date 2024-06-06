@@ -109,7 +109,7 @@ async function getOrderProductList(){
   }
 }
   return (
-    <div className=' flex justify-center items-center h-[646px]'>
+    <div className=' flex justify-center items-center'>
       <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
 
         <div className='w-full text-start gap-4 border-b'>

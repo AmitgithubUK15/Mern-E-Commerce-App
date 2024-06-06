@@ -22,12 +22,12 @@ export default function SearchProductList({productDetails}) {
     lg:justify-between md:justify-around sm:justify-around'>
       {productDetails && productDetails.map((value,index)=>(
         <div key={index} 
-         className=' xl:h-[350px] lg:h-[310px] md:h-[280px] sm:h-[240px] m:h-[410px] s:h-[410px] m:mx-auto s:mx-auto overflow-hidden mt-6 rounded-lg border shadow-lg'>
+         className='z-5 xl:h-[350px] lg:h-[310px] md:h-[280px] sm:h-[240px] m:h-[410px] s:h-[410px] m:mx-auto s:mx-auto overflow-hidden mt-6 rounded-lg border shadow-lg'>
          <Link   to={`/itemDetails/${value._id}`}>
-         <div className='overflow-hidden'>
+         <div className='overflow-hidden '>
               <img src={value.posterimage[0]} alt=""  
               className='xl:w-[180px] xl:h-[280px]  lg:w-[160px] lg:h-[240px]  md:w-[160px] md:h-[210px] sm:w-[110px] sm:h-[170px] m:w-[288px] m:h-[330px]   s:w-[288px] s:h-[330px]
-              hover:scale-110 hover:opacity-70 transition-all duration-500 ease-in-out'/>
+              hover:scale-110 hover:opacity-70 transition-all duration-500 ease-in-out z-5'/>
             </div>
             </Link>
             <div>
@@ -48,7 +48,7 @@ export default function SearchProductList({productDetails}) {
                 </Link>
                 {/* like */}
 
-                <div className='xl:p-2 lg:p-2 md:p-2 sm:p-0  s:p-0 cursor-pointer'  onClick={()=>addWishList(value._id)}>
+                <div className='xl:p-2 lg:p-2 md:p-2 sm:p-0  s:p-0 cursor-pointer '  onClick={()=>addWishList(value._id)}>
                   <img src="https://images.bewakoof.com/web/Wishlist.svg" alt="" />
                 </div>
               </div>

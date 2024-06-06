@@ -33,7 +33,7 @@ async function LoginUser(req,res,next){
     
     const {password:pass, ...rest} = validUser._doc;
     
-    res.cookie('token',token,{httpOnly:true}).status(200).json(rest);
+    res.cookie('token',token,{httpOnly:true,}).status(200).json(rest);
        
   } catch (error) {
      next(error);
