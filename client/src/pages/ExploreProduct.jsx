@@ -150,7 +150,7 @@ export default function ExploreProduct() {
     try {
       const searchQuerys = urlParams.toString();
       
-      const req = await axios.get(`/listing/getExplore?${searchQuerys}`)
+      const req = await axios.get(`https://shopybookapi.onrender.com/listing/getExplore?${searchQuerys}`)
       const res = req.data;
       dispatch(getExploreproducts(res));
       setLoading(false);
@@ -196,7 +196,7 @@ export default function ExploreProduct() {
    urlParams.set('mobilecategory',sideFilterSearch.namedevice = "");
    urlParams.set("clothescategory",sideFilterSearch.clothescategorys = "")
 
-    const req = await axios.get(`/listing/getExplore`)
+    const req = await axios.get(`https://shopybookapi.onrender.com/listing/getExplore`)
     const res = req.data;
     dispatch(getExploreproducts(res));
     setLoading(false);

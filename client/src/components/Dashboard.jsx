@@ -15,7 +15,7 @@ export default function Dashboard() {
   async function getTotalvisitor(){
     try {
       
-      const req = await axios.get(`/vendor/getTotalVistor/${currentUser._id}`);
+      const req = await axios.get(`https://shopybookapi.onrender.com/vendor/getTotalVistor/${currentUser._id}`);
 
       setTotalVistor(req.data);
     } catch (error) {
@@ -26,7 +26,7 @@ export default function Dashboard() {
   
   async function getTotalOrders(){
     try {
-      const req = await axios.get(`/vendor/getTotalOrder/${currentUser._id}`);
+      const req = await axios.get(`https://shopybookapi.onrender.com/vendor/getTotalOrder/${currentUser._id}`);
       let result = req.data;
       setTotalOrders(result.allOrders);
       setTotalEarnings(result.allSales)
@@ -66,32 +66,6 @@ export default function Dashboard() {
       </Link>
     </div>
   </div>
-   {/* <div className="flex mt-4 flex-col sm:flex-row">
-            <div className="flex-1 bg-white p-4 rounded-md shadow-md mr-2">
-              <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
-              <div className="flex justify-between border-b py-2">
-                <div>John Doe</div>
-                <div>01-10-2021</div>
-                <div className="text-blue-500">Completed</div>
-              </div>
-              <div className="flex justify-between border-b py-2">
-                <div>John Doe</div>
-                <div>01-10-2021</div>
-                <div className="text-orange-500">Pending</div>
-              </div>
-            </div>
-            <div className="flex-1 bg-white p-4 rounded-md shadow-md ml-2">
-              <h2 className="text-xl font-semibold mb-4">Todos</h2>
-              <div className="flex justify-between border-b py-2">
-                <div>Todo 1</div>
-                <div className="text-blue-500">In Progress</div>
-              </div>
-              <div className="flex justify-between border-b py-2">
-                <div>Todo 2</div>
-                <div className="text-green-500">Completed</div>
-              </div>
-            </div>
-          </div> */}
   </div>
   )
 }

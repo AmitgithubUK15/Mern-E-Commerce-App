@@ -11,8 +11,6 @@ const path = require('path')
 dotenv.config();
 const cookieParser = require('cookie-parser');
 
-const _dirname = path.resolve();
-
 const app = express();
 
 mongoose.connect(process.env.MONGODB)

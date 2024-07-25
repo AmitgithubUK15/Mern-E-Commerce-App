@@ -15,7 +15,7 @@ export default function CheckOutBuying() {
   useEffect(()=>{
     async function getProduct(){
       try {
-        const req = await axios.get(`/listing/getsingleProduct/${productId}`);
+        const req = await axios.get(`https://shopybookapi.onrender.com/listing/getsingleProduct/${productId}`);
         const response = req.data;
         setProductDetail(response);
       } catch (error) {
@@ -41,7 +41,7 @@ async function BuyProduct(){
       alert("Please enter quantity")
     }
     else{
-      let req = await axios.post(`/api/buyCartproduct/${currentUser._id}/${productId}/${sizeValues}/${quantity}`);
+      let req = await axios.post(`https://shopybookapi.onrender.com/api/buyCartproduct/${currentUser._id}/${productId}/${sizeValues}/${quantity}`);
       let result = req.data;
       alert(`${result.message}`)
       navigate("/")

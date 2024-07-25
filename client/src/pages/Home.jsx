@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(()=>{
     async function GetProduct(){
       try {
-        const res = await axios.get("/listing/getproduct");
+        const res = await axios.get("https://shopybookapi.onrender.com/listing/getproduct");
         const data = res.data;
         let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Male")
         let filterWomenTshirt = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Female")
@@ -43,7 +43,7 @@ export default function Home() {
 
   async function getExplore(){
    try {
-      let req = await axios.get('/listing/getExplore');
+      let req = await axios.get('https://shopybookapi.onrender.com/listing/getExplore');
       let res= req.data;
       dispatch(getExploreproducts(res))
      
