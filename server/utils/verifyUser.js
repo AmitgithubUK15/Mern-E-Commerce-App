@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken")
-const { errorHandler } = require("./error")
 
 function setUser(user){
   return jwt.sign({
     id:user._id
-  },process.env.JWT_PASS_KEY)
+  },process.env.JWT_PASS_KEY,
+  { expiresIn: '1h' })
 }
 
 function getUser(token,next){

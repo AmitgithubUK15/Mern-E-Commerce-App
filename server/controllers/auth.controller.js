@@ -29,11 +29,11 @@ async function LoginUser(req,res,next){
     const validPassword = await bcrypt.compare(password,validUser.password);
     if(!validPassword) throw Error("Invalid password");
     
-    const token = jwt.sign({id:validUser._id},process.env.JWT_PASS_KEY);
+    const token = jwt.sign({id:validUser._id},process.env.JWT_PASS_KEY,{ expiresIn: '1h' });
     
     const {password:pass, ...rest} = validUser._doc;
     
-    res.cookie('token',token,{httpOnly:true,}).status(200).json(rest);
+    res.cookie('token',token,{httpOnly:true}).status(200).json(rest);
        
   } catch (error) {
      next(error);

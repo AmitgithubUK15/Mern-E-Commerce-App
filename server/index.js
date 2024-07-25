@@ -36,7 +36,7 @@ app.use("/auth", AuthRouter);
 app.use("/vendor",SellerRouter);
 app.use("/listing",ProductListingRouter);
 
-app.use(express.static(path.join(_dirname,'/client/dist')))
+// app.use(express.static(path.join(_dirname,'/client/dist')))
 
 app.get("*",(req,res)=>{
     res.sendFile(path.join(_dirname,'client','dist','index.html'))
