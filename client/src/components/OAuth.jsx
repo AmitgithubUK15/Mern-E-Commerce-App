@@ -39,7 +39,7 @@ const navigate = useNavigate();
   return (
     <button
      onClick={handleGoogleRes}
-     type="submit"
+     type='button'
      className="bg-green-700  font-semibold p-3 rounded-lg text-white hover:opacity-80"
      >
     Continue With Google</button>
