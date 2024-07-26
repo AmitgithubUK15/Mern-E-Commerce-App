@@ -26,7 +26,9 @@ export default function Signin() {
     }    
 
     try {
-      const res = await axios.post("https://shopybookapi.onrender.com/auth/login",formData);
+      const res = await axios.post("https://shopybookapi.onrender.com/auth/login",formData,{
+        withCredentials: true
+      });
       const data = res.data;
       dispatch(SignSuccess(data))
       

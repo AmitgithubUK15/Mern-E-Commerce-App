@@ -25,7 +25,9 @@ const navigate = useNavigate();
           email:result.user.email,
           photo:result.user.photoURL,
         }
-        const res = await axios.post('https://shopybookapi.onrender.com/auth/google',userDetail)
+        const res = await axios.post('https://shopybookapi.onrender.com/auth/google',userDetail,{
+          withCredentials: true
+        })
 
         const user = res.data;
      

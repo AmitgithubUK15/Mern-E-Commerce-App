@@ -13,6 +13,8 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+app.use(cors({origin: process.env.CLIENT_URL,methods: ["GET", "POST","DELETE"], credentials: true}));
+
 mongoose.connect(process.env.MONGODB)
     .then(() => {
         console.log("MongoDB connected successfully");
@@ -25,9 +27,9 @@ app.listen(8005, () => {
     console.log("Server is started at port 8005");
 });
 
-app.use(cors());
+
 app.use(express.json());
-app.use(cookieParser()); // Move cookieParser middleware here
+app.use(cookieParser()); 
 
 app.use("/api", restrictToLoggedinUserOnly,UserRouter);
 app.use("/auth", AuthRouter);

@@ -33,7 +33,13 @@ async function LoginUser(req,res,next){
     
     const {password:pass, ...rest} = validUser._doc;
     
-    res.cookie('token',token,{httpOnly:true}).status(200).json(rest);
+    res.cookie('token',token,
+      {httpOnly:true,
+      secure:true,
+      sameSite:'none'
+      })
+      .status(200)
+      .json(rest);
        
   } catch (error) {
      next(error);
@@ -50,7 +56,11 @@ async function google(req,res){
       res
       .cookie(
         'token',
-        token
+        token,
+        {httpOnly:true,
+          secure:true,
+          sameSite:'none'
+        }
       )
       .status(200)
       .json(rest);
@@ -68,7 +78,11 @@ async function google(req,res){
       
       res.cookie(
         'token',
-        token
+        token,
+        {httpOnly:true,
+          secure:true,
+          sameSite:'none'
+        }
       )
       .status(201)
       .json(rest)
