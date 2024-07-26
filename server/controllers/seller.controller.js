@@ -47,7 +47,10 @@ async function loginVendor(req,res,next){
         const token = setUser(rest)
         
         res
-        .cookie('token',token,{httpOnly:true})
+        .cookie('token',token,{httpOnly:true,
+          secure:true,
+          sameSite:'none'
+        })
         .json(rest);
 
         
