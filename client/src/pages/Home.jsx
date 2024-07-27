@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(()=>{
     async function GetProduct(){
       try {
-        const res = await axios.get("/listing/getproduct");
+        const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/listing/getproduct`);
         const data = res.data;
         let filter = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Male")
         let filterWomenTshirt = data.filter((value)=> value.productVarious.ClotheType === "T-Shirt" && value.productVarious.genders === "Female")
