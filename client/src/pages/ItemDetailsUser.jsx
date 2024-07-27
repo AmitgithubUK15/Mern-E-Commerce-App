@@ -20,10 +20,10 @@ useEffect(()=>{
   window.scrollTo(0,0)
     async function getProduct(){
       try {
-        const req = await axios.get(`/listing/getsingleProduct/${productId}`);
+        const req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/listing/getsingleProduct/${productId}`);
         const response = req.data;
         const findRelated = response.productVarious.ProductType === 'Clothes' ?response.productVarious.ClotheType : response.productVarious.DeviceType
-        const relatedProducts = await axios.get(`/listing/getRelatedProduct/${findRelated}`);
+        const relatedProducts = await axios.get(`${import.meta.env.VITE_SERVER_URL}/listing/getRelatedProduct/${findRelated}`);
         const relatedData = relatedProducts.data;
         const checkExitProduct = relatedData.filter((items)=>(items._id !== response._id))
      
@@ -43,7 +43,7 @@ function changeImage(img){
 
 async function addWishList(productid){
   try {
-    let res = await axios.post(`/api/addWishlist/${currentUser._id}/${productid}`);
+    let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/addWishlist/${currentUser._id}/${productid}`);
     let data = res.data;
     alert(data.message);
   } catch (error) {
@@ -63,7 +63,7 @@ async function AddToCart(){
         alert("Please choose size")
        }
        else{
-        let req = await axios.post(`/api/addCartproduct/${currentUser._id}/${productdetails._id}/${sizesValue}`);
+        let req = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/addCartproduct/${currentUser._id}/${productdetails._id}/${sizesValue}`);
       
         const res = req.data;
         alert(res.message);
@@ -81,7 +81,7 @@ async function AddToCart(){
 
 async function checkproductStock(){
   try {
-    let req = await axios.post(`/api/buybeforecheckQuantity/${productdetails._id}/${sizesValue}`)
+    let req = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/buybeforecheckQuantity/${productdetails._id}/${sizesValue}`)
     let res = req.data;
 
     if(res.message === "Out of stock"){

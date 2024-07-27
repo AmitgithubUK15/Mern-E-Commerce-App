@@ -8,7 +8,7 @@ export default function SearchProductList({productDetails}) {
   
   async function addWishList(productid){
     try {
-      let res = await axios.post(`/api/addWishlist/${currentUser._id}/${productid}`);
+      let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/addWishlist/${currentUser._id}/${productid}`);
       let data = res.data;
       alert(data.message);
     } catch (error) {

@@ -22,14 +22,14 @@ export default function UpdateProfile() {
      dispatch(userUpdateStart())
     
      if(currentUser.type === "Seller"){
-      let res =  await axios.post(`/api/vendorupdate/${currentUser._id}`,fromobj);
+      let res =  await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/vendorupdate/${currentUser._id}`,fromobj);
      let data = res.data;
      dispatch(userUpdateSuccess(data));
      setUpdate(true)
     
      }
      else{
-      let res =  await axios.post(`/api/update/${currentUser._id}`,fromobj);
+      let res =  await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/update/${currentUser._id}`,fromobj);
      let data = res.data;
      dispatch(userUpdateSuccess(data));
      setUpdate(true)

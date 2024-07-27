@@ -26,7 +26,7 @@ export default function Signin() {
     }    
 
     try {
-      const res = await axios.post("/auth/login",formData);
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`,formData);
       const data = res.data;
       dispatch(SignSuccess(data))
       

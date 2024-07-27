@@ -29,7 +29,7 @@ export default function Account() {
 
  async function signoutuser(){
   try {
-    const res = await axios.get("/auth/signout")
+    const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/auth/signout`)
     const data= res.data;
   
     if(data.success === false){
@@ -60,7 +60,7 @@ function setAddProduct(){
 
 async function showproductlist(){
   try {
-    let res = await axios.get(`/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
+    let res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
     if(res.success===false){
       dispatch(productList(false));
       dispatch(showproductlistTab())
@@ -86,7 +86,7 @@ async function showproductlist(){
 async function getOrderProductList(){
     
   try {
-    let res = await axios.get(`/api/getBuyproductList/${currentUser._id}`);
+    let res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/getBuyproductList/${currentUser._id}`);
     if(res.success===false){
       dispatch(productList(false));
       dispatch(showproductlistTab())

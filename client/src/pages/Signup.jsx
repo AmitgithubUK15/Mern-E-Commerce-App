@@ -26,7 +26,7 @@ export default function Signin() {
     }    
 
     try {
-      const res = await axios.post("/auth/signup",formData);
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/signup`,formData);
       navigate("/login")
       setErrorVisible(false);
     } catch (error) {

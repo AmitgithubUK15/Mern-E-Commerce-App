@@ -140,7 +140,7 @@ export default function UpdateProfile() {
                     posterimage:formData.posterImage,
                     coverimage:formData.coverImage
                 }
-                let res = await axios.post(`/listing/updateProduct/${productdetails._id}/${currentUser._id}`, jeansData);
+                let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/listing/updateProduct/${productdetails._id}/${currentUser._id}`, jeansData);
                 let data = res.data;
                 dispatch(productList(data))
 
@@ -165,7 +165,7 @@ export default function UpdateProfile() {
                     coverimage:formData.coverImage
                 }
               
-                let res = await axios.post(`/listing/updateProduct/${productdetails._id}/${currentUser._id}`, otherclothe);
+                let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/listing/updateProduct/${productdetails._id}/${currentUser._id}`, otherclothe);
                 let data = res.data;
                 dispatch(productList(data))
                 

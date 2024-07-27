@@ -15,7 +15,7 @@ export default function Dashboard() {
   async function getTotalvisitor(){
     try {
       
-      const req = await axios.get(`/vendor/getTotalVistor/${currentUser._id}`);
+      const req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/vendor/getTotalVistor/${currentUser._id}`);
 
       setTotalVistor(req.data);
     } catch (error) {
@@ -26,7 +26,7 @@ export default function Dashboard() {
   
   async function getTotalOrders(){
     try {
-      const req = await axios.get(`/vendor/getTotalOrder/${currentUser._id}`);
+      const req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/vendor/getTotalOrder/${currentUser._id}`);
       let result = req.data;
       setTotalOrders(result.allOrders);
       setTotalEarnings(result.allSales)

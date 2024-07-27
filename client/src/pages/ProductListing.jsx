@@ -237,7 +237,7 @@ async function handleformsubmit(e){
     }
 
 
-    let res = await axios.post("/listing/addproduct",ClothingObj)
+    let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/listing/addproduct`,ClothingObj)
     
     if(res.success === false){
       dispatch(productlistingFailure());
@@ -318,7 +318,7 @@ async function handleformsubmit(e){
         stock:true,
       }
 
-      let res = await axios.post("/listing/addproduct",Mobileobj)
+      let res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/listing/addproduct`,Mobileobj)
     
      if(res.success === false){
       dispatch(productlistingFailure());

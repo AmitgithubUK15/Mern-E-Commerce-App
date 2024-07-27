@@ -13,7 +13,7 @@ const  LikedProductList = () => {
    
   
   try {
-    const res = await axios.post(`/api/deleteWishlist/${currentUser._id}/${id}`);
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/deleteWishlist/${currentUser._id}/${id}`);
     let result = res.data;
     dispatch(GetWishListproduct(result))
     alert("Delete Product")

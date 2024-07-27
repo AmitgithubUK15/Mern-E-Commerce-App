@@ -29,7 +29,7 @@ export default function Navbar() {
 
   async function getWishlistproduct(){
     try {
-      let res = await axios.get(`/api/getWishlist/${currentUser._id}`);
+      let res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/getWishlist/${currentUser._id}`);
       let result = res.data;
       dispatch(GetWishListproduct(result))
       navigate("/liked")
@@ -40,7 +40,7 @@ export default function Navbar() {
 
   async function getCartProduct(){
     try {
-      let req = await axios.get(`/api/getCartproduct/${currentUser._id}`);
+      let req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/getCartproduct/${currentUser._id}`);
       let res = req.data;
       dispatch(getcartproductlist(res));
       navigate("/cart")

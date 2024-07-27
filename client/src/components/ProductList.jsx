@@ -19,7 +19,7 @@ const ProductList = () => {
    
   
   try {
-    const res = await axios.post(`/vendor/productdelete/${id}/${sellerId}`);
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/vendor/productdelete/${id}/${sellerId}`);
     if(res.data.success === false){
       alert(res.data.message);
       console.log(res);

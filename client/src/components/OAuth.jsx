@@ -25,7 +25,7 @@ const navigate = useNavigate();
           email:result.user.email,
           photo:result.user.photoURL,
         }
-        const res = await axios.post('/auth/google',userDetail)
+        const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/google`,userDetail)
 
         const user = res.data;
      

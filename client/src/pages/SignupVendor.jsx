@@ -36,7 +36,7 @@ export default function Signin() {
 
     try {
       
-      const res = await axios.post("/vendor/createseller",formData);
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/vendor/createseller`,formData);
       const data = res.data;
       dispatch(SignSuccess(data));
       navigate("/loginVendor")

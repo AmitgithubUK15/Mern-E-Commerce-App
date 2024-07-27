@@ -104,7 +104,7 @@ export default function SearchResult() {
     try {
       const searchQuerys = urlParams.toString();
       
-      const req = await axios.get(`/listing/getsearch?${searchQuerys}`)
+      const req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/listing/getsearch?${searchQuerys}`)
       const res = req.data;
       setTypeProduct(res[0].productVarious.ProductType);
       setProdcuts(res);

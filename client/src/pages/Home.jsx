@@ -43,7 +43,7 @@ export default function Home() {
 
   async function getExplore(){
    try {
-      let req = await axios.get('/listing/getExplore');
+      let req = await axios.get(`${import.meta.env.VITE_SERVER_URL}/listing/getExplore`);
       let res= req.data;
       dispatch(getExploreproducts(res))
      
