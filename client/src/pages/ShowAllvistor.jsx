@@ -10,7 +10,7 @@ const ShowAllvistor = () => {
   useEffect(()=>{
     async function getVisitors_according_product(){
       try {
-        let req = await axios.get(`https://shopybookapi.onrender.com/vendor/getVisitorsByProducts/${currentUser._id}`);
+        let req = await axios.get(`/vendor/getVisitorsByProducts/${currentUser._id}`);
         setProducts(req.data);
       } catch (error) {
         console.log(error)

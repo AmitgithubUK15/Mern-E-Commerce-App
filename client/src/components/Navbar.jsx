@@ -29,23 +29,23 @@ export default function Navbar() {
 
   async function getWishlistproduct(){
     try {
-      let res = await axios.get(`https://shopybookapi.onrender.com/api/getWishlist/${currentUser._id}`);
+      let res = await axios.get(`/api/getWishlist/${currentUser._id}`);
       let result = res.data;
       dispatch(GetWishListproduct(result))
       navigate("/liked")
     } catch (error) {
-      console.log(error.message);
+      navigate("/liked")
     }
   }
 
   async function getCartProduct(){
     try {
-      let req = await axios.get(`https://shopybookapi.onrender.com/api/getCartproduct/${currentUser._id}`);
+      let req = await axios.get(`/api/getCartproduct/${currentUser._id}`);
       let res = req.data;
       dispatch(getcartproductlist(res));
       navigate("/cart")
     } catch (error) {
-      console.log(error)
+      navigate("/cart")
     }
   }
 

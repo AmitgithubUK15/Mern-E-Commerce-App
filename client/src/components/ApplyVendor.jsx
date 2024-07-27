@@ -23,7 +23,7 @@ export default function ApplyVendor() {
       
       try {
         dispatch(userUpdateStart())
-        let req = await axios.post(`https://shopybookapi.onrender.com/api/vendor/${currentUser._id}`,formobj)
+        let req = await axios.post(`/api/vendor/${currentUser._id}`,formobj)
         
         let res = req.data;
         dispatch(keysuccess())
@@ -44,7 +44,7 @@ export default function ApplyVendor() {
       e.preventDefault();
       
       try {
-        let req = await axios.get("https://shopybookapi.onrender.com/auth/signout");
+        let req = await axios.get("/auth/signout");
         let data= req.data;
 
         if(data.success === false){

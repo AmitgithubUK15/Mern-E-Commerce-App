@@ -207,7 +207,6 @@ async function AddCartProduct(req,res,next){
         
         if(!findUser) return next(errorHandler(500,"Occurse error"))
         
-        console.log(existProductIncart);
         res.status(200).json({message:"Product added in cart"})
         break;
         }

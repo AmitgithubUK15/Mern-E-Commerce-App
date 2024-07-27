@@ -29,7 +29,7 @@ export default function Account() {
 
  async function signoutuser(){
   try {
-    const res = await axios.get("https://shopybookapi.onrender.com/auth/signout")
+    const res = await axios.get("/auth/signout")
     const data= res.data;
   
     if(data.success === false){
@@ -60,7 +60,7 @@ function setAddProduct(){
 
 async function showproductlist(){
   try {
-    let res = await axios.get(`https://shopybookapi.onrender.com/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
+    let res = await axios.get(`/vendor/productList/${currentUser.type === "Seller"? currentUser._id : null}`);
     if(res.success===false){
       dispatch(productList(false));
       dispatch(showproductlistTab())
@@ -86,7 +86,7 @@ async function showproductlist(){
 async function getOrderProductList(){
     
   try {
-    let res = await axios.get(`https://shopybookapi.onrender.com/api/getBuyproductList/${currentUser._id}`);
+    let res = await axios.get(`/api/getBuyproductList/${currentUser._id}`);
     if(res.success===false){
       dispatch(productList(false));
       dispatch(showproductlistTab())
@@ -109,7 +109,7 @@ async function getOrderProductList(){
   }
 }
   return (
-    <div className=' flex justify-center items-center'>
+    <div className=' flex justify-center items-center h-[646px]'>
       <div className='flex flex-col xl:w-8/12 lg:w-5/6 md:w-5/6 sm:w-full m:w-full s:w-full'>
 
         <div className='w-full text-start gap-4 border-b'>

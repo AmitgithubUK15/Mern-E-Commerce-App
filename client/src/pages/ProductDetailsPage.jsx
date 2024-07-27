@@ -37,7 +37,7 @@ export default function ProductDetailsPage() {
      
         try {
           dispatch(productDeleteStart())
-          let req = await axios.delete(`https://shopybookapi.onrender.com/listing/DeleteProduct/${productdetails._id}/${currentUser._id}`);
+          let req = await axios.delete(`/listing/DeleteProduct/${productdetails._id}/${currentUser._id}`);
 
           let data = req.data
           dispatch(productList(data))

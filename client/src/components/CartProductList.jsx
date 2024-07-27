@@ -13,7 +13,7 @@ const  CartProductList = () => {
  async function deleteProduct(id){
    
   try {
-    const res = await axios.delete(`https://shopybookapi.onrender.com/api/deleteCartproduct/${currentUser._id}/${id}`);
+    const res = await axios.delete(`/api/deleteCartproduct/${currentUser._id}/${id}`);
     let result = res.data;
     alert(`${result.message}`)
     navigate("/")

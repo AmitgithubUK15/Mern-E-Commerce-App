@@ -2,7 +2,7 @@ import  { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import SearchProductList from '../components/SearchProductList';
-import { CgClose, CgZoomIn } from 'react-icons/cg';
+import { CgClose } from 'react-icons/cg';
 import {getExploreproducts} from '../redux/user/userSlice'
 import { useDispatch, useSelector } from "react-redux";
 
@@ -150,7 +150,7 @@ export default function ExploreProduct() {
     try {
       const searchQuerys = urlParams.toString();
       
-      const req = await axios.get(`https://shopybookapi.onrender.com/listing/getExplore?${searchQuerys}`)
+      const req = await axios.get(`/listing/getExplore?${searchQuerys}`)
       const res = req.data;
       dispatch(getExploreproducts(res));
       setLoading(false);
@@ -196,7 +196,7 @@ export default function ExploreProduct() {
    urlParams.set('mobilecategory',sideFilterSearch.namedevice = "");
    urlParams.set("clothescategory",sideFilterSearch.clothescategorys = "")
 
-    const req = await axios.get(`https://shopybookapi.onrender.com/listing/getExplore`)
+    const req = await axios.get(`/listing/getExplore`)
     const res = req.data;
     dispatch(getExploreproducts(res));
     setLoading(false);
@@ -415,7 +415,6 @@ export default function ExploreProduct() {
 
 
          </form>
-
          <button type='button' onClick={clearFitler}
           className='p-2 m-2 bg-gray-400 text-white font-semibold'
            >Clear filter</button>
@@ -423,7 +422,7 @@ export default function ExploreProduct() {
      </div>
 
 
-     <div className='w-full sm:w-9/12  h-[640px] overflow-x-hidden overflow-y-scroll  ' style={{scrollbarWidth:"none", }}>
+     <div className='w-full sm:w-9/12  h-[640px] overflow-x-hidden overflow-y-scroll' style={{scrollbarWidth:"none"}}>
      <div className='flex border-b justify-between sticky top-[0px] sm:static bg-white z-5'>
         <h1 className='text-2xl p-3  '>Products List</h1>
 

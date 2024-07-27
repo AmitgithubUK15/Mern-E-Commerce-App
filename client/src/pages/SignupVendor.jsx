@@ -36,7 +36,7 @@ export default function Signin() {
 
     try {
       
-      const res = await axios.post("https://shopybookapi.onrender.com/vendor/createseller",formData);
+      const res = await axios.post("/vendor/createseller",formData);
       const data = res.data;
       dispatch(SignSuccess(data));
       navigate("/loginVendor")
